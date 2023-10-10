@@ -22,34 +22,6 @@
     <title>my new blog</title>
     <url>/2023/10/10/my-new-blog/</url>
     <content><![CDATA[<p>test<br>test<br>test</p>
-<script>
-    class Fraction:
-        def __init__(self, top, bottom):
-            self.num = top
-            self.den = bottom
-
-        def show(self):
-            if self.num == self.den:
-                print(self.num)
-            else:
-                print(self.num, "/", self.den)
-
-
-        def gcd(self, m, n):
-            while m % n != 0:
-                oldm = m
-                oldn = n
-                m = oldn
-                n = oldm % oldn
-
-            return n
-
-        def __add__(self, otherfraction):
-            newnum = self.num * otherfraction.den + self.den * otherfraction.num
-            newden = self.den * otherfraction.den
-            common = self.gcd(newnum, newden)
-            return Fraction(newnum//common, newden//common)
-
-</script>]]></content>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Fraction</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, top, bottom</span>):</span><br><span class="line">        self.num = top</span><br><span class="line">        self.den = bottom</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> self.num == self.den:</span><br><span class="line">            <span class="built_in">print</span>(self.num)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(self.num, <span class="string">&quot;/&quot;</span>, self.den)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">self, m, n</span>):</span><br><span class="line">        <span class="keyword">while</span> m % n != <span class="number">0</span>:</span><br><span class="line">            oldm = m</span><br><span class="line">            oldn = n</span><br><span class="line">            m = oldn</span><br><span class="line">            n = oldm % oldn</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__add__</span>(<span class="params">self, otherfraction</span>):</span><br><span class="line">        newnum = self.num * otherfraction.den + self.den * otherfraction.num</span><br><span class="line">        newden = self.den * otherfraction.den</span><br><span class="line">        common = self.gcd(newnum, newden)</span><br><span class="line">        <span class="keyword">return</span> Fraction(newnum//common, newden//common)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
   </entry>
 </search>

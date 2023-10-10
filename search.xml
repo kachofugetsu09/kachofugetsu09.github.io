@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>算法</title>
+    <url>/2023/10/10/algorithm/</url>
+    <content><![CDATA[<p>牛顿勘根法<br>原理：<img src="img-https://img-blog.csdnimg.cn/20201026213932310.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80ODYxNTgzMg==,size_16,color_FFFFFF,t_70#pic_center" alt="img-title"><br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
+<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/10/10/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -13,16 +23,6 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>算法</title>
-    <url>/2023/10/10/algorithm/</url>
-    <content><![CDATA[<p>牛顿勘根法<br>原理：<img src="img-https://img-blog.csdnimg.cn/20201026213932310.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80ODYxNTgzMg==,size_16,color_FFFFFF,t_70#pic_center" alt="img-title"><br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
-<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
   </entry>
   <entry>
     <title>有关列表</title>

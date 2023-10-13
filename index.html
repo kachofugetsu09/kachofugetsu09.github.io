@@ -177,6 +177,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/13/%E9%9A%BE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/10/13/%E9%9A%BE%E9%A2%98/" class="post-title-link" itemprop="url">难题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-10-13 21:32:48 / 修改时间：21:51:02" itemprop="dateCreated datePublished" datetime="2023-10-13T21:32:48+08:00">2023-10-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="2023-10-13"><a href="#2023-10-13" class="headerlink" title="2023.10.13"></a>2023.10.13</h1><ol>
+<li>找出井字棋的获胜者<br>A 和 B 在一个 3 x 3 的网格上玩井字棋。</li>
+</ol>
+<p>井字棋游戏的规则如下：</p>
+<p>玩家轮流将棋子放在空方格 (“ “) 上。<br>第一个玩家 A 总是用 “X” 作为棋子，而第二个玩家 B 总是用 “O” 作为棋子。<br>“X” 和 “O” 只能放在空方格中，而不能放在已经被占用的方格上。<br>只要有 3 个相同的（非空）棋子排成一条直线（行、列、对角线）时，游戏结束。<br>如果所有方块都放满棋子（不为空），游戏也会结束。<br>游戏结束后，棋子无法再进行任何移动。<br>给你一个数组 moves，其中每个元素是大小为 2 的另一个数组（元素分别对应网格的行和列），它按照 A 和 B 的行动顺序（先 A 后 B）记录了两人各自的棋子位置。</p>
+<p>如果游戏存在获胜者（A 或 B），就返回该游戏的获胜者；如果游戏以平局结束，则返回 “Draw”；如果仍会有行动（游戏未结束），则返回 “Pending”。</p>
+<p>你可以假设 moves 都 有效（遵循井字棋规则），网格最初是空的，A 将先行动。</p>
+<p>示例 1：</p>
+<p>输入：moves = [[0,0],[2,0],[1,1],[2,1],[2,2]]<br>输出：”A”<br>解释：”A” 获胜，他总是先走。<br>“X  “    “X  “    “X  “    “X  “    “X  “<br>“   “ -&gt; “   “ -&gt; “ X “ -&gt; “ X “ -&gt; “ X “<br>“   “    “O  “    “O  “    “OO “    “OOX”<br>示例 2：</p>
+<p>输入：moves = [[0,0],[1,1],[0,1],[0,2],[1,0],[2,0]]<br>输出：”B”<br>解释：”B” 获胜。<br>“X  “    “X  “    “XX “    “XXO”    “XXO”    “XXO”<br>“   “ -&gt; “ O “ -&gt; “ O “ -&gt; “ O “ -&gt; “XO “ -&gt; “XO “<br>“   “    “   “    “   “    “   “    “   “    “O  “<br>示例 3：</p>
+<p>输入：moves = [[0,0],[1,1],[2,0],[1,0],[1,2],[2,1],[0,1],[0,2],[2,2]]<br>输出：”Draw”<br>输出：由于没有办法再行动，游戏以平局结束。<br>“XXO”<br>“OOX”<br>“XOX”<br>示例 4：</p>
+<p>输入：moves = [[0,0],[1,1]]<br>输出：”Pending”<br>解释：游戏还没有结束。<br>“X  “<br>“ O “<br>“   “</p>
+<p>解法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tictactoe</span>(<span class="params">self, moves: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        lista = []</span><br><span class="line">        listb = []</span><br><span class="line">        <span class="keyword">for</span> step <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,(<span class="built_in">len</span>(moves)),<span class="number">2</span>):</span><br><span class="line">            lista.append(moves[step])</span><br><span class="line">        <span class="keyword">for</span> step <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,(<span class="built_in">len</span>(moves)),<span class="number">2</span>):</span><br><span class="line">            listb.append(moves[step])</span><br><span class="line">        <span class="keyword">for</span> num,elem <span class="keyword">in</span> <span class="built_in">enumerate</span>(lista):</span><br><span class="line">            choice = lista[num]</span><br><span class="line">            <span class="keyword">for</span> subel <span class="keyword">in</span> lista:</span><br><span class="line">                <span class="keyword">if</span> subel != choice: </span><br><span class="line">                    x = (subel[<span class="number">0</span>]+choice[<span class="number">0</span>])/<span class="number">2</span></span><br><span class="line">                    y = (subel[<span class="number">1</span>]+choice[<span class="number">1</span>])/<span class="number">2</span></span><br><span class="line">                    <span class="keyword">if</span> [x,y] <span class="keyword">in</span> lista:</span><br><span class="line">                        <span class="keyword">return</span> <span class="string">&quot;A&quot;</span></span><br><span class="line">        <span class="keyword">for</span> num,elem <span class="keyword">in</span> <span class="built_in">enumerate</span>(listb):</span><br><span class="line">            choice = listb[num]</span><br><span class="line">            <span class="keyword">for</span> subel <span class="keyword">in</span> listb:</span><br><span class="line">                <span class="keyword">if</span> subel != choice:</span><br><span class="line">                    x = (subel[<span class="number">0</span>]+choice[<span class="number">0</span>])/<span class="number">2</span></span><br><span class="line">                    y = (subel[<span class="number">1</span>]+choice[<span class="number">1</span>])/<span class="number">2</span></span><br><span class="line">                    <span class="keyword">if</span> [x,y] <span class="keyword">in</span> listb:</span><br><span class="line">                        <span class="keyword">return</span> <span class="string">&quot;B&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(moves) == <span class="number">9</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Draw&quot;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Pending&quot;</span></span><br></pre></td></tr></table></figure><br>Q:为什么在这个计算里 要比较subel和choice</p>
+<p>A:在这个计算中，比较subel和choice的目的是确保计算的中点不是相同的两个点。井字棋的规则是玩家必须在不同的位置放置他们的标志（通常是”X”或”O”），而不是在同一个位置多次放置。因此，在计算中点坐标之前，代码通过比较subel和choice来确保它们代表不同的步骤。</p>
+<p>如果subel和choice相等，这意味着它们代表相同的步骤，计算的中点将会是这个相同的点，这在游戏规则下是不允许的。因此，通过检查subel和choice是否相等，代码确保只有在不同的步骤之间才会计算中点坐标。这是为了确保井字棋规则的合法性。</p>
+<p>一种过程：在你提供的情况下，如果 lista 包含坐标 (0, 0), (1, 1), (2, 2)，那么 subel 的迭代会如下：</p>
+<p>第一次迭代：subel 是 (0, 0)，因为它是 lista 中的第一个元素，并且与 choice 不相等。然后，程序会计算中点 (x, y)，即 (0 + 0) / 2 = 0.0 和 (0 + 0) / 2 = 0.0，然后检查 (0.0, 0.0) 是否在 lista 中。由于 (0.0, 0.0) 不在 lista 中，迭代继续。</p>
+<p>第二次迭代：subel 是 (1, 1)，同样因为它不等于 choice。程序会计算中点 (x, y)，即 (1 + 0) / 2 = 0.5 和 (1 + 0) / 2 = 0.5，然后检查 (0.5, 0.5) 是否在 lista 中。由于 (0.5, 0.5) 不在 lista 中，迭代继续。</p>
+<p>第三次迭代：subel 是 (2, 2)，同样因为它不等于 choice。程序会计算中点 (x, y)，即 (2 + 0) / 2 = 1.0 和 (2 + 0) / 2 = 1.0，然后检查 (1.0, 1.0) 是否在 lista 中。由于 (1.0, 1.0) 不在 lista 中，迭代结束。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/13/dictionary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -459,10 +536,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-10-10 18:10:45 / 修改时间：23:24:59" itemprop="dateCreated datePublished" datetime="2023-10-10T18:10:45+08:00">2023-10-10</time>
+              <time title="创建时间：2023-10-10 18:10:45" itemprop="dateCreated datePublished" datetime="2023-10-10T18:10:45+08:00">2023-10-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-13 21:19:49" itemprop="dateModified" datetime="2023-10-13T21:19:49+08:00">2023-10-13</time>
+              </span>
 
           
 
@@ -480,6 +563,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#insert指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="built_in">list</span>.insert(<span class="number">4</span>,<span class="number">11</span>) <span class="comment">#第一个数字指插入的位置，第二个数字指插入的东西。</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#sort指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">8</span>,]</span><br><span class="line"><span class="built_in">list</span>.sort()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br><span class="line"><span class="comment">#list.reverse()为倒序排列</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#del alist[i]删除列表中第i位元素</span></span><br><span class="line"><span class="comment">#返回该元素出现时的第一次下标</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">15</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>.index(<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">enumerate</span>(sequence, [start=<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>含义：sequence — 一个序列、迭代器或其他支持迭代对象。<br>start — 下标起始位置的值。<br>return的结果为<br>对应的下标，元素<br>sequence为列表名，start=后为下表开始处</p>
+
       
     </div>
 
@@ -626,7 +712,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

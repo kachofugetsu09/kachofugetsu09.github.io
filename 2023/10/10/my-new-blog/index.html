@@ -28,7 +28,7 @@
 <meta property="og:description" content="有关列表的基本指令应用。1234567    #有关list的指令#pop指令list&#x3D;[1,2,3,4,5,6,7,8,9,10]n&#x3D;len(list)while n&gt;1 :    list.pop() #对最后一位删除，括号中的数字代表删除的位数，为空则默认删除最后一位，list.pop中的list指代列表名    print(list) 1234#append指令，在末尾插入list&#x3D;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-10T10:10:45.336Z">
-<meta property="article:modified_time" content="2023-10-10T15:24:59.947Z">
+<meta property="article:modified_time" content="2023-10-13T13:19:49.975Z">
 <meta property="article:author" content="花鸟风月">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -202,10 +202,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-10-10 18:10:45 / 修改时间：23:24:59" itemprop="dateCreated datePublished" datetime="2023-10-10T18:10:45+08:00">2023-10-10</time>
+              <time title="创建时间：2023-10-10 18:10:45" itemprop="dateCreated datePublished" datetime="2023-10-10T18:10:45+08:00">2023-10-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-13 21:19:49" itemprop="dateModified" datetime="2023-10-13T21:19:49+08:00">2023-10-13</time>
+              </span>
 
           
 
@@ -223,6 +229,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#insert指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="built_in">list</span>.insert(<span class="number">4</span>,<span class="number">11</span>) <span class="comment">#第一个数字指插入的位置，第二个数字指插入的东西。</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#sort指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">8</span>,]</span><br><span class="line"><span class="built_in">list</span>.sort()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br><span class="line"><span class="comment">#list.reverse()为倒序排列</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#del alist[i]删除列表中第i位元素</span></span><br><span class="line"><span class="comment">#返回该元素出现时的第一次下标</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">15</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>.index(<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">enumerate</span>(sequence, [start=<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>含义：sequence — 一个序列、迭代器或其他支持迭代对象。<br>start — 下标起始位置的值。<br>return的结果为<br>对应的下标，元素<br>sequence为列表名，start=后为下表开始处</p>
+
     </div>
 
     
@@ -318,7 +327,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

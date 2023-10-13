@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>有关字典</title>
-    <url>/2023/10/13/dictionary/</url>
-    <content><![CDATA[<p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算法</title>
-    <url>/2023/10/10/algorithm/</url>
-    <content><![CDATA[<p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
-<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2023/10/10/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -34,11 +15,30 @@
 ]]></content>
   </entry>
   <entry>
+    <title>有关字典</title>
+    <url>/2023/10/13/dictionary/</url>
+    <content><![CDATA[<p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>算法分析</title>
     <url>/2023/10/11/time%E6%A8%A1%E5%9D%97%E5%92%8Cformat%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<p>import指令为导入模块<br>import.time,即为调用time模块<br>再print括号内加入f可以起到format函数的作用。<br>举例，如果我们要调用time模块的time.time指令我们应当写做<br>time.time时间的效果是 记录显示运算结束时距标准时间的距离<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;时间是<span class="subst">&#123;time.time()&#125;</span>&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>如果要记录时间<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">start_time = time.time()    <span class="comment"># 起始时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 程序代码</span></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> count &lt; <span class="number">50000</span>:</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;程序运行时间: <span class="subst">&#123;time.time() - start_time&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure><br>循环方案耗时会更长<br>比如对于用循环求和而言<br>可以定义函数，写做<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sumOfN3</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> (n*(n+<span class="number">1</span>))/<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(sumOfN3(<span class="number">5</span>))</span><br></pre></td></tr></table></figure><br>这样，耗时会大大减小。</p>
 <p>对于累加算法，计算总和所用的赋值语句的数目就是一个很好的基本计算单位。在 sumOfN 函数中，<br>赋值语句数是 1（theSum = 0）加上 n（theSum = theSum + i 的运行次数）。<br>可以将其定义成函数 ，令T(n)=1+n。<br>参数 n 常被称作 问题规模，可以将函数解读为“当问题规模为 n 时，<br>解决问题所需的时间是 T(n)， 即需要1+n 步”。</p>
 <h1 id="异序词检测示例"><a href="#异序词检测示例" class="headerlink" title="异序词检测示例"></a>异序词检测示例</h1><p>异序词定义：如earth heart python ythpon<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">anagramSolution1</span>(<span class="params">s1, s2</span>):</span><br><span class="line">    list1 = <span class="built_in">list</span>(s1)  <span class="comment"># 将输入字符串转换为字符列表</span></span><br><span class="line">    list2 = <span class="built_in">list</span>(s2)</span><br><span class="line">    </span><br><span class="line">    list1.sort()  <span class="comment"># 原地对列表进行排序</span></span><br><span class="line">    list2.sort()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> list1 == list2:  <span class="comment"># 比较排序后的列表</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;是&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;否&quot;</span>)</span><br><span class="line"></span><br><span class="line">alist = <span class="string">&quot;key&quot;</span></span><br><span class="line">blist = <span class="string">&quot;dqf&quot;</span></span><br><span class="line">anagramSolution1(alist, blist)</span><br></pre></td></tr></table></figure><br>注意，sort会进行原地排序，即更新list1的内容。</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法</title>
+    <url>/2023/10/10/algorithm/</url>
+    <content><![CDATA[<p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
+<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <tags>
         <tag>python</tag>

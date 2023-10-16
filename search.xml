@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>有关字典</title>
-    <url>/2023/10/13/dictionary/</url>
-    <content><![CDATA[<p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>11大排序</title>
     <url>/2023/10/14/11%E5%A4%A7%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><p>从第一个元素到最后一个元素中选择出一个最小的元素，和第一个元素进行交换，然后从第二个元素到最后一个元素中选择出最小的，与第一个进行交换，<br>以此类推排列，比如213排列为123</p>
@@ -34,16 +25,6 @@
       </tags>
   </entry>
   <entry>
-    <title>算法</title>
-    <url>/2023/10/10/algorithm/</url>
-    <content><![CDATA[<p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
-<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>English</title>
     <url>/2023/10/14/English/</url>
     <content><![CDATA[<h1 id="10-14"><a href="#10-14" class="headerlink" title="10.14"></a>10.14</h1><ol>
@@ -59,6 +40,54 @@
 ]]></content>
       <tags>
         <tag>英语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>有关字典</title>
+    <url>/2023/10/13/dictionary/</url>
+    <content><![CDATA[<p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法</title>
+    <url>/2023/10/10/algorithm/</url>
+    <content><![CDATA[<p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
+<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/10/10/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>有关列表</title>
+    <url>/2023/10/10/my-new-blog/</url>
+    <content><![CDATA[<p>有关列表的基本指令应用。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    <span class="comment">#有关list的指令</span></span><br><span class="line"><span class="comment">#pop指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line">n=<span class="built_in">len</span>(<span class="built_in">list</span>)</span><br><span class="line"><span class="keyword">while</span> n&gt;<span class="number">1</span> :</span><br><span class="line">    <span class="built_in">list</span>.pop() <span class="comment">#对最后一位删除，括号中的数字代表删除的位数，为空则默认删除最后一位，list.pop中的list指代列表名</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#append指令，在末尾插入</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="built_in">list</span>.append(<span class="number">11</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#insert指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="built_in">list</span>.insert(<span class="number">4</span>,<span class="number">11</span>) <span class="comment">#第一个数字指插入的位置，第二个数字指插入的东西。</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#sort指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">8</span>,]</span><br><span class="line"><span class="built_in">list</span>.sort()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br><span class="line"><span class="comment">#list.reverse()为倒序排列</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#del alist[i]删除列表中第i位元素</span></span><br><span class="line"><span class="comment">#返回该元素出现时的第一次下标</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">15</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>.index(<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">enumerate</span>(sequence, [start=<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>含义：sequence — 一个序列、迭代器或其他支持迭代对象。<br>start — 下标起始位置的值。<br>return的结果为<br>对应的下标，元素<br>sequence为列表名，start=后为下表开始处</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -93,33 +122,20 @@
 ]]></content>
   </entry>
   <entry>
-    <title>有关列表</title>
-    <url>/2023/10/10/my-new-blog/</url>
-    <content><![CDATA[<p>有关列表的基本指令应用。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    <span class="comment">#有关list的指令</span></span><br><span class="line"><span class="comment">#pop指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line">n=<span class="built_in">len</span>(<span class="built_in">list</span>)</span><br><span class="line"><span class="keyword">while</span> n&gt;<span class="number">1</span> :</span><br><span class="line">    <span class="built_in">list</span>.pop() <span class="comment">#对最后一位删除，括号中的数字代表删除的位数，为空则默认删除最后一位，list.pop中的list指代列表名</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#append指令，在末尾插入</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="built_in">list</span>.append(<span class="number">11</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#insert指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="built_in">list</span>.insert(<span class="number">4</span>,<span class="number">11</span>) <span class="comment">#第一个数字指插入的位置，第二个数字指插入的东西。</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#sort指令</span></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">8</span>,]</span><br><span class="line"><span class="built_in">list</span>.sort()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>)</span><br><span class="line"><span class="comment">#list.reverse()为倒序排列</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#del alist[i]删除列表中第i位元素</span></span><br><span class="line"><span class="comment">#返回该元素出现时的第一次下标</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>=[<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">15</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>.index(<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">enumerate</span>(sequence, [start=<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>含义：sequence — 一个序列、迭代器或其他支持迭代对象。<br>start — 下标起始位置的值。<br>return的结果为<br>对应的下标，元素<br>sequence为列表名，start=后为下表开始处</p>
+    <title>矩阵</title>
+    <url>/2023/10/16/%E7%9F%A9%E9%98%B5/</url>
+    <content><![CDATA[<h1 id="引入矩阵"><a href="#引入矩阵" class="headerlink" title="引入矩阵"></a>引入矩阵</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+<p>引入numpy库</p>
+<h1 id="创建矩阵"><a href="#创建矩阵" class="headerlink" title="创建矩阵"></a>创建矩阵</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a=np.mat([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]])</span><br></pre></td></tr></table></figure>
+<p>创建一个2x3的矩阵<br>第一行为123 第二行为456</p>
+<h1 id="获取矩阵的规格"><a href="#获取矩阵的规格" class="headerlink" title="获取矩阵的规格"></a>获取矩阵的规格</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a.shape</span><br></pre></td></tr></table></figure>
+<p>》》》(2,3)<br>第一个参数是行，第二个参数是列</p>
+<h1 id="行列转换"><a href="#行列转换" class="headerlink" title="行列转换"></a>行列转换</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a.T</span><br></pre></td></tr></table></figure>
+<p>将行列变换</p>
 ]]></content>
       <tags>
         <tag>python</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/10/10/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>难题</title>

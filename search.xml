@@ -35,30 +35,24 @@
 <li>Brick and mortar store：用来描述传统的实体零售店或实体店。这种类型的商店是指实际存在于物理空间中的商业实体，通常由砖砌或混凝土建造而成，而非仅存在于互联网上或虚拟世界中。</li>
 <li>Thrift store ：是一个零售机构，以比新品低得多的价格销售二手、旧的或预先拥有的物品。这些商店以提供各种物品而闻名，包括服装、家具、电子产品、书籍、玩具和家居用品等。</li>
 <li>fraction： noun. [1]分数 [2]小部分 [3]不完整的数量</li>
-<li></li>
+</ol>
+<h1 id="10-16"><a href="#10-16" class="headerlink" title="10.16"></a>10.16</h1><ol>
+<li>cabinet noun. 橱柜</li>
+<li>cable noun. 电缆</li>
+<li>cashier noun. 出纳员</li>
+<li>cathedral noun. 大教堂</li>
+<li>chart noun. 图表</li>
+<li>congestion noun. 拥挤</li>
+<li>conquest verb. 征服</li>
+<li>contamination noun. 污染</li>
+<li>continent noun. 大洲</li>
+<li>cop noun. 男警察</li>
+<li>cot noun. 轻便小床</li>
+<li>corporation noun. 公司</li>
 </ol>
 ]]></content>
       <tags>
         <tag>英语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>有关字典</title>
-    <url>/2023/10/13/dictionary/</url>
-    <content><![CDATA[<p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算法</title>
-    <url>/2023/10/10/algorithm/</url>
-    <content><![CDATA[<p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
-<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -74,6 +68,15 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>有关字典</title>
+    <url>/2023/10/13/dictionary/</url>
+    <content><![CDATA[<p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
   </entry>
   <entry>
     <title>有关列表</title>
@@ -159,6 +162,16 @@
 <p>第一次迭代：subel 是 (0, 0)，因为它是 lista 中的第一个元素，并且与 choice 不相等。然后，程序会计算中点 (x, y)，即 (0 + 0) / 2 = 0.0 和 (0 + 0) / 2 = 0.0，然后检查 (0.0, 0.0) 是否在 lista 中。由于 (0.0, 0.0) 不在 lista 中，迭代继续。</p>
 <p>第二次迭代：subel 是 (1, 1)，同样因为它不等于 choice。程序会计算中点 (x, y)，即 (1 + 0) / 2 = 0.5 和 (1 + 0) / 2 = 0.5，然后检查 (0.5, 0.5) 是否在 lista 中。由于 (0.5, 0.5) 不在 lista 中，迭代继续。</p>
 <p>第三次迭代：subel 是 (2, 2)，同样因为它不等于 choice。程序会计算中点 (x, y)，即 (2 + 0) / 2 = 1.0 和 (2 + 0) / 2 = 1.0，然后检查 (1.0, 1.0) 是否在 lista 中。由于 (1.0, 1.0) 不在 lista 中，迭代结束。</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法</title>
+    <url>/2023/10/10/algorithm/</url>
+    <content><![CDATA[<p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
+<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <tags>
         <tag>python</tag>

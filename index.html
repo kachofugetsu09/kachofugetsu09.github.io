@@ -177,6 +177,385 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/28/%E4%BD%8D%E8%BF%90%E7%AE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/28/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="post-title-link" itemprop="url">位运算</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-28 18:13:19" itemprop="dateCreated datePublished" datetime="2023-11-28T18:13:19+08:00">2023-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-29 14:47:56" itemprop="dateModified" datetime="2023-11-29T14:47:56+08:00">2023-11-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>N^N=0<br>N^0=N<br>xorsum &amp; (-xorsum)可以得出最后一个是1的位数 比如二进制11100，可以得到结果100<br>输出整数意味着输出True<br>输出0意味着输出False</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/27/greedy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/27/greedy/" class="post-title-link" itemprop="url">贪心算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-27 15:38:37" itemprop="dateCreated datePublished" datetime="2023-11-27T15:38:37+08:00">2023-11-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-28 17:12:30" itemprop="dateModified" datetime="2023-11-28T17:12:30+08:00">2023-11-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="分数背包"><a href="#分数背包" class="headerlink" title="分数背包"></a>分数背包</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">goods=[(<span class="number">60</span>,<span class="number">10</span>),(<span class="number">100</span>,<span class="number">20</span>),(<span class="number">120</span>,<span class="number">30</span>)]</span><br><span class="line">goods.sort(key=lambbda x: x[<span class="number">0</span>]/x[<span class="number">1</span>],reverse = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fractional_backpack</span>(<span class="params">goods,w</span>):</span><br><span class="line">    m=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(goods))]</span><br><span class="line">    total_v  =<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i,(price,weight) <span class="keyword">in</span> <span class="built_in">enumerate</span>(goods):</span><br><span class="line">        <span class="keyword">if</span> w&gt;=weight</span><br><span class="line">            m[i]=<span class="number">1</span></span><br><span class="line">            total_v +=price</span><br><span class="line">            w -= weight</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            m[i] = w/weight</span><br><span class="line">            total_v +=m[i]*price</span><br><span class="line">            w=<span class="number">0</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> m</span><br></pre></td></tr></table></figure>
+<h1 id="拼接最大数问题"><a href="#拼接最大数问题" class="headerlink" title="拼接最大数问题"></a>拼接最大数问题</h1><p>有n个非负整数，将其按照字符串拼接方式拼接成一个整数，如何拼接可以使得得到的整数最大？<br>例如32，94，128，1286，6，71可以拼接成的最大整数为94716321286128</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> cmp_to_key</span><br><span class="line"></span><br><span class="line">li=[<span class="number">32</span>,<span class="number">94</span>,<span class="number">128</span>,<span class="number">1286</span>,<span class="number">6</span>,<span class="number">71</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xy_cmp</span>(<span class="params">x,y</span>):</span><br><span class="line">    <span class="keyword">if</span> x+y&gt;y+x:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> x+y&lt;y+x:</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">number_join</span>(<span class="params">li</span>):</span><br><span class="line">    li=<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">str</span>,li))</span><br><span class="line">    li.sort(key=cmp_to_key(xy_cmp))</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(li)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="活动选择问题"><a href="#活动选择问题" class="headerlink" title="活动选择问题"></a>活动选择问题</h1><p>假设有n个活动，这些活动占用同一个场地，而场地在某时刻只能供一个活动使用。<br>每个活动都有一个开始时间si和结束时间fi，表示活动在[si，fi)区间占用场地<br>问：安排哪些活动能够使得该场地举办的活动个数最多？</p>
+<p>贪心结论：最先结束的活动一定是最优解的一部分<br>证明： 假设a是所有活动中最先结束的活动。b是最优解中的最先结束的活动。<br>如果a=b，结论成立。<br>如果a≠b，则b的结束时间一定晚于a的结束时间，则此时用a替换掉最优解中的b，a一定不与最优解中的其他活动时间重叠，因此替换后的解也是最优解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">activities = [(<span class="number">1</span>,<span class="number">4</span>),(<span class="number">3</span>,<span class="number">5</span>),(<span class="number">0</span>,<span class="number">6</span>),(<span class="number">5</span>,<span class="number">7</span>),(<span class="number">3</span>,<span class="number">9</span>),]</span><br><span class="line"><span class="comment">#保证活动是按照结束时间排好序的</span></span><br><span class="line">activities.sort(key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">activity_selection</span>(<span class="params">a</span>):</span><br><span class="line">    res=[a[<span class="number">0</span>]]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(a)):</span><br><span class="line">        <span class="keyword">if</span> a[i] [<span class="number">0</span>] &gt;=res[-<span class="number">1</span>][<span class="number">1</span>]: <span class="comment">#当前活动的开始时间小于等于最后一个入选活动的结束时间</span></span><br><span class="line">            <span class="comment">#不冲突</span></span><br><span class="line">            res.append(a[i]) </span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/25/avl%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/25/avl%E6%A0%91/" class="post-title-link" itemprop="url">avl树</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-25 14:12:59" itemprop="dateCreated datePublished" datetime="2023-11-25T14:12:59+08:00">2023-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-27 15:25:21" itemprop="dateModified" datetime="2023-11-27T15:25:21+08:00">2023-11-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>avl树<br>要求左右高度差绝对值小于等于1<br>例如左边有两个子节点，右边有一个子节点<br>该点的高度差等于2-1=1</p>
+<h1 id="avl插入"><a href="#avl插入" class="headerlink" title="avl插入"></a>avl插入</h1><p>插入一个节点可能会破坏avl树的平衡，可以通过旋转操作进行修正。<br>插入一个节点后，只有从插入节点到根节点的路径上的节点的平衡可能会被改变。<br>我们需要找出第一个破坏了平衡条件的节点，称之为k。k的两颗子树的高度差2<br>不平衡的出现可能有四种情况。<br>1.不平衡是因为对k的右孩子的右子树插入导致的：左旋<br>2.不平衡是由于对k的左孩子的左子树插入导致的：右旋<br>3.不平衡是因为对k的右孩子的左子树插入导致的：右旋 -&gt;左旋<br>4.不平衡是因为对k的左孩子的右子树插入导致的：左旋 -&gt;右旋<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bst <span class="keyword">import</span> BiTreeNode,BST</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AVLNode</span>(<span class="title class_ inherited__">BiTreeNode</span>):</span><br><span class="line">    <span class="keyword">def</span>  <span class="title function_">__init__</span>(<span class="params">self,data</span>):</span><br><span class="line">        BiTreeNode.__init__(self,data)</span><br><span class="line">        self.bf=<span class="number">0</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AVLTree</span>(<span class="title class_ inherited__">BST</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,li=<span class="literal">None</span></span>):</span><br><span class="line">        BST.__init__(self,li)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rotate_left</span>(<span class="params">self,p,c</span>):</span><br><span class="line">        s2=c.lchild</span><br><span class="line">        p.rchild = s2</span><br><span class="line">        <span class="keyword">if</span> s2:</span><br><span class="line">            s2.parent =p</span><br><span class="line">        c.lchild = p</span><br><span class="line">        p.parent = c</span><br><span class="line"></span><br><span class="line">        p. bf = <span class="number">0</span></span><br><span class="line">        c.bf =<span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rotate_right</span>(<span class="params">self,p,c</span>):</span><br><span class="line">        s2=c.rchild</span><br><span class="line">        p.lchild=s2</span><br><span class="line">        <span class="keyword">if</span> s2:</span><br><span class="line">            s2.parent=p</span><br><span class="line">        c.rchild =p</span><br><span class="line">        p.parent = c</span><br><span class="line"></span><br><span class="line">        p.bf=<span class="number">0</span></span><br><span class="line">        c.bf=<span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rotate_right_left</span>(<span class="params">self,p,c</span>):</span><br><span class="line">        g = c.lchild</span><br><span class="line"></span><br><span class="line">        s3=g.rchild</span><br><span class="line">        c.lchild =s3</span><br><span class="line">        <span class="keyword">if</span> s3:</span><br><span class="line">            s3.parent=c</span><br><span class="line">        g.rchild =c</span><br><span class="line">        c.parent=g</span><br><span class="line"></span><br><span class="line">        s2=g.lchild</span><br><span class="line">        g.rchild=s2</span><br><span class="line">        <span class="keyword">if</span> s2:</span><br><span class="line">            s2.parent = p</span><br><span class="line">        g.lchild = p</span><br><span class="line">        p.parent=g</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> g.bf&gt;<span class="number">0</span>:</span><br><span class="line">            p.bf = -<span class="number">1</span></span><br><span class="line">            c.bf = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> g.bf&lt;<span class="number">0</span>:</span><br><span class="line">            p.nf=<span class="number">0</span></span><br><span class="line">            c.bf =<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p.bg=<span class="number">0</span></span><br><span class="line">            c.bf=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> g</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">rotate_left_right</span>(<span class="params">self,p,c</span>):</span><br><span class="line">            g=c.rchild</span><br><span class="line">            s2=g.lchild</span><br><span class="line">            c.rchild=s2</span><br><span class="line">            <span class="keyword">if</span> s2:</span><br><span class="line">                s2.parent =c</span><br><span class="line">            g.lchild = c</span><br><span class="line">            c.parent = g</span><br><span class="line"></span><br><span class="line">            s3=g.rchild</span><br><span class="line">            p.parent = g</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> g.bf&lt;<span class="number">0</span>:</span><br><span class="line">                c.bf =<span class="number">0</span></span><br><span class="line">                p.bf =<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                p.bf = <span class="number">0</span></span><br><span class="line">                c.bf = -<span class="number">1</span></span><br><span class="line">            g.bf = <span class="number">0</span></span><br><span class="line">            <span class="keyword">return</span> g</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">insert_no_rec</span>(<span class="params">self,val</span>):</span><br><span class="line">            <span class="comment"># 和BST一样，插入</span></span><br><span class="line">            p=self.root</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> p:</span><br><span class="line">                self.root=BiTreeNode(val)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                <span class="keyword">if</span> val&lt;p.data:</span><br><span class="line">                    <span class="keyword">if</span> p.lchild:</span><br><span class="line">                        p=p.lchild</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        p.lchild=BiTreeNode(val)</span><br><span class="line">                        p.lchild.parent=p</span><br><span class="line">                        node = p.lchild <span class="comment">#node 储存的就是插入的节点</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">elif</span> val&gt;p.data:</span><br><span class="line">                    <span class="keyword">if</span> p.rchild:</span><br><span class="line">                        p=p.rchild</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        p.rchild = BiTreeNode(val)</span><br><span class="line">                        p.rchild.parent=p</span><br><span class="line">                        node = p.rchild</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:  <span class="comment"># val = p.data</span></span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#2. 更新balance factor</span></span><br><span class="line">            <span class="keyword">while</span> node.parent: <span class="comment">#node.parent不空</span></span><br><span class="line">                <span class="keyword">if</span> node.parent.lchild == node:</span><br><span class="line">                    <span class="comment">#更新node.parent的bf -=1</span></span><br><span class="line">                    <span class="keyword">if</span> node.parent.bf &lt; <span class="number">0</span>:  <span class="comment">#原来node 的parent的bg等于-1，更新后变成-2了</span></span><br><span class="line">                       g=node.parent.parent <span class="comment">#为了连接之后的子树</span></span><br><span class="line">                        <span class="keyword">if</span> node.bf&gt;<span class="number">0</span>:</span><br><span class="line">                            n=self.rotate_left_right(node.parent,node)</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            n=self.rotate_right(node.parent,node)</span><br><span class="line">                        <span class="comment">#记得把n和g连起来</span></span><br><span class="line">                    <span class="keyword">elif</span> node.parent.bf&gt;<span class="number">0</span>:</span><br><span class="line">                        node.parent.bf=<span class="number">0</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        node.parent.bf = -<span class="number">1</span></span><br><span class="line">                        node = node.parent</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">if</span> node.parent.bf&gt;<span class="number">0</span>:</span><br><span class="line">                        g=node.parent.parent</span><br><span class="line">                        <span class="keyword">if</span> node.bf&lt;<span class="number">0</span>:</span><br><span class="line">                            n=self.rotate_right_left(node.parent,node)</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            n=self.rotate_left(node.parent,node)</span><br><span class="line">                            <span class="comment">#记得把n和g连起来</span></span><br><span class="line">                    <span class="keyword">elif</span> node.parent.bf&lt;<span class="number">0</span>:</span><br><span class="line">                        node.parent.bf=<span class="number">0</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        node.parent.bf=<span class="number">1</span>:</span><br><span class="line">                        node = node.parent</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">#链接旋转后的子树</span></span><br><span class="line">                n.parent=g</span><br><span class="line">                <span class="keyword">if</span> g:</span><br><span class="line">                    <span class="keyword">if</span> node.parent == g.lchild:</span><br><span class="line">                        g.lchild=n</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        g.rchild = n</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    self.root = n</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/25/jishu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/25/jishu/" class="post-title-link" itemprop="url">基数排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-25 14:02:27 / 修改时间：14:12:44" itemprop="dateCreated datePublished" datetime="2023-11-25T14:02:27+08:00">2023-11-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>多关键词排序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">radix_sort</span>(<span class="params">li</span>):</span><br><span class="line">    max_num=<span class="built_in">max</span>(li) <span class="comment">#最大值</span></span><br><span class="line">    it = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">10</span>**it &lt;=max_num:</span><br><span class="line">        buckets=[[ <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]]</span><br><span class="line">        <span class="keyword">for</span> var <span class="keyword">in</span> li:</span><br><span class="line">            <span class="comment">#987 it=1</span></span><br><span class="line">            digit =(var//<span class="number">10</span>**it)%<span class="number">10</span></span><br><span class="line">            buckets[digit].append(var)</span><br><span class="line">        li.clear()</span><br><span class="line">        <span class="keyword">for</span> buc <span class="keyword">in</span> buckets:</span><br><span class="line">            li.extend(buc)</span><br><span class="line">            <span class="comment">#把数重新写回li</span></span><br><span class="line">        it+=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/25/xier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/25/xier/" class="post-title-link" itemprop="url">希尔排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-25 13:55:15 / 修改时间：14:02:07" itemprop="dateCreated datePublished" datetime="2023-11-25T13:55:15+08:00">2023-11-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>希尔排序是一种分组插入排序算法。<br>首先取一个整数d1=n/2,将元素分为d1个组，每组相邻元素之间距离为d1，再各组内进行插入排序<br>取第二个整数d2=d1/2,重复上述分组排序过程，直到di=1<br>代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">insert_sort_gap</span>(<span class="params">li,gap</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(gap,<span class="built_in">len</span>(li)):</span><br><span class="line">        tmp=li[i]</span><br><span class="line">        j=i-gap</span><br><span class="line">    <span class="keyword">while</span> j&gt;=<span class="number">0</span> <span class="keyword">and</span> li[j]&gt;tmp:</span><br><span class="line">        li[j+gap]=li[j]</span><br><span class="line">        j-=gap</span><br><span class="line">        li[j+gap]= tmp</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">shell_sort</span>(<span class="params">li</span>):</span><br><span class="line">    d=shell_sort(li):</span><br><span class="line">    <span class="keyword">while</span> d&gt;=<span class="number">1</span>:</span><br><span class="line">        insert_sort_gap(li,d)</span><br><span class="line">        d//<span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/25/topk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="花鸟风月">
+      <meta itemprop="description" content="ゴミ箱を空にしますか？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花鸟风月的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/25/topk/" class="post-title-link" itemprop="url">topk</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-25 13:41:01 / 修改时间：13:54:05" itemprop="dateCreated datePublished" datetime="2023-11-25T13:41:01+08:00">2023-11-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>现在有n个数，设计算法得到前k大的数（k&lt;n)<br>解决思路：<br>1.排序后切片   o(logn)<br>2.排序lowB三人组 o(mn)<br>3.堆排序</p>
+<p>堆排序思路<br>取列表前k个元素建立一个小根堆 堆顶就是目前第k大的数<br>依次向后遍历原列表，对于列表中的元素，如果小于堆顶，则忽略该元素；如果大于堆顶，<br>则将堆顶替换为该元素，并且对堆进行一次调整</p>
+<p>代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sift</span>(<span class="params">li,low,high</span>): <span class="comment">#调整</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    li:列表</span></span><br><span class="line"><span class="string">    low：堆的根节点</span></span><br><span class="line"><span class="string">    high：堆的最后一个元素的位置</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    i=low <span class="comment">#i最开始指向根节点</span></span><br><span class="line">    j=<span class="number">2</span>*i+<span class="number">1</span> <span class="comment">#j开始是左孩子</span></span><br><span class="line">    tmp=li[low] <span class="comment">#把堆顶存起来</span></span><br><span class="line">    <span class="keyword">while</span> j&lt;=high: <span class="comment">#只要j位置有数，那就一直循环</span></span><br><span class="line">        <span class="keyword">if</span> li[j+<span class="number">1</span>]&lt;li[j] <span class="keyword">and</span> li[j+<span class="number">1</span>]&lt;li[j]:<span class="comment">#如果右孩子有并且比较大</span></span><br><span class="line">            j+=<span class="number">1</span> <span class="comment">#j指向右孩子</span></span><br><span class="line">        <span class="keyword">if</span> li[j]&lt;tmp:</span><br><span class="line">            li[i]=li[j]</span><br><span class="line">            i=j</span><br><span class="line">            j=<span class="number">2</span>*i+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            li[i]=tmp </span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        li[i]=tmp </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">topk</span>(<span class="params">li,k</span>):</span><br><span class="line">    heap=[<span class="number">0</span>:k]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(k-<span class="number">2</span>//<span class="number">2</span>,-<span class="number">1</span>,-<span class="number">1</span>)</span><br><span class="line">        sift(heap,i,k-<span class="number">1</span>)</span><br><span class="line">        <span class="comment">#1.建堆</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(k,<span class="built_in">len</span>(li)):</span><br><span class="line">            <span class="keyword">if</span> li[i]&gt;heap[<span class="number">0</span>]:</span><br><span class="line">                heap[<span class="number">0</span>]==li[i]</span><br><span class="line">                sift(heap,<span class="number">0</span>,k-<span class="number">1</span>)</span><br><span class="line">        <span class="comment">#2. 遍历</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(k-<span class="number">1</span>,-<span class="number">1</span>,-<span class="number">1</span>):</span><br><span class="line">        li[<span class="number">0</span>],li[i]==li[i],li[<span class="number">0</span>]</span><br><span class="line">        sift(li,<span class="number">0</span>,i-<span class="number">1</span>) </span><br><span class="line">        <span class="comment">#3.出数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/30/%E4%BA%8C%E5%88%B7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%94%99%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -478,452 +857,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/14/English/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="花鸟风月">
-      <meta itemprop="description" content="ゴミ箱を空にしますか？">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花鸟风月的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/14/English/" class="post-title-link" itemprop="url">English</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-10-14 13:29:36" itemprop="dateCreated datePublished" datetime="2023-10-14T13:29:36+08:00">2023-10-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-10-16 19:04:31" itemprop="dateModified" datetime="2023-10-16T19:04:31+08:00">2023-10-16</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="10-14"><a href="#10-14" class="headerlink" title="10.14"></a>10.14</h1><ol>
-<li>shipment: noun 货运</li>
-<li>bulk: noun。 [1]体积 [2]大量 [3]大部分（in bulk）adj. 大部分</li>
-<li>ample： adj. 丰富的</li>
-<li>Incorporate： noun. [1]合并 [2]包含 [3]融入</li>
-<li>Brick and mortar store：用来描述传统的实体零售店或实体店。这种类型的商店是指实际存在于物理空间中的商业实体，通常由砖砌或混凝土建造而成，而非仅存在于互联网上或虚拟世界中。</li>
-<li>Thrift store ：是一个零售机构，以比新品低得多的价格销售二手、旧的或预先拥有的物品。这些商店以提供各种物品而闻名，包括服装、家具、电子产品、书籍、玩具和家居用品等。</li>
-<li>fraction： noun. [1]分数 [2]小部分 [3]不完整的数量</li>
-</ol>
-<h1 id="10-16"><a href="#10-16" class="headerlink" title="10.16"></a>10.16</h1><ol>
-<li>cabinet noun. 橱柜</li>
-<li>cable noun. 电缆</li>
-<li>cashier noun. 出纳员</li>
-<li>cathedral noun. 大教堂</li>
-<li>chart noun. 图表</li>
-<li>congestion noun. 拥挤</li>
-<li>conquest verb. 征服</li>
-<li>contamination noun. 污染</li>
-<li>continent noun. 大洲</li>
-<li>cop noun. 男警察</li>
-<li>cot noun. 轻便小床</li>
-<li>corporation noun. 公司</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/13/%E9%9A%BE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="花鸟风月">
-      <meta itemprop="description" content="ゴミ箱を空にしますか？">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花鸟风月的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/13/%E9%9A%BE%E9%A2%98/" class="post-title-link" itemprop="url">难题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-10-13 21:32:48 / 修改时间：21:51:02" itemprop="dateCreated datePublished" datetime="2023-10-13T21:32:48+08:00">2023-10-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="2023-10-13"><a href="#2023-10-13" class="headerlink" title="2023.10.13"></a>2023.10.13</h1><ol>
-<li>找出井字棋的获胜者<br>A 和 B 在一个 3 x 3 的网格上玩井字棋。</li>
-</ol>
-<p>井字棋游戏的规则如下：</p>
-<p>玩家轮流将棋子放在空方格 (“ “) 上。<br>第一个玩家 A 总是用 “X” 作为棋子，而第二个玩家 B 总是用 “O” 作为棋子。<br>“X” 和 “O” 只能放在空方格中，而不能放在已经被占用的方格上。<br>只要有 3 个相同的（非空）棋子排成一条直线（行、列、对角线）时，游戏结束。<br>如果所有方块都放满棋子（不为空），游戏也会结束。<br>游戏结束后，棋子无法再进行任何移动。<br>给你一个数组 moves，其中每个元素是大小为 2 的另一个数组（元素分别对应网格的行和列），它按照 A 和 B 的行动顺序（先 A 后 B）记录了两人各自的棋子位置。</p>
-<p>如果游戏存在获胜者（A 或 B），就返回该游戏的获胜者；如果游戏以平局结束，则返回 “Draw”；如果仍会有行动（游戏未结束），则返回 “Pending”。</p>
-<p>你可以假设 moves 都 有效（遵循井字棋规则），网格最初是空的，A 将先行动。</p>
-<p>示例 1：</p>
-<p>输入：moves = [[0,0],[2,0],[1,1],[2,1],[2,2]]<br>输出：”A”<br>解释：”A” 获胜，他总是先走。<br>“X  “    “X  “    “X  “    “X  “    “X  “<br>“   “ -&gt; “   “ -&gt; “ X “ -&gt; “ X “ -&gt; “ X “<br>“   “    “O  “    “O  “    “OO “    “OOX”<br>示例 2：</p>
-<p>输入：moves = [[0,0],[1,1],[0,1],[0,2],[1,0],[2,0]]<br>输出：”B”<br>解释：”B” 获胜。<br>“X  “    “X  “    “XX “    “XXO”    “XXO”    “XXO”<br>“   “ -&gt; “ O “ -&gt; “ O “ -&gt; “ O “ -&gt; “XO “ -&gt; “XO “<br>“   “    “   “    “   “    “   “    “   “    “O  “<br>示例 3：</p>
-<p>输入：moves = [[0,0],[1,1],[2,0],[1,0],[1,2],[2,1],[0,1],[0,2],[2,2]]<br>输出：”Draw”<br>输出：由于没有办法再行动，游戏以平局结束。<br>“XXO”<br>“OOX”<br>“XOX”<br>示例 4：</p>
-<p>输入：moves = [[0,0],[1,1]]<br>输出：”Pending”<br>解释：游戏还没有结束。<br>“X  “<br>“ O “<br>“   “</p>
-<p>解法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tictactoe</span>(<span class="params">self, moves: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        lista = []</span><br><span class="line">        listb = []</span><br><span class="line">        <span class="keyword">for</span> step <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,(<span class="built_in">len</span>(moves)),<span class="number">2</span>):</span><br><span class="line">            lista.append(moves[step])</span><br><span class="line">        <span class="keyword">for</span> step <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,(<span class="built_in">len</span>(moves)),<span class="number">2</span>):</span><br><span class="line">            listb.append(moves[step])</span><br><span class="line">        <span class="keyword">for</span> num,elem <span class="keyword">in</span> <span class="built_in">enumerate</span>(lista):</span><br><span class="line">            choice = lista[num]</span><br><span class="line">            <span class="keyword">for</span> subel <span class="keyword">in</span> lista:</span><br><span class="line">                <span class="keyword">if</span> subel != choice: </span><br><span class="line">                    x = (subel[<span class="number">0</span>]+choice[<span class="number">0</span>])/<span class="number">2</span></span><br><span class="line">                    y = (subel[<span class="number">1</span>]+choice[<span class="number">1</span>])/<span class="number">2</span></span><br><span class="line">                    <span class="keyword">if</span> [x,y] <span class="keyword">in</span> lista:</span><br><span class="line">                        <span class="keyword">return</span> <span class="string">&quot;A&quot;</span></span><br><span class="line">        <span class="keyword">for</span> num,elem <span class="keyword">in</span> <span class="built_in">enumerate</span>(listb):</span><br><span class="line">            choice = listb[num]</span><br><span class="line">            <span class="keyword">for</span> subel <span class="keyword">in</span> listb:</span><br><span class="line">                <span class="keyword">if</span> subel != choice:</span><br><span class="line">                    x = (subel[<span class="number">0</span>]+choice[<span class="number">0</span>])/<span class="number">2</span></span><br><span class="line">                    y = (subel[<span class="number">1</span>]+choice[<span class="number">1</span>])/<span class="number">2</span></span><br><span class="line">                    <span class="keyword">if</span> [x,y] <span class="keyword">in</span> listb:</span><br><span class="line">                        <span class="keyword">return</span> <span class="string">&quot;B&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(moves) == <span class="number">9</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Draw&quot;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Pending&quot;</span></span><br></pre></td></tr></table></figure><br>Q:为什么在这个计算里 要比较subel和choice</p>
-<p>A:在这个计算中，比较subel和choice的目的是确保计算的中点不是相同的两个点。井字棋的规则是玩家必须在不同的位置放置他们的标志（通常是”X”或”O”），而不是在同一个位置多次放置。因此，在计算中点坐标之前，代码通过比较subel和choice来确保它们代表不同的步骤。</p>
-<p>如果subel和choice相等，这意味着它们代表相同的步骤，计算的中点将会是这个相同的点，这在游戏规则下是不允许的。因此，通过检查subel和choice是否相等，代码确保只有在不同的步骤之间才会计算中点坐标。这是为了确保井字棋规则的合法性。</p>
-<p>一种过程：在你提供的情况下，如果 lista 包含坐标 (0, 0), (1, 1), (2, 2)，那么 subel 的迭代会如下：</p>
-<p>第一次迭代：subel 是 (0, 0)，因为它是 lista 中的第一个元素，并且与 choice 不相等。然后，程序会计算中点 (x, y)，即 (0 + 0) / 2 = 0.0 和 (0 + 0) / 2 = 0.0，然后检查 (0.0, 0.0) 是否在 lista 中。由于 (0.0, 0.0) 不在 lista 中，迭代继续。</p>
-<p>第二次迭代：subel 是 (1, 1)，同样因为它不等于 choice。程序会计算中点 (x, y)，即 (1 + 0) / 2 = 0.5 和 (1 + 0) / 2 = 0.5，然后检查 (0.5, 0.5) 是否在 lista 中。由于 (0.5, 0.5) 不在 lista 中，迭代继续。</p>
-<p>第三次迭代：subel 是 (2, 2)，同样因为它不等于 choice。程序会计算中点 (x, y)，即 (2 + 0) / 2 = 1.0 和 (2 + 0) / 2 = 1.0，然后检查 (1.0, 1.0) 是否在 lista 中。由于 (1.0, 1.0) 不在 lista 中，迭代结束。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/13/dictionary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="花鸟风月">
-      <meta itemprop="description" content="ゴミ箱を空にしますか？">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花鸟风月的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/13/dictionary/" class="post-title-link" itemprop="url">有关字典</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-10-13 15:34:40 / 修改时间：15:39:57" itemprop="dateCreated datePublished" datetime="2023-10-13T15:34:40+08:00">2023-10-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>字典中<br>wages ={‘元素名’:元素值，’元素名’:元素值’，元素名’:元素值}<br>删除元素<br>del 字典名[元素名]<br>字典中元素插入 字典名[新元素名]=新元素<br>wage.get(元素名)<br>从字典中找到元素并且如果没有该元素,不会报错也不会出数</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/11/%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="花鸟风月">
-      <meta itemprop="description" content="ゴミ箱を空にしますか？">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花鸟风月的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/11/%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-10-11 16:10:13" itemprop="dateCreated datePublished" datetime="2023-10-11T16:10:13+08:00">2023-10-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-10-13 16:10:09" itemprop="dateModified" datetime="2023-10-13T16:10:09+08:00">2023-10-13</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Find方法"><a href="#Find方法" class="headerlink" title="Find方法"></a>Find方法</h1><p>语法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.find(<span class="built_in">str</span>, beg=<span class="number">0</span>, end=<span class="built_in">len</span>(string))</span><br></pre></td></tr></table></figure><br>参数<br>str — 指定检索的字符串<br>beg — 开始索引，默认为0。<br>end — 结束索引，默认为字符串的长度。<br>返回值<br>如果包含子字符串返回开始的索引值，否则返回-1。</p>
-<h1 id="Split方法"><a href="#Split方法" class="headerlink" title="Split方法"></a>Split方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.split(<span class="built_in">str</span>=<span class="string">&quot;&quot;</span>, num=string.count(<span class="built_in">str</span>)).</span><br></pre></td></tr></table></figure>
-<p>str — 分隔符，默认为所有的空字符，包括空格、换行(\n)、制表符(\t)等。<br>num — 分割次数。默认为 -1, 即分隔所有。</p>
-<h1 id="Strip方法"><a href="#Strip方法" class="headerlink" title="Strip方法"></a>Strip方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.strip([chars])</span><br></pre></td></tr></table></figure>
-<p>chars — 移除字符串头尾指定的字符序列。<br>例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str2 = <span class="string">&quot;   Runoob      &quot;</span>;   <span class="comment"># 去除首尾空格</span></span><br><span class="line"><span class="built_in">print</span> str2.strip();</span><br></pre></td></tr></table></figure><br>输出结果<br>runoob</p>
-<p>Tips：<br>Q：class Solution:<br>    def lengthOfLastWord(self, s: str) -&gt; int:<br>        return len(s.strip().split(‘ ‘)[-1])<br>为什么能返回最后一个词的长度 是先执行了strip操作删去了前后空格 而后删除中间空格 最后从中取出最后一项吗<br>请问方法执行的顺序是从前往后吗<br>A:是的，这段代码会返回最后一个词的长度。让我解释一下代码的执行顺序：</p>
-<p>s.strip()：首先，strip() 方法会删除字符串 s 开头和结尾的空格。这个操作会返回一个新的字符串，其中不包含开头和结尾的空格。</p>
-<p>split(‘ ‘)：接下来，split(‘ ‘) 方法会将上一步得到的字符串按照空格分割成一个字符串列表。这个列表中的每个元素都是原字符串中的一个单词。</p>
-<p>[-1]：最后，[-1] 表示从列表中取出最后一个元素，也就是最后一个单词。</p>
-<p>len(…)：最后，len(…) 函数用于计算字符串的长度，这里计算的是最后一个单词的长度。</p>
-<p>所以，代码的执行顺序是从前往后，先去除前后空格，然后按照空格分割成单词列表，最后取出列表中的最后一个单词并返回它的长度。这就是为什么这段代码能够返回最后一个词的长度。</p>
-<h1 id="大小写转化方式"><a href="#大小写转化方式" class="headerlink" title="大小写转化方式"></a>大小写转化方式</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>=<span class="string">&quot;Hello World&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>.lower())</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>.upper())</span><br></pre></td></tr></table></figure>
-<p>结果分别是 hello world和HELLO WORLD</p>
-<h1 id="issight方法"><a href="#issight方法" class="headerlink" title="issight方法"></a>issight方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.isdigit()</span><br></pre></td></tr></table></figure>
-<p>如果字符串只包含数字则返回 True 否则返回 False。<br>如’123456’<br>会返回True<br>注意：-1会返回false</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/11/time%E6%A8%A1%E5%9D%97%E5%92%8Cformat%E6%8C%87%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="花鸟风月">
-      <meta itemprop="description" content="ゴミ箱を空にしますか？">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花鸟风月的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/11/time%E6%A8%A1%E5%9D%97%E5%92%8Cformat%E6%8C%87%E4%BB%A4/" class="post-title-link" itemprop="url">算法分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-10-11 12:45:10 / 修改时间：14:03:12" itemprop="dateCreated datePublished" datetime="2023-10-11T12:45:10+08:00">2023-10-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>import指令为导入模块<br>import.time,即为调用time模块<br>再print括号内加入f可以起到format函数的作用。<br>举例，如果我们要调用time模块的time.time指令我们应当写做<br>time.time时间的效果是 记录显示运算结束时距标准时间的距离<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;时间是<span class="subst">&#123;time.time()&#125;</span>&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>如果要记录时间<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">start_time = time.time()    <span class="comment"># 起始时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 程序代码</span></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> count &lt; <span class="number">50000</span>:</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;程序运行时间: <span class="subst">&#123;time.time() - start_time&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure><br>循环方案耗时会更长<br>比如对于用循环求和而言<br>可以定义函数，写做<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sumOfN3</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> (n*(n+<span class="number">1</span>))/<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(sumOfN3(<span class="number">5</span>))</span><br></pre></td></tr></table></figure><br>这样，耗时会大大减小。</p>
-<p>对于累加算法，计算总和所用的赋值语句的数目就是一个很好的基本计算单位。在 sumOfN 函数中，<br>赋值语句数是 1（theSum = 0）加上 n（theSum = theSum + i 的运行次数）。<br>可以将其定义成函数 ，令T(n)=1+n。<br>参数 n 常被称作 问题规模，可以将函数解读为“当问题规模为 n 时，<br>解决问题所需的时间是 T(n)， 即需要1+n 步”。</p>
-<h1 id="异序词检测示例"><a href="#异序词检测示例" class="headerlink" title="异序词检测示例"></a>异序词检测示例</h1><p>异序词定义：如earth heart python ythpon<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">anagramSolution1</span>(<span class="params">s1, s2</span>):</span><br><span class="line">    list1 = <span class="built_in">list</span>(s1)  <span class="comment"># 将输入字符串转换为字符列表</span></span><br><span class="line">    list2 = <span class="built_in">list</span>(s2)</span><br><span class="line">    </span><br><span class="line">    list1.sort()  <span class="comment"># 原地对列表进行排序</span></span><br><span class="line">    list2.sort()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> list1 == list2:  <span class="comment"># 比较排序后的列表</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;是&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;否&quot;</span>)</span><br><span class="line"></span><br><span class="line">alist = <span class="string">&quot;key&quot;</span></span><br><span class="line">blist = <span class="string">&quot;dqf&quot;</span></span><br><span class="line">anagramSolution1(alist, blist)</span><br></pre></td></tr></table></figure><br>注意，sort会进行原地排序，即更新list1的内容。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/10/algorithm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="花鸟风月">
-      <meta itemprop="description" content="ゴミ箱を空にしますか？">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花鸟风月的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/10/algorithm/" class="post-title-link" itemprop="url">算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-10-10 20:59:32" itemprop="dateCreated datePublished" datetime="2023-10-10T20:59:32+08:00">2023-10-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-10-31 21:15:47" itemprop="dateModified" datetime="2023-10-31T21:15:47+08:00">2023-10-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>牛顿勘根法<br>原理：1.选择一个初始猜测值（通常选择目标平方根的近似值）。<br>2.使用以下公式计算下一个近似值：<br>3.新的近似值 = （当前近似值 + 目标值 / 当前近似值） / 2<br>重复步骤2，直到新的近似值和当前近似值的差小于所需精度。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt</span>(<span class="params">n</span>):</span><br><span class="line">    approx = n/<span class="number">2.0</span></span><br><span class="line">    better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">while</span> better != approx:</span><br><span class="line">        approx = better</span><br><span class="line">        better = (approx + n/approx)/<span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> approx</span><br></pre></td></tr></table></figure></p>
-<p>欧几里得求最大公因数<br>原理：a,b最大公约数(Greatest Common Divisor)，就等于b,a%b的最大公约数.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gcd</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">while</span> y:</span><br><span class="line">        t = x % y</span><br><span class="line">        x = y</span><br><span class="line">        y = t </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span>(gcd(<span class="number">4</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
-<p>快速幂算法<br>原理：然可以。</p>
-<p>快速幂是一种高效计算<br>�<br>�<br>x<br>n<br>  的方法，它的核心思想是利用幂的分解和二进制表示。</p>
-<p>简单幂的分解：</p>
-<p>考虑<br>�<br>8<br>x<br>8<br> 。传统上，我们可以将<br>�<br>x 相乘8次。但是，我们还可以这样理解：</p>
-<p>�<br>8<br>=<br>(<br>�<br>4<br>)<br>×<br>(<br>�<br>4<br>)<br>x<br>8<br> =(x<br>4<br> )×(x<br>4<br> )</p>
-<p>而<br>�<br>4<br>x<br>4<br>  又是<br>�<br>2<br>×<br>�<br>2<br>x<br>2<br> ×x<br>2<br> 。</p>
-<p>这种观察可以大大减少我们需要的乘法次数。</p>
-<p>结合二进制：</p>
-<p>为了更通用地理解这个方法，我们引入二进制。考虑一个数 n。当我们将 n 除以 2 时，我们实际上是将 n 的二进制表示右移一位。</p>
-<p>当 n 为奇数时，它的二进制最低位为1。当 n 为偶数时，它的二进制最低位为0。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">myPow</span>(<span class="params">self, x: <span class="built_in">float</span>, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">0</span>:</span><br><span class="line">            x = <span class="number">1</span> / x</span><br><span class="line">            n = -n</span><br><span class="line">        </span><br><span class="line">        result = <span class="number">1</span></span><br><span class="line">        current_product = x</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">1</span>:  <span class="comment"># 如果 n 是奇数</span></span><br><span class="line">                result *= current_product</span><br><span class="line">            current_product *= current_product  <span class="comment"># 更新 x 的值</span></span><br><span class="line">            n //= <span class="number">2</span>  <span class="comment"># 整数除法，相当于 n /= 2，但返回整数结果</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h1 id="三数之和"><a href="#三数之和" class="headerlink" title="三数之和"></a>三数之和</h1><p>给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请</p>
-<p>你返回所有和为 0 且不重复的三元组。</p>
-<p>注意：答案中不可以包含重复的三元组。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">if</span> nums[i] &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> i &gt; <span class="number">0</span> <span class="keyword">and</span> nums[i] == nums[i - <span class="number">1</span>]: </span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            d = &#123;&#125;</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                <span class="keyword">if</span> j &gt; i + <span class="number">2</span> <span class="keyword">and</span> nums[j] == nums[j-<span class="number">1</span>] == nums[j-<span class="number">2</span>]: </span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                c = <span class="number">0</span> - (nums[i] + nums[j])</span><br><span class="line">                <span class="keyword">if</span> c <span class="keyword">in</span> d:</span><br><span class="line">                    result.append([nums[i], nums[j], c])</span><br><span class="line">                    d.pop(c) </span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    d[nums[j]] = j</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure></p>
-<h1 id="四数之和"><a href="#四数之和" class="headerlink" title="四数之和"></a>四数之和</h1><p>给你一个由 n 个整数组成的数组 nums ，和一个目标值 target 。请你找出并返回满足下述全部条件且不重复的四元组 [nums[a], nums[b], nums[c], nums[d]] （若两个四元组元素一一对应，则认为两个四元组重复）：</p>
-<p>0 &lt;= a, b, c, d &lt; n<br>a、b、c 和 d 互不相同<br>nums[a] + nums[b] + nums[c] + nums[d] == target<br>你可以按 任意顺序 返回答案 。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fourSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span><br><span class="line">        freq = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            freq[num] = freq.get(num, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">        ans = <span class="built_in">set</span>()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(j + <span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                    val = target - (nums[i] + nums[j] + nums[k])</span><br><span class="line">                    <span class="keyword">if</span> val <span class="keyword">in</span> freq:</span><br><span class="line">                        count = (nums[i] == val) + (nums[j] == val) + (nums[k] == val)</span><br><span class="line">                        <span class="keyword">if</span> freq[val] &gt; count:</span><br><span class="line">                            ans.add(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>([nums[i], nums[j], nums[k], val])))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">list</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> ans]</span><br></pre></td></tr></table></figure></p>
-<h1 id="回溯算法伪代码"><a href="#回溯算法伪代码" class="headerlink" title="回溯算法伪代码"></a>回溯算法伪代码</h1><p>void backtracking(参数) {<br>    if (终止条件) {<br>        存放结果;<br>        return;<br>    }<br>    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {<br>        处理节点;<br>        backtracking(路径，选择列表); // 递归<br>        回溯，撤销处理结果<br>    }<br>}</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -993,7 +926,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

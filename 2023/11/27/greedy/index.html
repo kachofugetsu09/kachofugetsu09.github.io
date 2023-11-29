@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"kachofugetsu09.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Find方法语法：1str.find(str, beg&#x3D;0, end&#x3D;len(string))参数str — 指定检索的字符串beg — 开始索引，默认为0。end — 结束索引，默认为字符串的长度。返回值如果包含子字符串返回开始的索引值，否则返回-1。 Split方法1str.split(str&#x3D;&quot;&quot;, num&#x3D;string.count(str)). str — 分隔符，默认">
+  <meta name="description" content="分数背包1234567891011121314151617goods&#x3D;[(60,10),(100,20),(120,30)]goods.sort(key&#x3D;lambbda x: x[0]&#x2F;x[1],reverse &#x3D; True)def fractional_backpack(goods,w):    m&#x3D;[0 for _ in range(len(goods))]    total_v  &#x3D;0">
 <meta property="og:type" content="article">
-<meta property="og:title" content="方法">
-<meta property="og:url" content="https://kachofugetsu09.github.io/2023/10/11/%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:title" content="贪心算法">
+<meta property="og:url" content="https://kachofugetsu09.github.io/2023/11/27/greedy/index.html">
 <meta property="og:site_name" content="花鸟风月的博客">
-<meta property="og:description" content="Find方法语法：1str.find(str, beg&#x3D;0, end&#x3D;len(string))参数str — 指定检索的字符串beg — 开始索引，默认为0。end — 结束索引，默认为字符串的长度。返回值如果包含子字符串返回开始的索引值，否则返回-1。 Split方法1str.split(str&#x3D;&quot;&quot;, num&#x3D;string.count(str)). str — 分隔符，默认">
+<meta property="og:description" content="分数背包1234567891011121314151617goods&#x3D;[(60,10),(100,20),(120,30)]goods.sort(key&#x3D;lambbda x: x[0]&#x2F;x[1],reverse &#x3D; True)def fractional_backpack(goods,w):    m&#x3D;[0 for _ in range(len(goods))]    total_v  &#x3D;0">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-11T08:10:13.000Z">
-<meta property="article:modified_time" content="2023-11-20T08:13:29.448Z">
+<meta property="article:published_time" content="2023-11-27T07:38:37.000Z">
+<meta property="article:modified_time" content="2023-11-28T09:12:30.450Z">
 <meta property="article:author" content="花鸟风月">
 <meta property="article:tag" content="python,英语,高数，线代">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://kachofugetsu09.github.io/2023/10/11/%E6%96%B9%E6%B3%95/">
+<link rel="canonical" href="https://kachofugetsu09.github.io/2023/11/27/greedy/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>方法 | 花鸟风月的博客</title>
+  <title>贪心算法 | 花鸟风月的博客</title>
   
 
 
@@ -180,7 +180,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/10/11/%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://kachofugetsu09.github.io/2023/11/27/greedy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -193,7 +193,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          方法
+          贪心算法
         </h1>
 
         <div class="post-meta">
@@ -203,14 +203,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-10-11 16:10:13" itemprop="dateCreated datePublished" datetime="2023-10-11T16:10:13+08:00">2023-10-11</time>
+              <time title="创建时间：2023-11-27 15:38:37" itemprop="dateCreated datePublished" datetime="2023-11-27T15:38:37+08:00">2023-11-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-20 16:13:29" itemprop="dateModified" datetime="2023-11-20T16:13:29+08:00">2023-11-20</time>
+                <time title="修改时间：2023-11-28 17:12:30" itemprop="dateModified" datetime="2023-11-28T17:12:30+08:00">2023-11-28</time>
               </span>
 
           
@@ -224,29 +224,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Find方法"><a href="#Find方法" class="headerlink" title="Find方法"></a>Find方法</h1><p>语法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.find(<span class="built_in">str</span>, beg=<span class="number">0</span>, end=<span class="built_in">len</span>(string))</span><br></pre></td></tr></table></figure><br>参数<br>str — 指定检索的字符串<br>beg — 开始索引，默认为0。<br>end — 结束索引，默认为字符串的长度。<br>返回值<br>如果包含子字符串返回开始的索引值，否则返回-1。</p>
-<h1 id="Split方法"><a href="#Split方法" class="headerlink" title="Split方法"></a>Split方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.split(<span class="built_in">str</span>=<span class="string">&quot;&quot;</span>, num=string.count(<span class="built_in">str</span>)).</span><br></pre></td></tr></table></figure>
-<p>str — 分隔符，默认为所有的空字符，包括空格、换行(\n)、制表符(\t)等。<br>num — 分割次数。默认为 -1, 即分隔所有。</p>
-<h1 id="Strip方法"><a href="#Strip方法" class="headerlink" title="Strip方法"></a>Strip方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.strip([chars])</span><br></pre></td></tr></table></figure>
-<p>chars — 移除字符串头尾指定的字符序列。<br>例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str2 = <span class="string">&quot;   Runoob      &quot;</span>;   <span class="comment"># 去除首尾空格</span></span><br><span class="line"><span class="built_in">print</span> str2.strip();</span><br></pre></td></tr></table></figure><br>输出结果<br>runoob</p>
-<p>Tips：<br>Q：class Solution:<br>    def lengthOfLastWord(self, s: str) -&gt; int:<br>        return len(s.strip().split(‘ ‘)[-1])<br>为什么能返回最后一个词的长度 是先执行了strip操作删去了前后空格 而后删除中间空格 最后从中取出最后一项吗<br>请问方法执行的顺序是从前往后吗<br>A:是的，这段代码会返回最后一个词的长度。让我解释一下代码的执行顺序：</p>
-<p>s.strip()：首先，strip() 方法会删除字符串 s 开头和结尾的空格。这个操作会返回一个新的字符串，其中不包含开头和结尾的空格。</p>
-<p>split(‘ ‘)：接下来，split(‘ ‘) 方法会将上一步得到的字符串按照空格分割成一个字符串列表。这个列表中的每个元素都是原字符串中的一个单词。</p>
-<p>[-1]：最后，[-1] 表示从列表中取出最后一个元素，也就是最后一个单词。</p>
-<p>len(…)：最后，len(…) 函数用于计算字符串的长度，这里计算的是最后一个单词的长度。</p>
-<p>所以，代码的执行顺序是从前往后，先去除前后空格，然后按照空格分割成单词列表，最后取出列表中的最后一个单词并返回它的长度。这就是为什么这段代码能够返回最后一个词的长度。</p>
-<h1 id="大小写转化方式"><a href="#大小写转化方式" class="headerlink" title="大小写转化方式"></a>大小写转化方式</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>=<span class="string">&quot;Hello World&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>.lower())</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>.upper())</span><br></pre></td></tr></table></figure>
-<p>结果分别是 hello world和HELLO WORLD</p>
-<h1 id="issight方法"><a href="#issight方法" class="headerlink" title="issight方法"></a>issight方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span>.isdigit()</span><br></pre></td></tr></table></figure>
-<p>如果字符串只包含数字则返回 True 否则返回 False。<br>如’123456’<br>会返回True<br>注意：-1会返回false</p>
-<h1 id="Python-zip"><a href="#Python-zip" class="headerlink" title="Python zip()"></a>Python zip()</h1><blockquote>
-<blockquote>
-<blockquote>
-<p>a = [1,2,3]<br>b = [4,5,6]<br>c = [4,5,6,7,8]<br>zipped = zip(a,b)     # 打包为元组的列表<br>[(1, 4), (2, 5), (3, 6)]<br>zip(a,c)              # 元素个数与最短的列表一致<br>[(1, 4), (2, 5), (3, 6)]<br>zip(<em>zipped)          # 与 zip 相反，</em>zipped 可理解为解压，返回二维矩阵式<br>[(1, 2, 3), (4, 5, 6)]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-
+        <h1 id="分数背包"><a href="#分数背包" class="headerlink" title="分数背包"></a>分数背包</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">goods=[(<span class="number">60</span>,<span class="number">10</span>),(<span class="number">100</span>,<span class="number">20</span>),(<span class="number">120</span>,<span class="number">30</span>)]</span><br><span class="line">goods.sort(key=lambbda x: x[<span class="number">0</span>]/x[<span class="number">1</span>],reverse = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fractional_backpack</span>(<span class="params">goods,w</span>):</span><br><span class="line">    m=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(goods))]</span><br><span class="line">    total_v  =<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i,(price,weight) <span class="keyword">in</span> <span class="built_in">enumerate</span>(goods):</span><br><span class="line">        <span class="keyword">if</span> w&gt;=weight</span><br><span class="line">            m[i]=<span class="number">1</span></span><br><span class="line">            total_v +=price</span><br><span class="line">            w -= weight</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            m[i] = w/weight</span><br><span class="line">            total_v +=m[i]*price</span><br><span class="line">            w=<span class="number">0</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> m</span><br></pre></td></tr></table></figure>
+<h1 id="拼接最大数问题"><a href="#拼接最大数问题" class="headerlink" title="拼接最大数问题"></a>拼接最大数问题</h1><p>有n个非负整数，将其按照字符串拼接方式拼接成一个整数，如何拼接可以使得得到的整数最大？<br>例如32，94，128，1286，6，71可以拼接成的最大整数为94716321286128</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> cmp_to_key</span><br><span class="line"></span><br><span class="line">li=[<span class="number">32</span>,<span class="number">94</span>,<span class="number">128</span>,<span class="number">1286</span>,<span class="number">6</span>,<span class="number">71</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xy_cmp</span>(<span class="params">x,y</span>):</span><br><span class="line">    <span class="keyword">if</span> x+y&gt;y+x:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> x+y&lt;y+x:</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">number_join</span>(<span class="params">li</span>):</span><br><span class="line">    li=<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">str</span>,li))</span><br><span class="line">    li.sort(key=cmp_to_key(xy_cmp))</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(li)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="活动选择问题"><a href="#活动选择问题" class="headerlink" title="活动选择问题"></a>活动选择问题</h1><p>假设有n个活动，这些活动占用同一个场地，而场地在某时刻只能供一个活动使用。<br>每个活动都有一个开始时间si和结束时间fi，表示活动在[si，fi)区间占用场地<br>问：安排哪些活动能够使得该场地举办的活动个数最多？</p>
+<p>贪心结论：最先结束的活动一定是最优解的一部分<br>证明： 假设a是所有活动中最先结束的活动。b是最优解中的最先结束的活动。<br>如果a=b，结论成立。<br>如果a≠b，则b的结束时间一定晚于a的结束时间，则此时用a替换掉最优解中的b，a一定不与最优解中的其他活动时间重叠，因此替换后的解也是最优解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">activities = [(<span class="number">1</span>,<span class="number">4</span>),(<span class="number">3</span>,<span class="number">5</span>),(<span class="number">0</span>,<span class="number">6</span>),(<span class="number">5</span>,<span class="number">7</span>),(<span class="number">3</span>,<span class="number">9</span>),]</span><br><span class="line"><span class="comment">#保证活动是按照结束时间排好序的</span></span><br><span class="line">activities.sort(key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">activity_selection</span>(<span class="params">a</span>):</span><br><span class="line">    res=[a[<span class="number">0</span>]]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(a)):</span><br><span class="line">        <span class="keyword">if</span> a[i] [<span class="number">0</span>] &gt;=res[-<span class="number">1</span>][<span class="number">1</span>]: <span class="comment">#当前活动的开始时间小于等于最后一个入选活动的结束时间</span></span><br><span class="line">            <span class="comment">#不冲突</span></span><br><span class="line">            res.append(a[i]) </span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -261,12 +244,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/10/11/time%E6%A8%A1%E5%9D%97%E5%92%8Cformat%E6%8C%87%E4%BB%A4/" rel="prev" title="算法分析">
-      <i class="fa fa-chevron-left"></i> 算法分析
+    <a href="/2023/11/25/avl%E6%A0%91/" rel="prev" title="avl树">
+      <i class="fa fa-chevron-left"></i> avl树
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/10/13/dictionary/" rel="next" title="有关字典">
-      有关字典 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/11/28/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="next" title="位运算">
+      位运算 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -326,7 +309,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Find%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">Find方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Split%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">Split方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Strip%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Strip方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E8%BD%AC%E5%8C%96%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">大小写转化方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#issight%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">issight方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-zip"><span class="nav-number">6.</span> <span class="nav-text">Python zip()</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%95%B0%E8%83%8C%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">分数背包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%BC%E6%8E%A5%E6%9C%80%E5%A4%A7%E6%95%B0%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">拼接最大数问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8%E9%80%89%E6%8B%A9%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">活动选择问题</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

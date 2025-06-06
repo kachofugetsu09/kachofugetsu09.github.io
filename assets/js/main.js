@@ -227,15 +227,16 @@ async function loadArticle(category, filename) {
         
         // 为HTML内容中的标题添加ID
         const processedHTML = addHeadingIds(htmlContent);
-        
-        // 获取文章标题
+          // 获取文章标题
         const title = filename.replace('.md', '');
         const categoryInfo = window.SITE_DATA?.categories[category] || SITE_CONFIG.categories[category];
         
         // 尝试从SITE_DATA中获取文章的实际更新时间
         let updateTime = '未知时间';
-        if (window.SITE_DATA?.articles?.[category]) {
-            const articleDetail = window.SITE_DATA.articles[category].find(a => a.filename === filename);
+        // 从articleDetails中获取更新时间
+        if (window.SITE_DATA?.articleDetails) {
+            const key = `${category}/${filename}`;
+            const articleDetail = window.SITE_DATA.articleDetails[key];
             if (articleDetail && articleDetail.updateTime) {
                 updateTime = articleDetail.updateTime;
             }

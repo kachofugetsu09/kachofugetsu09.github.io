@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="articleTitle">文章</title>    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.js"></script>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-toggle">
+            <i class="fas fa-chevron-right"></i>
+        </div>        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="sidebar-blog-title">技术博客</div>
+                <div class="sidebar-blog-subtitle">学习 · 分享 · 成长</div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="sidebar-categories" id="sidebarCategories">
+                    <!-- 分类将通过 JavaScript 动态生成 -->
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区域 -->
+    <div class="main-wrapper">
+        <header class="site-header">
+            <div class="container">
+                <div class="header-nav">                    <a href="index.html" class="back-link">
+                        <i class="fas fa-home"></i>
+                        首页
+                    </a>
+                    <a href="#" class="back-link" id="categoryLink">
+                        <i class="fas fa-folder"></i>
+                        <span id="categoryName">分类</span>
+                    </a>
+                </div>
+            </div>
+        </header>        <main class="main-content">
+            <div class="content-layout">
+                <div class="article-container">
+                    <article class="article-content">
+                        <header class="article-header">
+                            <h1 class="article-title" id="articleTitleHeader">文章标题</h1>
+                            <div class="article-meta">
+                                <span class="category-tag" id="categoryTag">分类</span>
+                                <span class="update-time" id="updateTime">更新时间</span>
+                            </div>
+                        </header>
+                        <div class="article-body" id="articleBody">
+                            <!-- 文章内容将通过 JavaScript 动态加载 -->
+                        </div>
+                    </article>
+                </div>
+                <aside class="toc-container" id="tocContainer">
+                    <div class="toc-wrapper">
+                        <div class="toc-header">
+                            <h3>文章目录</h3>
+                        </div>
+                        <nav class="toc-nav">
+                            <ul class="toc-list" id="tocList">
+                                <!-- 目录将通过 JavaScript 动态生成 -->
+                            </ul>
+                        </nav>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/article.js"></script>
+</body>
+</html>

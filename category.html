@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="categoryTitle">分类</title>    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-toggle">
+            <i class="fas fa-chevron-right"></i>
+        </div>        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="sidebar-blog-title">技术博客</div>
+                <div class="sidebar-blog-subtitle">学习 · 分享 · 成长</div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="sidebar-categories" id="sidebarCategories">
+                    <!-- 分类将通过 JavaScript 动态生成 -->
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区域 -->
+    <div class="main-wrapper">
+        <header class="site-header">
+            <div class="container">
+                <div class="header-nav">                    <a href="index.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i>
+                        返回首页
+                    </a>
+                    <h1 class="page-title" id="pageTitle">分类</h1>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="articles-grid" id="articlesGrid">
+                    <!-- 文章列表将通过 JavaScript 动态生成 -->
+                </div>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>    <script src="assets/js/config.js"></script>
+    <script src="assets/js/category.js"></script>
+</body>
+</html>

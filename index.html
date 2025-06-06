@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>花月的技术博客</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>    <!-- 统一头部区域 -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="site-logo">
+                    <img src="img/logo.jpg" alt="网站Logo" class="logo-image">
+                </div>                <div class="site-info">
+                    <h1 class="site-title">花月的技术博客</h1>
+                    <p class="site-description">Folding was never an option.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <div class="main-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-categories" id="sidebarCategories">
+                    <!-- 分类将通过JavaScript动态生成 -->
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content-wrapper">
+            <div class="content-layout">
+                <div class="article-container">
+                    <section id="welcomeSection" class="welcome-section">
+                        <article class="article-content">
+                            <h1>欢迎来到花月的博客</h1>
+                            <p>这里记录了我的面经整理项目复盘以及技术分享</p>
+                        </article>
+                    </section>
+                    <div id="dynamicContent">
+                        <!-- 文章内容将在这里动态加载 -->
+                    </div>
+                </div>
+                
+                <div class="toc-container">
+                    <div class="toc-wrapper">
+                        <div class="toc-header">
+                            <h3>文章目录</h3>
+                        </div>
+                        <nav class="toc-nav">
+                            <ul class="toc-list" id="tocList">
+                                <!-- 目录将通过JavaScript动态生成 -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 添加Markdown解析和语法高亮支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

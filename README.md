@@ -1,6 +1,6 @@
 # 花月的技术博客
 
-这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-7 02:18:22。
+这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-7 03:49:55。
 
 ## 📚 文章分类
 
@@ -10,7 +10,23 @@
 
 共 1 篇文章：
 
-- [**Network Edge 网络边缘**](article.html?category=tech&file=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md) (2025-02-23)
+- [kafka笔记](article.html?category=tech&file=kafka%E7%AC%94%E8%AE%B0.md) (2025-05-20)
+
+### fas fa-graduation-cap 计算机基础
+
+计算机网络、数据结构与算法、组成原理等基础课程笔记
+
+共 1 篇文章：
+
+- [**Network Edge 网络边缘**](article.html?category=CS-basics&file=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md) (2025-02-23)
+
+### fas fa-network-wired MIT6.824笔记
+
+MIT 6.824 分布式系统课程笔记
+
+共 1 篇文章：
+
+- [lab1](article.html?category=MIT6.824&file=lab1.md) (2025-06-06)
 
 ### fas fa-briefcase 面试笔记
 
@@ -56,4 +72,4 @@
 └── README.md           # 项目说明
 ```
 
-最后更新: 2025-6-7 02:18:22
+最后更新: 2025-6-7 03:49:55

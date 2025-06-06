@@ -17,6 +17,18 @@ const SITE_CONFIG = {    categories: {
             icon: 'fas fa-laptop-code',
             color: '#667eea'
         },
+        'CS-basics': {
+            name: '计算机基础',
+            description: '计算机网络、数据结构与算法、组成原理等基础课程笔记',
+            icon: 'fas fa-graduation-cap',
+            color: '#38b2ac'
+        },
+        'MIT6.824': {
+            name: 'MIT6.824笔记',
+            description: 'MIT 6.824 分布式系统课程笔记',
+            icon: 'fas fa-network-wired',
+            color: '#4299e1'
+        },
         'interview': {
             name: '面试笔记',
             description: '面试准备和学习记录',

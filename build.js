@@ -256,7 +256,7 @@ function generateSitemap(config) {
  * 生成README文档
  */
 function generateReadme(config) {
-    let readmeContent = `# 我的技术博客
+    let readmeContent = `# 花月的技术博客
 
 这是一个基于GitHub Pages的静态博客网站，自动生成于 ${new Date().toLocaleString('zh-CN')}。
 

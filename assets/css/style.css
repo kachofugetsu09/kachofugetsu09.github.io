@@ -975,3 +975,73 @@ body {
     color: #666;
     margin: 0;
 }
+
+/* 社交链接样式 */
+.social-links {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #f0ffea;
+    border: 1px solid #a3e583;
+    border-radius: 30px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.0rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(163, 229, 131, 0.2);
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(163, 229, 131, 0.3);
+    background-color: #e0ffcf;
+}
+
+.github-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+    border: 2px solid #a3e583;
+}
+
+.github-link span {
+    font-weight: 600;
+    color: #4a8f29;
+}
+
+.social-link:hover {
+    background-color: #000;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.social-link i {
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+
+.github-link {
+    background-color: #24292e;
+    border-color: #24292e;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 12px 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.github-link:hover {
+    background-color: #2ea44f;
+    border-color: #2ea44f;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}

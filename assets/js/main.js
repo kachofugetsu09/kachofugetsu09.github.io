@@ -282,9 +282,8 @@ async function loadArticle(category, filename) {
         url.searchParams.set('category', category);
         url.searchParams.set('file', filename);
         history.pushState({ category, filename }, title, url);
-        
-        // 更新页面标题
-        document.title = `${title} - 我的技术博客`;
+          // 更新页面标题
+        document.title = `${title} - 花月的技术博客`;
         
     } catch (error) {
         console.error('加载文章失败:', error);
@@ -312,14 +311,13 @@ function showHomePage() {
     // 隐藏TOC并清理事件监听器
     hideTOC();
     cleanupTOC();
-    
-    // 更新浏览器历史
+      // 更新浏览器历史
     const url = new URL(window.location);
     url.search = '';
-    history.pushState({}, '我的技术博客', url);
+    history.pushState({}, '花月的技术博客', url);
     
     // 重置页面标题
-    document.title = '我的技术博客';
+    document.title = '花月的技术博客';
 }
 
 /**

@@ -44,19 +44,49 @@ function configureMarked() {
         });
         return originalParagraph(text);
     };
-    
-    marked.setOptions({
+      marked.setOptions({
         renderer: renderer,
         highlight: function(code, lang) {
+            // 语言别名映射
+            const langMap = {
+                'java': 'java',
+                'javascript': 'javascript', 
+                'js': 'javascript',
+                'python': 'python',
+                'py': 'python',
+                'cpp': 'cpp',
+                'c++': 'cpp',
+                'sql': 'sql',
+                'html': 'xml',
+                'xml': 'xml'
+            };
+            
             if (lang) {
+                // 标准化语言名称
+                const normalizedLang = langMap[lang.toLowerCase()] || lang.toLowerCase();
                 try {
-                    return hljs.highlight(code, { language: lang }).value;
+                    const result = hljs.highlight(code, { language: normalizedLang });
+                    return result.value;
                 } catch (err) {
-                    console.warn('代码高亮失败:', err);
-                    return hljs.highlightAuto(code).value;
+                    console.warn(`代码高亮失败 (${lang}):`, err);
+                    // 如果指定语言失败，尝试自动检测
+                    try {
+                        const autoResult = hljs.highlightAuto(code, ['java', 'javascript', 'python', 'cpp', 'sql']);
+                        return autoResult.value;
+                    } catch (autoErr) {
+                        console.warn('自动检测高亮也失败:', autoErr);
+                        return hljs.util.escapeHtml(code);
+                    }
                 }
             }
-            return hljs.highlightAuto(code).value;
+            // 没有指定语言时自动检测
+            try {
+                const autoResult = hljs.highlightAuto(code, ['java', 'javascript', 'python', 'cpp', 'sql']);
+                return autoResult.value;
+            } catch (err) {
+                console.warn('自动检测高亮失败:', err);
+                return hljs.util.escapeHtml(code);
+            }
         },
         breaks: true,
         gfm: true,
@@ -142,62 +172,42 @@ async function loadAndRenderArticle() {
         
         // 转换Markdown为HTML
         const htmlContent = marked.parse(markdownContent);
-        
-        // 渲染到页面
+          // 渲染到页面
         articleBody.innerHTML = htmlContent;
-          // 重新应用代码高亮
-        articleBody.querySelectorAll('pre code').forEach((block) => {
-            hljs.highlightElement(block);
-            
-            // 获取语言信息
-            const language = block.className.split(/\s+/).find(cls => cls.startsWith('language-'));
-            const langName = language ? language.replace('language-', '') : 'plaintext';
-            
-            // 添加行号
-            const lines = block.textContent.split('\n');
-            let numberedCode = '';
-            let lineNumber = 1;
-            
-            // 包装每一行并添加行号
-            lines.forEach(line => {
-                if (line === '' && lines[lines.length-1] === '') return; // 跳过最后一个空行
-                numberedCode += `<span class="code-line" id="line-${lineNumber}">${line}</span>\n`;
-                lineNumber++;
+        
+        // 重新应用代码高亮
+        if (typeof hljs !== 'undefined') {
+            articleBody.querySelectorAll('pre code').forEach((block) => {
+                // 清除之前的高亮
+                block.removeAttribute('data-highlighted');
+                
+                // 尝试从父元素获取语言信息
+                const pre = block.parentElement;
+                const className = block.className || '';
+                let language = '';
+                
+                // 从class中提取语言
+                const langMatch = className.match(/language-(\w+)/);
+                if (langMatch) {
+                    language = langMatch[1];
+                    // 设置语言属性以便CSS识别
+                    block.setAttribute('data-language', language);
+                }
+                
+                // 应用highlight.js高亮
+                try {
+                    if (language) {
+                        const result = hljs.highlight(block.textContent, { language: language });
+                        block.innerHTML = result.value;
+                    } else {
+                        hljs.highlightElement(block);
+                    }
+                } catch (err) {
+                    console.warn('代码高亮失败:', err);
+                    hljs.highlightElement(block);
+                }
             });
-            
-            // 创建包装容器
-            const wrapper = document.createElement('div');
-            wrapper.className = 'code-block-container';
-            
-            // 创建代码头部
-            const header = document.createElement('div');
-            header.className = 'code-header';
-            header.innerHTML = `
-                <span class="code-language">${langName}</span>
-                <span class="copy-button" title="复制代码"><i class="far fa-copy"></i></span>
-            `;
-            
-            // 添加复制功能
-            const copyButton = header.querySelector('.copy-button');
-            copyButton.addEventListener('click', () => {
-                navigator.clipboard.writeText(block.textContent).then(() => {
-                    copyButton.innerHTML = '<i class="fas fa-check"></i>';
-                    setTimeout(() => {
-                        copyButton.innerHTML = '<i class="far fa-copy"></i>';
-                    }, 2000);
-                });
-            });
-            
-            // 替换原有内容
-            const pre = block.parentNode;
-            pre.innerHTML = numberedCode;
-            
-            // 重新设置结构
-            wrapper.appendChild(header);
-            const preClone = pre.cloneNode(true);
-            wrapper.appendChild(preClone);
-            pre.parentNode.replaceChild(wrapper, pre);
-        });
+        }
         
         // 处理图片懒加载
         articleBody.querySelectorAll('img').forEach((img) => {
@@ -359,6 +369,16 @@ function renderSidebarCategories() {
  * 页面加载完成后初始化
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // 配置marked
+    configureMarked();
+    
+    // 初始化highlight.js
+    if (typeof hljs !== 'undefined') {
+        hljs.configure({
+            languages: ['java', 'javascript', 'python', 'cpp', 'sql', 'html', 'css']
+        });
+    }
+    
     loadAndRenderArticle();
     handleAnchorLinks();
     renderSidebarCategories();

@@ -689,5 +689,66 @@ func (c *Coordinator) RequestTask(args *RequestTaskArgs, reply *RequestTaskReply
         *   增加 `c.ReduceTaskFinished` 计数。
         *   记录日志，显示 Reduce 任务完成进度。
         *   检查是否所有 Reduce 任务都完成
-        
+
+```go
+func (c *Coordinator) FinishTask(args *FinishTaskArgs, reply *FinishTaskReply) error {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+
+	log.Printf("Worker %d完成了任务: TaskType=%d, TaskId=%d", args.WorkerId, args.TaskType, args.TaskId)
+
+	// 1. 从运行中的任务列表中移除
+	delete(c.runningTasks, args.TaskId)
+
+	// 2. 根据任务类型处理完成逻辑
+	switch args.TaskType {
+	case MapTask:
+		c.MapTaskFinished++
+		log.Printf("Map任务 %d 已完成，Worker %d (进度: %d/%d)", args.TaskId, args.WorkerId, c.MapTaskFinished, c.NMap)
+
+		// 检查是否所有Map任务都完成了
+		if c.MapTaskFinished == c.NMap {
+			log.Printf("所有Map任务已完成，开始创建Reduce任务")
+			c.createReduceTasks()
+		}
+
+	case ReduceTask:
+		c.ReduceTaskFinished++
+		log.Printf("Reduce任务 %d 已完成，Worker %d (进度: %d/%d)", args.TaskId, args.WorkerId, c.ReduceTaskFinished, c.NReduce)
+
+		// 检查是否所有Reduce任务都完成了
+		if c.ReduceTaskFinished == c.NReduce {
+			log.Printf("所有Reduce任务已完成，MapReduce作业完成！")
+			c.AllTasksDone = true
+		}
+
+	default:
+		log.Printf("未知任务类型完成: %d", args.TaskType)
+	}
+
+	return nil
+}
+
+// createReduceTasks 创建Reduce任务
+func (c *Coordinator) createReduceTasks() {
+	for i := 0; i < c.NReduce; i++ {
+		task := &Task{
+			TaskType: ReduceTask,
+			TaskId:   i,
+			File:     []string{}, // Reduce任务不需要特定的输入文件，会自动查找中间文件
+			NReduce:  c.NReduce,
+			NMap:     c.NMap,
+		}
+
+		taskState := &TaskStateInfo{
+			TaskType: ReduceTask,
+			Task:     task,
+		}
+
+		c.taskQueue.offer(taskState)
+		log.Printf("创建Reduce任务 %d", i)
+	}
+}
+```
+
 至此lab1完成。

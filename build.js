@@ -48,26 +48,11 @@ function scanMarkdownFiles(dirPath) {
 }
 
 /**
- * 获取文件修改时间（优先使用Git提交时间）
+ * 获取文件修改时间（直接使用文件系统时间）
  */
 function getFileModifiedTime(filePath) {
     try {
-        // 首先尝试从Git获取最后修改时间
-        const gitCommand = `git log -1 --format="%ci" "${filePath}"`;
-        const gitTime = execSync(gitCommand, { encoding: 'utf-8' }).trim();
-        
-        if (gitTime) {
-            // Git时间格式: 2025-06-07 12:30:06 +0800
-            // 转换为 YYYY-MM-DD 格式
-            const date = new Date(gitTime);
-            return date.toISOString().split('T')[0];
-        }
-    } catch (error) {
-        console.warn(`获取Git提交时间失败 ${filePath}, 使用文件系统时间`);
-    }
-    
-    try {
-        // 如果Git获取失败，使用文件系统修改时间
+        // 直接使用文件系统修改时间
         const stats = fs.statSync(filePath);
         return stats.mtime.toISOString().split('T')[0];
     } catch (error) {

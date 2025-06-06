@@ -205,35 +205,74 @@ async function loadArticle(category, filename) {
     dynamicContent.style.display = 'block';
     welcomeSection.style.display = 'none';
     
-    // 滚动到顶部
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-    
     try {
         // 获取文章内容
-        const articlePath = `${category}/${filename}`;
-        const response = await fetch(articlePath);
+        const response = await fetch(`${category}/${filename}`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const markdownContent = await response.text();
+        let markdownContent = await response.text();
+        
+        // 确保markdownContent是字符串
+        if (typeof markdownContent !== 'string') {
+            console.warn('markdownContent is not a string:', markdownContent);
+            markdownContent = String(markdownContent || '');
+        }
+        
+        // 初始化marked
+        marked.use({
+            mangle: false,
+            headerIds: true,
+            gfm: true,
+            breaks: true
+        });
+        
+        // 配置marked
+        const renderer = {
+            paragraph(text) {
+                if (typeof text !== 'string') {
+                    console.warn('Received non-string text:', text);
+                    text = String(text || '');
+                }
+                // 保护数学公式
+                text = text.replace(/\$\$([\s\S]*?)\$\$/g, function(match) {
+                    return match.replace(/\n/g, ' ');
+                });
+                return `<p>${text}</p>`;
+            },
+            code(code, language) {
+                const validLanguage = language && hljs.getLanguage(language) ? language : '';
+                try {
+                    if (validLanguage) {
+                        const highlighted = hljs.highlight(code, { language: validLanguage }).value;
+                        return `<pre><code class="hljs language-${validLanguage}">${highlighted}</code></pre>`;
+                    }
+                    return `<pre><code class="hljs">${hljs.highlightAuto(code).value}</code></pre>`;
+                } catch (err) {
+                    console.warn('代码高亮失败:', err);
+                    return `<pre><code class="hljs">${code}</code></pre>`;
+                }
+            }
+        };
+        
+        marked.use({ renderer });
         
         // 解析Markdown
+        console.log('开始解析Markdown');
         const htmlContent = marked.parse(markdownContent);
+        console.log('Markdown解析完成');
         
         // 为HTML内容中的标题添加ID
         const processedHTML = addHeadingIds(htmlContent);
-          // 获取文章标题
+        
+        // 获取文章标题
         const title = filename.replace('.md', '');
         const categoryInfo = window.SITE_DATA?.categories[category] || SITE_CONFIG.categories[category];
         
         // 尝试从SITE_DATA中获取文章的实际更新时间
         let updateTime = '未知时间';
-        // 从articleDetails中获取更新时间
         if (window.SITE_DATA?.articleDetails) {
             const key = `${category}/${filename}`;
             const articleDetail = window.SITE_DATA.articleDetails[key];
@@ -273,6 +312,11 @@ async function loadArticle(category, filename) {
             });
         }
         
+        // 重新渲染数学公式
+        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+            await MathJax.typesetPromise();
+        }
+        
         // 生成并显示TOC
         generateTOCFromDOM();
         showTOC();
@@ -282,8 +326,12 @@ async function loadArticle(category, filename) {
         url.searchParams.set('category', category);
         url.searchParams.set('file', filename);
         history.pushState({ category, filename }, title, url);
-          // 更新页面标题
+        
+        // 更新页面标题
         document.title = `${title} - 花月的技术博客`;
+        
+        // 添加代码行包装
+        wrapCodeLines();
         
     } catch (error) {
         console.error('加载文章失败:', error);
@@ -291,10 +339,10 @@ async function loadArticle(category, filename) {
             <div class="error-message">
                 <h3>加载失败</h3>
                 <p>无法加载文章"${filename}"，请检查文件是否存在。</p>
-                <button onclick="showHomePage()" class="btn btn-primary">返回首页</button>
+                <p>错误信息: ${error.message}</p>
+                <button onclick="window.location.href='index.html'" class="btn btn-primary">返回首页</button>
             </div>
         `;
-        hideTOC();
     }
 }
 
@@ -337,15 +385,35 @@ window.addEventListener('popstate', function(event) {
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化Marked配置
     if (typeof marked !== 'undefined') {
+        const renderer = new marked.Renderer();
+        const originalParagraph = renderer.paragraph.bind(renderer);
+        
+        renderer.paragraph = function (text) {
+            // 保护数学公式
+            text = text.replace(/\$\$([\s\S]*?)\$\$/g, function(match) {
+                return match.replace(/\n/g, ' ');
+            });
+            return originalParagraph(text);
+        };
+        
         marked.setOptions({
+            renderer: renderer,
             highlight: function(code, lang) {
-                if (typeof hljs !== 'undefined' && lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(code, { language: lang }).value;
+                if (typeof hljs !== 'undefined' && lang) {
+                    try {
+                        return hljs.highlight(code, { language: lang }).value;
+                    } catch (err) {
+                        console.warn('代码高亮失败:', err);
+                        return hljs.highlightAuto(code).value;
+                    }
                 }
-                return code;
+                return hljs.highlightAuto(code).value;
             },
             breaks: true,
-            gfm: true
+            gfm: true,
+            pedantic: false,
+            mangle: false,
+            headerIds: true
         });
     }
     
@@ -360,6 +428,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (category && filename) {
         loadArticle(category, filename);
     }
+    
+    // 添加代码行包装
+    wrapCodeLines();
 });
 
 /**
@@ -640,4 +711,16 @@ function cleanupTOC() {
         window.removeEventListener('scroll', window.tocScrollHandler);
         window.tocScrollHandler = null;
     }
+}
+
+// 处理代码块的行号显示
+function wrapCodeLines() {
+    document.querySelectorAll('pre code').forEach(block => {
+        const code = block.innerHTML;
+        const lines = code.split('\n');
+        const wrappedLines = lines.map(line => 
+            `<span>${line}</span>`
+        ).join('\n');
+        block.innerHTML = wrappedLines;
+    });
 }

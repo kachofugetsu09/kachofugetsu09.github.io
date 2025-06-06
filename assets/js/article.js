@@ -34,19 +34,35 @@ const SITE_CONFIG = {
  * 配置marked.js
  */
 function configureMarked() {
+    const renderer = new marked.Renderer();
+    const originalParagraph = renderer.paragraph.bind(renderer);
+    
+    renderer.paragraph = function (text) {
+        // 保护数学公式
+        text = text.replace(/\$\$([\s\S]*?)\$\$/g, function(match) {
+            return match.replace(/\n/g, ' ');
+        });
+        return originalParagraph(text);
+    };
+    
     marked.setOptions({
+        renderer: renderer,
         highlight: function(code, lang) {
-            if (lang && hljs.getLanguage(lang)) {
+            if (lang) {
                 try {
                     return hljs.highlight(code, { language: lang }).value;
                 } catch (err) {
                     console.warn('代码高亮失败:', err);
+                    return hljs.highlightAuto(code).value;
                 }
             }
             return hljs.highlightAuto(code).value;
         },
         breaks: true,
-        gfm: true
+        gfm: true,
+        pedantic: false,
+        mangle: false,
+        headerIds: true
     });
 }
 
@@ -129,10 +145,58 @@ async function loadAndRenderArticle() {
         
         // 渲染到页面
         articleBody.innerHTML = htmlContent;
-        
-        // 重新应用代码高亮
+          // 重新应用代码高亮
         articleBody.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightElement(block);
+            
+            // 获取语言信息
+            const language = block.className.split(/\s+/).find(cls => cls.startsWith('language-'));
+            const langName = language ? language.replace('language-', '') : 'plaintext';
+            
+            // 添加行号
+            const lines = block.textContent.split('\n');
+            let numberedCode = '';
+            let lineNumber = 1;
+            
+            // 包装每一行并添加行号
+            lines.forEach(line => {
+                if (line === '' && lines[lines.length-1] === '') return; // 跳过最后一个空行
+                numberedCode += `<span class="code-line" id="line-${lineNumber}">${line}</span>\n`;
+                lineNumber++;
+            });
+            
+            // 创建包装容器
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-container';
+            
+            // 创建代码头部
+            const header = document.createElement('div');
+            header.className = 'code-header';
+            header.innerHTML = `
+                <span class="code-language">${langName}</span>
+                <span class="copy-button" title="复制代码"><i class="far fa-copy"></i></span>
+            `;
+            
+            // 添加复制功能
+            const copyButton = header.querySelector('.copy-button');
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="far fa-copy"></i>';
+                    }, 2000);
+                });
+            });
+            
+            // 替换原有内容
+            const pre = block.parentNode;
+            pre.innerHTML = numberedCode;
+            
+            // 重新设置结构
+            wrapper.appendChild(header);
+            const preClone = pre.cloneNode(true);
+            wrapper.appendChild(preClone);
+            pre.parentNode.replaceChild(wrapper, pre);
         });
         
         // 处理图片懒加载

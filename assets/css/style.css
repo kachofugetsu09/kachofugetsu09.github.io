@@ -537,25 +537,24 @@ body {
 }
 
 .article-body pre {
-    background: #2b2b2b; /* 匹配darcula主题的背景色 */
-    padding: 20px;
-    border-radius: 6px;
+    background-color: #282c34;
+    border-radius: 8px;
     overflow-x: auto;
     margin: 20px 0;
-    border: 1px solid #444;
     position: relative;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    padding: 0;
 }
 
 .article-body pre code {
-    background: none;
     padding: 0;
-    color: #a9b7c6; /* darcula主题的默认文本颜色 */
     border-radius: 0;
     font-size: 14px;
-    color: #000;
     font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
     line-height: 1.5;
+    display: block;
+    color: #abb2bf;
+    padding: 1em 0;
 }
 
 .article-body pre::before {
@@ -1077,27 +1076,155 @@ body {
 /* 代码行号显示样式 */
 .hljs-ln {
     border-collapse: collapse;
+    width: 100%;
 }
 
 .hljs-ln td {
     padding: 0;
-    padding-right: 10px;
-}
-
-.hljs-ln-n:before {
-    content: attr(data-line-number);
+    border: none;
 }
 
 .hljs-ln-numbers {
     user-select: none;
     text-align: right;
-    color: #999;
-    border-right: 1px solid #ddd;
+    color: #606366;
+    border-right: 1px solid #3a3d41;
     vertical-align: top;
-    padding-right: 8px !important;
-    padding-left: 4px !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+    width: 50px;
+    min-width: 50px;
+    background-color: #1d1f21;
 }
 
 .hljs-ln-code {
-    padding-left: 8px !important;
+    padding-left: 15px !important;
+    width: 100%;
+}
+
+/* 代码块标题样式 */
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #21252b;
+    color: #abb2bf;
+    padding: 6px 15px;
+    font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    font-size: 12px;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #181a1f;
+}
+
+.code-language {
+    font-weight: 500;
+}
+
+.copy-button {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+    color: #fff;
+}
+
+/* 代码块容器样式 */
+pre {
+    background-color: #282c34;
+    border-radius: 0 0 8px 8px;
+    margin: 0 0 20px 0;
+    position: relative;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid #181a1f;
+    border-top: none;
+}
+
+/* 代码块与标题组合容器 */
+.code-block-container {
+    margin: 20px 0;
+}
+
+/* 代码行样式 */
+pre code {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    display: block;
+    color: #abb2bf;
+    padding: 10px 15px;
+    counter-reset: line;
+    position: relative;
+}
+
+/* 行号样式 */
+.code-line {
+    display: block;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 3.5em;
+    min-height: 1.5em;
+}
+
+.code-line:before {
+    content: counter(line);
+    counter-increment: line;
+    position: absolute;
+    left: 0;
+    width: 2.5em;
+    text-align: right;
+    color: #636b74;
+    padding-right: 0.5em;
+    border-right: 1px solid #404040;
+    user-select: none;
+}
+
+/* 代码高亮颜色 - One Dark Pro 主题 */
+.hljs-keyword { color: #c678dd !important; }
+.hljs-built_in { color: #e5c07b !important; }
+.hljs-type { color: #56b6c2 !important; }
+.hljs-literal { color: #56b6c2 !important; }
+.hljs-number { color: #d19a66 !important; }
+.hljs-string { color: #98c379 !important; }
+.hljs-comment { color: #7f848e !important; font-style: italic; }
+.hljs-operator { color: #c678dd !important; }
+.hljs-function { color: #61afef !important; }
+.hljs-class { color: #e5c07b !important; }
+.hljs-variable { color: #e06c75 !important; }
+.hljs-params { color: #d19a66 !important; }
+.hljs-attr { color: #d19a66 !important; }
+.hljs-tag { color: #e06c75 !important; }
+.hljs-name { color: #e06c75 !important; }
+.hljs-selector-tag { color: #c678dd !important; }
+.hljs-selector-class { color: #d19a66 !important; }
+.hljs-selector-id { color: #61afef !important; }
+.hljs-template-tag { color: #e06c75 !important; }
+.hljs-template-variable { color: #e06c75 !important; }
+.hljs-addition { color: #98c379 !important; }
+.hljs-deletion { color: #e06c75 !important; }
+
+/* 滚动条样式 */
+pre::-webkit-scrollbar {
+    height: 8px;
+    background-color: #1e1e2e;
+}
+
+pre::-webkit-scrollbar-thumb {
+    background-color: #404040;
+    border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+    background-color: #505050;
+}
+
+/* 行内代码样式 */
+:not(pre) > code {
+    background-color: rgba(99, 110, 123, 0.15);
+    color: #383a42;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.9em;
 }

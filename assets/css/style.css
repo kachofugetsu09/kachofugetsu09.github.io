@@ -1013,35 +1013,25 @@ body {
     border: 2px solid #a3e583;
 }
 
+.github-link {
+    background-color: #f0ffea;
+    border: 1px solid #a3e583;
+    box-shadow: 0 4px 6px rgba(163, 229, 131, 0.2);
+}
+
 .github-link span {
     font-weight: 600;
     color: #4a8f29;
 }
 
-.social-link:hover {
-    background-color: #000;
-    color: #fff;
+.github-link:hover {
+    background-color: #e0ffcf;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 12px rgba(163, 229, 131, 0.3);
+    color: #333;
 }
 
 .social-link i {
     margin-right: 10px;
     font-size: 1.4rem;
-}
-
-.github-link {
-    background-color: #24292e;
-    border-color: #24292e;
-    color: #ffffff;
-    font-weight: 500;
-    padding: 12px 20px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-}
-
-.github-link:hover {
-    background-color: #2ea44f;
-    border-color: #2ea44f;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }

@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-06T22:41:53.121Z
+// 生成时间: 2025-06-07T14:21:39.671Z
 
 window.SITE_DATA = {
     categories: {
@@ -37,6 +37,7 @@ window.SITE_DATA = {
         "计算机网络.md"
     ],
     "MIT6.824": [
+        "raft论文研究.md",
         "lab1.md"
     ],
     "interview": [
@@ -46,6 +47,11 @@ window.SITE_DATA = {
     ]
 },
     articleDetails: {
+    "MIT6.824/raft论文研究.md": {
+        "title": "Raft算法论文研究",
+        "preview": "# Raft算法论文研究 Raft算法是一种用于分布式系统的一致性算法，相比Paxos更易理解和实现。 | 组成部分 | 描述 | |----------|------| | 强领导人 | 日志条目只从leader发送给其他服务器，简化了日志管理 | | 领导选举 | 使用随机计时器来选择leader，避免选票分割 | | 成员关系调整 | 成员变换时系统仍然可以正常工作 | 复制状态机的目的是让...",
+        "updateTime": "2025-06-07"
+    },
     "tech/kafka笔记.md": {
         "title": "kafka笔记",
         "preview": "Kafka 提供高度的容错能力：在包含 n 个副本的集群中，可以容忍 n-1 个节点失败而保持系统可用。 消费者可以组成 Consumer Group，每条消息只会被同一组内的一个消费者处理。这种设计完美匹配 Kafka 的分区特性：当一个主题有多个分区时，消息会动态分配给多个消费者，显著提高并发处理的吞吐量。 `java public class KafkaConsumer<K, V> impl...",

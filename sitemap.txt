@@ -3,6 +3,7 @@ https://your-username.github.io/your-repo-name/category.html?category=tech
 https://your-username.github.io/your-repo-name/category.html?category=CS-basics
 https://your-username.github.io/your-repo-name/category.html?category=MIT6.824
 https://your-username.github.io/your-repo-name/category.html?category=interview
+https://your-username.github.io/your-repo-name/article.html?category=MIT6.824&file=raft%E8%AE%BA%E6%96%87%E7%A0%94%E7%A9%B6.md
 https://your-username.github.io/your-repo-name/article.html?category=tech&file=kafka%E7%AC%94%E8%AE%B0.md
 https://your-username.github.io/your-repo-name/article.html?category=MIT6.824&file=lab1.md
 https://your-username.github.io/your-repo-name/article.html?category=interview&file=%E7%89%9B%E5%AE%A2%202025.6.2.md

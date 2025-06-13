@@ -18,66 +18,8 @@ const SITE_CONFIG = {
     articlesCache: null
 };
 
-// 访问统计相关函数
-const PageCounter = {
-    // 从Google Analytics获取总阅读量
-    async getTotalPageViews() {
-        try {
-            // 等待gtag加载完成
-            if (typeof gtag === 'undefined') {
-                await new Promise(resolve => {
-                    const checkGtag = setInterval(() => {
-                        if (typeof gtag !== 'undefined') {
-                            clearInterval(checkGtag);
-                            resolve();
-                        }
-                    }, 100);
-                });
-            }
-
-            // 使用Google Analytics Data API获取数据
-            gtag('get', 'G-P9VNDXHTBD', 'page_view', (pageViews) => {
-                const pvContainer = document.getElementById('site_pv_container');
-                if (pvContainer) {
-                    const pvCount = pvContainer.querySelector('.site-stat-number');
-                    if (pvCount) {
-                        pvCount.textContent = pageViews || '0';
-                    }
-                }
-            });
-        } catch (error) {
-            console.error('获取访问量失败:', error);
-        }
-    },
-
-    // 从Google Analytics获取文章阅读量
-    async getArticlePageViews(category, filename) {
-        try {
-            if (typeof gtag === 'undefined') return '0';
-
-            const path = `/${category}/${filename}`;
-            return new Promise(resolve => {
-                gtag('get', 'G-P9VNDXHTBD', 'page_view', {
-                    page_path: path
-                }, (pageViews) => {
-                    resolve(pageViews || '0');
-                });
-            });
-        } catch (error) {
-            console.error('获取文章访问量失败:', error);
-            return '0';
-        }
-    },
-
-    // 更新显示的统计数据
-    async updateCounterDisplay() {
-        await this.getTotalPageViews();
-    }
-};
-
 /**
  * 获取所有文章的元数据
- * 扫描各个分类文件夹，获取文章信息
  */
 async function getAllArticles() {
     if (SITE_CONFIG.articlesCache) {
@@ -90,8 +32,7 @@ async function getAllArticles() {
     for (const [categoryKey, categoryInfo] of Object.entries(SITE_CONFIG.categories)) {
         articles[categoryKey] = [];
         
-        // 这里我们需要预定义文章列表，因为静态网站无法动态读取文件系统
-        // 实际部署时，可以通过构建脚本自动生成这个列表
+        // 获取文章列表
         const articleList = await getArticleListForCategory(categoryKey);
         
         for (const filename of articleList) {
@@ -102,7 +43,7 @@ async function getAllArticles() {
                     category: categoryKey,
                     categoryName: categoryInfo.name,
                     url: `article.html?category=${categoryKey}&file=${encodeURIComponent(filename)}`,
-                    updateTime: '2025-06-06' // 实际项目中可以从文件系统或Git获取
+                    updateTime: '2025-06-06'
                 };
                 articles[categoryKey].push(articleInfo);
             }
@@ -137,8 +78,8 @@ async function getArticleListForCategory(category) {
  */
 async function renderCategories() {
     const categoriesGrid = document.getElementById('categoriesGrid');
+    if (!categoriesGrid) return; // 如果元素不存在，直接返回
     
-    // 使用构建脚本生成的配置或备用配置
     const categories = (window.SITE_DATA && window.SITE_DATA.categories) || SITE_CONFIG.categories;
     const articles = await getAllArticles();
     
@@ -163,12 +104,14 @@ async function renderCategories() {
         categoriesGrid.innerHTML = categoriesHTML;
     } catch (error) {
         console.error('渲染分类失败:', error);
-        categoriesGrid.innerHTML = `
-            <div class="error-message">
-                <h3>加载失败</h3>
-                <p>无法加载分类信息，请稍后重试。</p>
-            </div>
-        `;
+        if (categoriesGrid) {
+            categoriesGrid.innerHTML = `
+                <div class="error-message">
+                    <h3>加载失败</h3>
+                    <p>无法加载分类信息，请稍后重试。</p>
+                </div>
+            `;
+        }
     }
 }
 
@@ -355,7 +298,7 @@ async function loadArticle(category, filename) {
                         </span>
                         <span class="article-views">
                             <i class="fas fa-eye"></i>
-                            阅读量 ${articleViews}
+                            阅读量 <span id="busuanzi_value_page_pv">0</span>
                         </span>
                     </div>
                     <h1 class="article-title">${title}</h1>
@@ -396,12 +339,9 @@ async function loadArticle(category, filename) {
         // 添加代码行包装
         wrapCodeLines();
         
-        // 发送页面浏览事件到 Google Analytics
-        if (typeof gtag === 'function') {
-            gtag('event', 'page_view', {
-                page_title: title,
-                page_path: `/${category}/${filename}`
-            });
+        // 重新加载不蒜子脚本以更新页面计数
+        if (typeof BUSUANZI !== 'undefined') {
+            BUSUANZI.fetch();
         }
         
     } catch (error) {

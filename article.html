@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="articleTitle">文章</title>    <link rel="stylesheet" href="assets/css/style.css">    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>文章 - 花月的技术博客</title>
+    
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- 添加Markdown解析和语法高亮支持 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <!-- 添加数学公式支持 -->
     <script>
     window.MathJax = {
         tex: {
@@ -20,83 +23,98 @@
         },
         svg: {
             fontCache: 'global'
+        },
+        startup: {
+            typeset: false
         }
     };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- 不蒜子访问统计 -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
 </head>
 <body>
-    <!-- 侧边栏 -->
-    <aside class="sidebar">
-        <div class="sidebar-toggle">
-            <i class="fas fa-chevron-right"></i>
-        </div>        <div class="sidebar-content">            <div class="sidebar-header">
-                <div class="sidebar-logo">
+    <!-- 统一头部区域 -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="site-logo">
                     <img src="img/logo.jpg" alt="网站Logo" class="logo-image">
                 </div>
-                <div class="sidebar-blog-title">花月的技术博客</div>
-                <div class="sidebar-blog-subtitle">学习 · 分享 · 成长</div>
+                <div class="site-info">
+                    <h1 class="site-title">花月的技术博客</h1>
+                    <p class="site-description">Folding was never an option.</p>
+                    <div class="site-stats">
+                        <span id="busuanzi_container_site_pv">
+                            总阅读量 <span id="busuanzi_value_site_pv" class="site-stat-number">0</span> 次
+                        </span>
+                    </div>
+                </div>
             </div>
-            <nav class="sidebar-nav">
-                <ul class="sidebar-categories" id="sidebarCategories">
-                    <!-- 分类将通过 JavaScript 动态生成 -->
-                </ul>
-            </nav>
         </div>
-    </aside>
+    </header>
 
     <!-- 主内容区域 -->
-    <div class="main-wrapper">
-        <header class="site-header">
-            <div class="container">
-                <div class="header-nav">                    <a href="index.html" class="back-link">
-                        <i class="fas fa-home"></i>
-                        首页
-                    </a>
-                    <a href="#" class="back-link" id="categoryLink">
-                        <i class="fas fa-folder"></i>
-                        <span id="categoryName">分类</span>
-                    </a>
-                </div>
-            </div>
-        </header>        <main class="main-content">
+    <div class="main-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-categories" id="sidebarCategories">
+                    <!-- 分类将通过JavaScript动态生成 -->
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content-wrapper">
             <div class="content-layout">
                 <div class="article-container">
-                    <article class="article-content">
-                        <header class="article-header">
-                            <h1 class="article-title" id="articleTitleHeader">文章标题</h1>
-                            <div class="article-meta">
-                                <span class="category-tag" id="categoryTag">分类</span>
-                                <span class="update-time" id="updateTime">更新时间</span>
-                            </div>
-                        </header>
-                        <div class="article-body" id="articleBody">
-                            <!-- 文章内容将通过 JavaScript 动态加载 -->
-                        </div>
-                    </article>
+                    <div id="dynamicContent">
+                        <!-- 文章内容将在这里动态加载 -->
+                    </div>
                 </div>
-                <aside class="toc-container" id="tocContainer">
+                
+                <div class="toc-container">
                     <div class="toc-wrapper">
                         <div class="toc-header">
                             <h3>文章目录</h3>
                         </div>
                         <nav class="toc-nav">
                             <ul class="toc-list" id="tocList">
-                                <!-- 目录将通过 JavaScript 动态生成 -->
+                                <!-- 目录将通过JavaScript动态生成 -->
                             </ul>
                         </nav>
                     </div>
-                </aside>
+                </div>
             </div>
-        </main>
-
-        <footer class="site-footer">
-            <div class="container">
-                <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
-            </div>
-        </footer>
+        </div>
     </div>
 
-    <script src="../assets/js/config.js"></script>
-    <script src="../assets/js/article.js"></script>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+    /* 隐藏不蒜子计数器，直到加载完成 */
+    #busuanzi_container_site_pv {
+        display: none;
+    }
+    .busuanzi-loaded #busuanzi_container_site_pv {
+        display: inline;
+    }
+    </style>
+    <script>
+    // 检查不蒜子计数器是否加载完成
+    var checkBusuanzi = setInterval(function() {
+        if (typeof BUSUANZI !== 'undefined') {
+            document.body.classList.add('busuanzi-loaded');
+            clearInterval(checkBusuanzi);
+        }
+    }, 100);
+    </script>
 </body>
 </html>

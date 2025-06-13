@@ -4,15 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>花月的技术博客</title>
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P9VNDXHTBD"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-P9VNDXHTBD');
-    </script>
-    
     <link rel="icon" href="img/logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="assets/css/style.css">    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -54,8 +45,8 @@
                     <h1 class="site-title">花月的技术博客</h1>
                     <p class="site-description">Folding was never an option.</p>
                     <div class="site-stats">
-                        <span id="site_pv_container">
-                            总阅读量 <span class="site-stat-number">-</span> 次
+                        <span id="busuanzi_container_site_pv">
+                            总阅读量 <span id="busuanzi_value_site_pv" class="site-stat-number">0</span> 次
                         </span>
                     </div>
                 </div>
@@ -111,5 +102,24 @@
             <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
         </div>
     </footer>
+
+    <style>
+    /* 隐藏不蒜子计数器，直到加载完成 */
+    #busuanzi_container_site_pv {
+        display: none;
+    }
+    .busuanzi-loaded #busuanzi_container_site_pv {
+        display: inline;
+    }
+    </style>
+    <script>
+    // 检查不蒜子计数器是否加载完成
+    var checkBusuanzi = setInterval(function() {
+        if (typeof BUSUANZI !== 'undefined') {
+            document.body.classList.add('busuanzi-loaded');
+            clearInterval(checkBusuanzi);
+        }
+    }, 100);
+    </script>
 </body>
 </html>

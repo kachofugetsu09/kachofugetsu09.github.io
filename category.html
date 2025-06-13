@@ -3,56 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="categoryTitle">分类</title>    <link rel="stylesheet" href="assets/css/style.css">
+    <title>分类 - 花月的技术博客</title>
+    
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- 不蒜子访问统计 -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
 </head>
 <body>
-    <!-- 侧边栏 -->
-    <aside class="sidebar">
-        <div class="sidebar-toggle">
-            <i class="fas fa-chevron-right"></i>
-        </div>        <div class="sidebar-content">            <div class="sidebar-header">
-                <div class="sidebar-logo">
+    <!-- 统一头部区域 -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="site-logo">
                     <img src="img/logo.jpg" alt="网站Logo" class="logo-image">
                 </div>
-                <div class="sidebar-blog-title">花月的技术博客</div>
-                <div class="sidebar-blog-subtitle">学习 · 分享 · 成长</div>
+                <div class="site-info">
+                    <h1 class="site-title">花月的技术博客</h1>
+                    <p class="site-description">Folding was never an option.</p>
+                    <div class="site-stats">
+                        <span id="busuanzi_container_site_pv">
+                            总阅读量 <span id="busuanzi_value_site_pv" class="site-stat-number">0</span> 次
+                        </span>
+                    </div>
+                </div>
             </div>
-            <nav class="sidebar-nav">
-                <ul class="sidebar-categories" id="sidebarCategories">
-                    <!-- 分类将通过 JavaScript 动态生成 -->
-                </ul>
-            </nav>
         </div>
-    </aside>
+    </header>
 
     <!-- 主内容区域 -->
-    <div class="main-wrapper">
-        <header class="site-header">
-            <div class="container">
-                <div class="header-nav">                    <a href="index.html" class="back-link">
-                        <i class="fas fa-arrow-left"></i>
-                        返回首页
-                    </a>
-                    <h1 class="page-title" id="pageTitle">分类</h1>
+    <div class="main-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-categories" id="sidebarCategories">
+                    <!-- 分类将通过JavaScript动态生成 -->
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content-wrapper">
+            <div class="content-layout">
+                <div class="category-container">
+                    <div id="categoryContent">
+                        <!-- 分类内容将在这里动态加载 -->
+                    </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </div>
 
-        <main class="main-content">
-            <div class="container">
-                <div class="articles-grid" id="articlesGrid">
-                    <!-- 文章列表将通过 JavaScript 动态生成 -->
-                </div>
-            </div>
-        </main>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+        </div>
+    </footer>
 
-        <footer class="site-footer">
-            <div class="container">
-                <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>    <script src="assets/js/config.js"></script>
-    <script src="assets/js/category.js"></script>
+    <style>
+    /* 隐藏不蒜子计数器，直到加载完成 */
+    #busuanzi_container_site_pv {
+        display: none;
+    }
+    .busuanzi-loaded #busuanzi_container_site_pv {
+        display: inline;
+    }
+    </style>
+    <script>
+    // 检查不蒜子计数器是否加载完成
+    var checkBusuanzi = setInterval(function() {
+        if (typeof BUSUANZI !== 'undefined') {
+            document.body.classList.add('busuanzi-loaded');
+            clearInterval(checkBusuanzi);
+        }
+    }, 100);
+    </script>
 </body>
 </html>

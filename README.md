@@ -1,6 +1,6 @@
 # 花月的技术博客
 
-这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-9 22:34:27。
+这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-13 18:35:03。
 
 ## 📚 文章分类
 
@@ -8,8 +8,9 @@
 
 技术学习笔记和经验分享
 
-共 1 篇文章：
+共 2 篇文章：
 
+- [零拷贝技术解析：从麦当劳点餐看I/O优化之道](article.html?category=tech&file=%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90.md) (2025-06-13)
 - [kafka笔记](article.html?category=tech&file=kafka%E7%AC%94%E8%AE%B0.md) (2025-06-06)
 
 ### fas fa-graduation-cap 计算机基础
@@ -24,8 +25,9 @@
 
 MIT 6.824 分布式系统课程笔记
 
-共 2 篇文章：
+共 3 篇文章：
 
+- [election_restriction_formatted](article.html?category=MIT6.824&file=election_restriction_formatted.md) (2025-06-13)
 - [Raft算法论文研究](article.html?category=MIT6.824&file=raft%E8%AE%BA%E6%96%87%E7%A0%94%E7%A9%B6.md) (2025-06-09)
 - [lab1](article.html?category=MIT6.824&file=lab1.md) (2025-06-06)
 
@@ -73,4 +75,4 @@ MIT 6.824 分布式系统课程笔记
 └── README.md           # 项目说明
 ```
 
-最后更新: 2025-6-9 22:34:27
+最后更新: 2025-6-13 18:35:03

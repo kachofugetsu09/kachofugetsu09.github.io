@@ -831,22 +831,46 @@ body {
 @media (max-width: 1024px) {
     .content-layout {
         flex-direction: column;
+        padding: 0;
     }
     
     .article-container {
         max-width: 100%;
         margin-right: 0;
+        padding: 0 15px;
     }
     
     .toc-container {
         display: none !important;
     }
+
+    .categories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 0 15px;
+    }
 }
 
 @media (max-width: 768px) {
+    .header-content {
+        padding: 0 15px;
+    }
+
+    .site-header {
+        padding: 10px 0;
+    }
+
     .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 80%;
+        max-width: 300px;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+        z-index: 1000;
+        background: #fff;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     }
     
     .sidebar.active {
@@ -858,11 +882,11 @@ body {
     }
     
     .container {
-        padding: 20px;
+        padding: 15px;
     }
     
     .content-layout {
-        padding: 0 10px;
+        padding: 0;
     }
     
     .site-logo {
@@ -880,32 +904,186 @@ body {
     
     .categories-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .category-card {
+        padding: 20px;
     }
     
     .articles-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
     }
     
     .article-content {
-        padding: 25px;
+        padding: 20px 15px;
+        font-size: 0.95rem;
     }
     
     .article-title {
         font-size: 1.5rem;
     }
     
-    .header-nav {
+    .article-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .article-body img {
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .article-body pre {
+        margin: 15px -15px;
+        border-radius: 0;
+    }
+
+    .article-body pre code {
+        padding: 15px;
+        font-size: 13px;
+    }
+
+    .article-body table {
+        margin: 15px -15px;
+        width: calc(100% + 30px);
+    }
+
+    .article-body blockquote {
+        margin: 15px -15px;
+        padding: 15px;
+    }
+
+    .social-links {
         flex-direction: column;
-        gap: 15px;
-        text-align: center;
+        gap: 10px;
+    }
+
+    .social-link {
+        width: 100%;
+        justify-content: center;
     }
 }
 
-@media (max-width: 1200px) {
-    .toc-sidebar {
+/* 添加移动端菜单按钮样式 */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1001;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-toggle.active {
+        color: #fff;
+        background: #000;
+    }
+
+    /* 移动端遮罩层 */
+    .sidebar-overlay {
         display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+/* 优化移动端图片显示 */
+@media (max-width: 768px) {
+    .article-body img {
+        max-width: 100%;
+        height: auto;
+        margin: 15px auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 图片放大查看功能 */
+    .article-body img.zoomable {
+        cursor: zoom-in;
+        transition: transform 0.3s ease;
+    }
+
+    .article-body img.zoomed {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.5);
+        max-width: 95vw;
+        max-height: 95vh;
+        z-index: 1000;
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        cursor: zoom-out;
+    }
+}
+
+/* 优化移动端代码块显示 */
+@media (max-width: 768px) {
+    .article-body pre {
+        font-size: 13px;
+        line-height: 1.5;
+        padding: 10px;
+        margin: 15px -15px;
+        border-radius: 0;
+    }
+
+    .article-body pre code {
+        padding: 10px;
+    }
+
+    .code-header {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .hljs-ln-numbers {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+        width: 40px;
+        min-width: 40px;
+    }
+}
+
+/* 优化移动端表格显示 */
+@media (max-width: 768px) {
+    .article-body table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 15px -15px;
+        width: calc(100% + 30px);
+    }
+
+    .article-body th,
+    .article-body td {
+        white-space: nowrap;
+        padding: 8px 12px;
     }
 }
 

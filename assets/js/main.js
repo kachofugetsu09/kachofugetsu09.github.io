@@ -431,6 +431,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 添加代码行包装
     wrapCodeLines();
+    
+    // 初始化移动端交互
+    initMobileInteractions();
 });
 
 /**
@@ -723,4 +726,90 @@ function wrapCodeLines() {
         ).join('\n');
         block.innerHTML = wrappedLines;
     });
+}
+
+/**
+ * 移动端交互处理
+ */
+function initMobileInteractions() {
+    // 创建菜单按钮
+    const menuButton = document.createElement('button');
+    menuButton.className = 'menu-toggle';
+    menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+    document.body.appendChild(menuButton);
+
+    // 创建遮罩层
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    // 获取侧边栏
+    const sidebar = document.querySelector('.sidebar');
+
+    // 切换侧边栏显示/隐藏
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        menuButton.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        if (sidebar.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+            menuButton.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+            document.body.style.overflow = '';
+            menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    }
+
+    // 绑定事件
+    menuButton.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
+    // 处理图片点击放大
+    const articleImages = document.querySelectorAll('.article-body img');
+    articleImages.forEach(img => {
+        if (!img.closest('a')) { // 如果图片不在链接内
+            img.classList.add('zoomable');
+            img.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    this.classList.toggle('zoomed');
+                    if (this.classList.contains('zoomed')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+        }
+    });
+
+    // 处理移动端滑动手势
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+    }, false);
+
+    document.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+        const threshold = 100; // 最小滑动距离
+
+        if (Math.abs(swipeDistance) > threshold) {
+            if (swipeDistance > 0 && touchStartX < 50) {
+                // 从左向右滑动，显示侧边栏
+                if (!sidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            } else if (swipeDistance < 0 && sidebar.classList.contains('active')) {
+                // 从右向左滑动，隐藏侧边栏
+                toggleSidebar();
+            }
+        }
+    }
 }

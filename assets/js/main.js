@@ -20,66 +20,58 @@ const SITE_CONFIG = {
 
 // 访问统计相关函数
 const PageCounter = {
-    // 获取总访问量
-    getTotalVisits() {
-        return parseInt(localStorage.getItem('total_visits') || '0');
-    },
-    
-    // 增加总访问量
-    incrementTotalVisits() {
-        const currentVisits = this.getTotalVisits();
-        localStorage.setItem('total_visits', currentVisits + 1);
-        return currentVisits + 1;
-    },
-    
-    // 获取文章访问量
-    getArticleVisits(category, filename) {
-        const key = `article_visits_${category}_${filename}`;
-        return parseInt(localStorage.getItem(key) || '0');
-    },
-    
-    // 增加文章访问量
-    incrementArticleVisits(category, filename) {
-        const key = `article_visits_${category}_${filename}`;
-        const currentVisits = this.getArticleVisits(category, filename);
-        localStorage.setItem(key, currentVisits + 1);
-        return currentVisits + 1;
-    },
-    
-    // 获取总访客数（基于sessionStorage实现）
-    getUniqueVisitors() {
-        const totalVisitors = parseInt(localStorage.getItem('total_visitors') || '0');
-        const hasVisited = sessionStorage.getItem('has_visited');
-        
-        if (!hasVisited) {
-            sessionStorage.setItem('has_visited', 'true');
-            localStorage.setItem('total_visitors', totalVisitors + 1);
-            return totalVisitors + 1;
+    // 从Google Analytics获取总阅读量
+    async getTotalPageViews() {
+        try {
+            // 等待gtag加载完成
+            if (typeof gtag === 'undefined') {
+                await new Promise(resolve => {
+                    const checkGtag = setInterval(() => {
+                        if (typeof gtag !== 'undefined') {
+                            clearInterval(checkGtag);
+                            resolve();
+                        }
+                    }, 100);
+                });
+            }
+
+            // 使用Google Analytics Data API获取数据
+            gtag('get', 'G-P9VNDXHTBD', 'page_view', (pageViews) => {
+                const pvContainer = document.getElementById('site_pv_container');
+                if (pvContainer) {
+                    const pvCount = pvContainer.querySelector('.site-stat-number');
+                    if (pvCount) {
+                        pvCount.textContent = pageViews || '0';
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('获取访问量失败:', error);
         }
-        
-        return totalVisitors;
     },
-    
+
+    // 从Google Analytics获取文章阅读量
+    async getArticlePageViews(category, filename) {
+        try {
+            if (typeof gtag === 'undefined') return '0';
+
+            const path = `/${category}/${filename}`;
+            return new Promise(resolve => {
+                gtag('get', 'G-P9VNDXHTBD', 'page_view', {
+                    page_path: path
+                }, (pageViews) => {
+                    resolve(pageViews || '0');
+                });
+            });
+        } catch (error) {
+            console.error('获取文章访问量失败:', error);
+            return '0';
+        }
+    },
+
     // 更新显示的统计数据
-    updateCounterDisplay() {
-        const totalVisits = this.getTotalVisits();
-        const uniqueVisitors = this.getUniqueVisitors();
-        
-        // 更新总访问量显示
-        const pvContainer = document.getElementById('site_pv_container');
-        if (pvContainer) {
-            pvContainer.style.display = 'inline';
-            const pvCount = pvContainer.querySelector('.site-stat-number');
-            if (pvCount) pvCount.textContent = totalVisits;
-        }
-        
-        // 更新访客数显示
-        const uvContainer = document.getElementById('site_uv_container');
-        if (uvContainer) {
-            uvContainer.style.display = 'inline';
-            const uvCount = uvContainer.querySelector('.site-stat-number');
-            if (uvCount) uvCount.textContent = uniqueVisitors;
-        }
+    async updateCounterDisplay() {
+        await this.getTotalPageViews();
     }
 };
 
@@ -345,6 +337,9 @@ async function loadArticle(category, filename) {
             }
         }
         
+        // 获取文章阅读量
+        const articleViews = await PageCounter.getArticlePageViews(category, filename);
+        
         // 生成文章HTML
         const articleHTML = `
             <article class="article-content">
@@ -357,6 +352,10 @@ async function loadArticle(category, filename) {
                         <span class="article-date">
                             <i class="fas fa-calendar"></i>
                             ${updateTime}
+                        </span>
+                        <span class="article-views">
+                            <i class="fas fa-eye"></i>
+                            阅读量 ${articleViews}
                         </span>
                     </div>
                     <h1 class="article-title">${title}</h1>
@@ -508,7 +507,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileInteractions();
     
     // 增加访问量并更新显示
-    PageCounter.incrementTotalVisits();
     PageCounter.updateCounterDisplay();
 });
 

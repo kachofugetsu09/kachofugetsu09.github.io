@@ -1400,16 +1400,13 @@ pre::-webkit-scrollbar-thumb:hover {
 /* 站点统计样式 */
 .site-stats {
     margin-top: 8px;
-    font-size: 0.85rem;
+    font-size: 0.9em;
     color: #666;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 .site-stat-number {
     font-weight: 600;
-    color: #000;
+    color: #4a9eff;
     margin: 0 2px;
 }
 
@@ -1419,31 +1416,23 @@ pre::-webkit-scrollbar-thumb:hover {
 
 @media (max-width: 768px) {
     .site-stats {
-        font-size: 0.8rem;
-        flex-wrap: wrap;
-        gap: 8px;
+        font-size: 0.85em;
     }
     
-    .stat-divider {
-        display: none;
+    .article-views {
+        font-size: 0.85em;
+        margin-left: 10px;
     }
 }
 
 /* 文章阅读量样式 */
 .article-views {
-    display: flex;
-    align-items: center;
-    gap: 6px;
     color: #666;
+    font-size: 0.9em;
+    margin-left: 15px;
 }
 
-.view-count {
-    font-weight: 600;
-    color: #000;
-}
-
-@media (max-width: 768px) {
-    .article-views {
-        font-size: 0.9em;
-    }
+.article-views i {
+    margin-right: 5px;
+    color: #4a9eff;
 }

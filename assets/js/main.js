@@ -332,61 +332,6 @@ async function loadArticle(category, filename) {
         // 添加代码行包装
         wrapCodeLines();
         
-        // 重新加载不蒜子脚本
-        const oldScript = document.querySelector('script[src*="busuanzi"]');
-        if (oldScript) {
-            oldScript.remove();
-        }
-        
-        // 添加自定义不蒜子脚本
-        const scriptContent = `
-            var bszCaller, bszTag;
-            !function(){
-                var c,d,e,f;
-                bszCaller={
-                    fetch:function(a,b){
-                        var c="BusuanziCallback_" + Math.floor(1099511627776 * Math.random());
-                        window[c]=this.evalCall.bind(this,b),
-                        a=a.replace("=BusuanziCallback","=" + c),
-                        scriptTag=document.createElement("SCRIPT"),
-                        scriptTag.type="text/javascript",
-                        scriptTag.defer=!0,
-                        scriptTag.src=a,
-                        document.getElementsByTagName("HEAD")[0].appendChild(scriptTag)
-                    },
-                    evalCall:function(a,b){
-                        try{
-                            a(b),
-                            scriptTag.parentElement.removeChild(scriptTag)
-                        }catch(c){
-                            console.log(c)
-                        }
-                    }
-                };
-
-                function fetchPageViews() {
-                    const id = "page_pv_${category}_${encodeURIComponent(filename).replace(/[^a-zA-Z0-9]/g, '_')}";
-                    const url = \`https://busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback&id=\${id}\`;
-                    bszCaller.fetch(url, function(a) {
-                        const element = document.getElementById("busuanzi_value_" + id);
-                        if(element) {
-                            element.innerHTML = a.page_pv;
-                        }
-                    });
-                }
-
-                // 立即获取一次
-                fetchPageViews();
-
-                // 每30秒更新一次
-                setInterval(fetchPageViews, 30000);
-            }();
-        `;
-
-        const newScript = document.createElement('script');
-        newScript.textContent = scriptContent;
-        document.body.appendChild(newScript);
-        
     } catch (error) {
         console.error('加载文章失败:', error);
         dynamicContent.innerHTML = `

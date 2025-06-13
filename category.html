@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- 不蒜子访问统计 -->
+    <!-- 不蒜子访问统计（只统计不显示） -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv" style="display: none;"><span id="busuanzi_value_site_pv">0</span></span>
     
     <script src="assets/js/config.js"></script>
     <script src="assets/js/main.js"></script>
@@ -26,12 +27,6 @@
                 <div class="site-info">
                     <h1 class="site-title">花月的技术博客</h1>
                     <p class="site-description">Folding was never an option.</p>
-                    <div class="site-stats">
-                        <span id="busuanzi_container_site_pv">
-                            <i class="fas fa-chart-line"></i>
-                            总访问 <span id="busuanzi_value_site_pv" class="site-stat-number">0</span> 次
-                        </span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -63,24 +58,5 @@
             <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
         </div>
     </footer>
-
-    <style>
-    /* 隐藏不蒜子计数器，直到加载完成 */
-    #busuanzi_container_site_pv {
-        display: none;
-    }
-    .busuanzi-loaded #busuanzi_container_site_pv {
-        display: inline;
-    }
-    </style>
-    <script>
-    // 检查不蒜子计数器是否加载完成
-    var checkBusuanzi = setInterval(function() {
-        if (typeof BUSUANZI !== 'undefined') {
-            document.body.classList.add('busuanzi-loaded');
-            clearInterval(checkBusuanzi);
-        }
-    }, 100);
-    </script>
 </body>
 </html>

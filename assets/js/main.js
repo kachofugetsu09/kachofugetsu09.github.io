@@ -242,6 +242,9 @@ async function loadArticle(category, filename) {
                 return `<p>${text}</p>`;
             },
             code(code, language) {
+                if (language === 'mermaid') {
+                    return `<div class="mermaid">${code}</div>`;
+                }
                 const validLanguage = language && hljs.getLanguage(language) ? language : '';
                 try {
                     if (validLanguage) {
@@ -314,6 +317,11 @@ async function loadArticle(category, filename) {
         // 重新渲染数学公式
         if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
             await MathJax.typesetPromise();
+        }
+        
+        // 重新渲染Mermaid图表
+        if (typeof mermaid !== 'undefined') {
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
         }
         
         // 生成并显示TOC

@@ -1428,3 +1428,28 @@ pre::-webkit-scrollbar-thumb:hover {
         padding: 3px 8px;
     }
 }
+
+/* Mermaid图表样式 */
+.mermaid {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 确保图表在移动设备上也能正常显示 */
+@media screen and (max-width: 768px) {
+    .mermaid {
+        padding: 10px;
+        margin: 10px auto;
+    }
+}

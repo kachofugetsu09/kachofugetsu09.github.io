@@ -18,6 +18,70 @@ const SITE_CONFIG = {
     articlesCache: null
 };
 
+// 访问统计相关函数
+const PageCounter = {
+    // 获取总访问量
+    getTotalVisits() {
+        return parseInt(localStorage.getItem('total_visits') || '0');
+    },
+    
+    // 增加总访问量
+    incrementTotalVisits() {
+        const currentVisits = this.getTotalVisits();
+        localStorage.setItem('total_visits', currentVisits + 1);
+        return currentVisits + 1;
+    },
+    
+    // 获取文章访问量
+    getArticleVisits(category, filename) {
+        const key = `article_visits_${category}_${filename}`;
+        return parseInt(localStorage.getItem(key) || '0');
+    },
+    
+    // 增加文章访问量
+    incrementArticleVisits(category, filename) {
+        const key = `article_visits_${category}_${filename}`;
+        const currentVisits = this.getArticleVisits(category, filename);
+        localStorage.setItem(key, currentVisits + 1);
+        return currentVisits + 1;
+    },
+    
+    // 获取总访客数（基于sessionStorage实现）
+    getUniqueVisitors() {
+        const totalVisitors = parseInt(localStorage.getItem('total_visitors') || '0');
+        const hasVisited = sessionStorage.getItem('has_visited');
+        
+        if (!hasVisited) {
+            sessionStorage.setItem('has_visited', 'true');
+            localStorage.setItem('total_visitors', totalVisitors + 1);
+            return totalVisitors + 1;
+        }
+        
+        return totalVisitors;
+    },
+    
+    // 更新显示的统计数据
+    updateCounterDisplay() {
+        const totalVisits = this.getTotalVisits();
+        const uniqueVisitors = this.getUniqueVisitors();
+        
+        // 更新总访问量显示
+        const pvContainer = document.getElementById('site_pv_container');
+        if (pvContainer) {
+            pvContainer.style.display = 'inline';
+            const pvCount = pvContainer.querySelector('.site-stat-number');
+            if (pvCount) pvCount.textContent = totalVisits;
+        }
+        
+        // 更新访客数显示
+        const uvContainer = document.getElementById('site_uv_container');
+        if (uvContainer) {
+            uvContainer.style.display = 'inline';
+            const uvCount = uvContainer.querySelector('.site-stat-number');
+            if (uvCount) uvCount.textContent = uniqueVisitors;
+        }
+    }
+};
 
 /**
  * 获取所有文章的元数据
@@ -333,6 +397,14 @@ async function loadArticle(category, filename) {
         // 添加代码行包装
         wrapCodeLines();
         
+        // 发送页面浏览事件到 Google Analytics
+        if (typeof gtag === 'function') {
+            gtag('event', 'page_view', {
+                page_title: title,
+                page_path: `/${category}/${filename}`
+            });
+        }
+        
     } catch (error) {
         console.error('加载文章失败:', error);
         dynamicContent.innerHTML = `
@@ -434,6 +506,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化移动端交互
     initMobileInteractions();
+    
+    // 增加访问量并更新显示
+    PageCounter.incrementTotalVisits();
+    PageCounter.updateCounterDisplay();
 });
 
 /**

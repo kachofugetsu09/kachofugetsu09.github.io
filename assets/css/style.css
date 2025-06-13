@@ -965,6 +965,16 @@ body {
         width: 100%;
         justify-content: center;
     }
+
+    .site-stats {
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .stat-divider {
+        display: none;
+    }
 }
 
 /* 添加移动端菜单按钮样式 */
@@ -1385,4 +1395,55 @@ pre::-webkit-scrollbar-thumb:hover {
     border-radius: 4px;
     font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
     font-size: 0.9em;
+}
+
+/* 站点统计样式 */
+.site-stats {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.site-stat-number {
+    font-weight: 600;
+    color: #000;
+    margin: 0 2px;
+}
+
+.stat-divider {
+    color: #ddd;
+}
+
+@media (max-width: 768px) {
+    .site-stats {
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .stat-divider {
+        display: none;
+    }
+}
+
+/* 文章阅读量样式 */
+.article-views {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #666;
+}
+
+.view-count {
+    font-weight: 600;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .article-views {
+        font-size: 0.9em;
+    }
 }

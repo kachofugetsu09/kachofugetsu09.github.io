@@ -280,9 +280,6 @@ async function loadArticle(category, filename) {
             }
         }
         
-        // 获取文章阅读量
-        const articleViews = await PageCounter.getArticlePageViews(category, filename);
-        
         // 生成文章HTML
         const articleHTML = `
             <article class="article-content">

@@ -296,7 +296,7 @@ async function loadArticle(category, filename) {
                             <i class="fas fa-calendar"></i>
                             ${updateTime}
                         </span>
-                        <span class="article-views">
+                        <span id="busuanzi_container_page_pv" class="article-views">
                             <i class="fas fa-eye"></i>
                             阅读量 <span id="busuanzi_value_page_pv">0</span>
                         </span>
@@ -342,6 +342,19 @@ async function loadArticle(category, filename) {
         // 重新加载不蒜子脚本以更新页面计数
         if (typeof BUSUANZI !== 'undefined') {
             BUSUANZI.fetch();
+        } else {
+            // 如果不蒜子脚本还没加载完成，等待加载
+            const checkBusuanzi = setInterval(() => {
+                if (typeof BUSUANZI !== 'undefined') {
+                    BUSUANZI.fetch();
+                    clearInterval(checkBusuanzi);
+                }
+            }, 100);
+            
+            // 5秒后如果还没加载完就清除定时器
+            setTimeout(() => {
+                clearInterval(checkBusuanzi);
+            }, 5000);
         }
         
     } catch (error) {

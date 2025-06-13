@@ -1,6 +1,6 @@
 # 花月的技术博客
 
-这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-13 20:13:13。
+这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-14 06:09:18。
 
 ## 📚 文章分类
 
@@ -8,8 +8,9 @@
 
 技术学习笔记和经验分享
 
-共 2 篇文章：
+共 3 篇文章：
 
+- [消息中间件背压机制深度解析](article.html?category=tech&file=Kafka%E5%92%8CRocketMQ%E7%9A%84%E8%83%8C%E5%8E%8B%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90.md) (2025-06-13)
 - [零拷贝技术解析：从麦当劳点餐看I/O优化之道](article.html?category=tech&file=%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90.md) (2025-06-13)
 - [kafka笔记](article.html?category=tech&file=kafka%E7%AC%94%E8%AE%B0.md) (2025-06-06)
 
@@ -74,4 +75,4 @@ MIT 6.824 分布式系统课程笔记
 └── README.md           # 项目说明
 ```
 
-最后更新: 2025-6-13 20:13:13
+最后更新: 2025-6-14 06:09:18

@@ -293,10 +293,6 @@ async function loadArticle(category, filename) {
                             <i class="fas fa-calendar"></i>
                             ${updateTime}
                         </span>
-                        <span class="article-views">
-                            <i class="fas fa-eye"></i>
-                            阅读量 <span id="busuanzi_value_page_pv_${category}_${encodeURIComponent(filename).replace(/[^a-zA-Z0-9]/g, '_')}">0</span>
-                        </span>
                     </div>
                     <h1 class="article-title">${title}</h1>
                 </header>

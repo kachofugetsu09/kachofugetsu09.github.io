@@ -1400,39 +1400,31 @@ pre::-webkit-scrollbar-thumb:hover {
 /* 站点统计样式 */
 .site-stats {
     margin-top: 8px;
-    font-size: 0.9em;
+    font-size: 0.85rem;
     color: #666;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 4px 10px;
+    border-radius: 20px;
+    width: fit-content;
 }
 
 .site-stat-number {
-    font-weight: 600;
-    color: #4a9eff;
+    color: #000;
+    font-weight: 500;
     margin: 0 2px;
 }
 
-.stat-divider {
-    color: #ddd;
+/* 移除文章页面的阅读量显示 */
+.article-views {
+    display: none;
 }
 
 @media (max-width: 768px) {
     .site-stats {
-        font-size: 0.85em;
+        font-size: 0.8rem;
+        padding: 3px 8px;
     }
-    
-    .article-views {
-        font-size: 0.85em;
-        margin-left: 10px;
-    }
-}
-
-/* 文章阅读量样式 */
-.article-views {
-    color: #666;
-    font-size: 0.9em;
-    margin-left: 15px;
-}
-
-.article-views i {
-    margin-right: 5px;
-    color: #4a9eff;
 }

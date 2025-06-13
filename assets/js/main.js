@@ -295,7 +295,7 @@ async function loadArticle(category, filename) {
                         </span>
                         <span class="article-views">
                             <i class="fas fa-eye"></i>
-                            阅读量 <span id="busuanzi_value_page_pv">0</span>
+                            阅读量 <span id="busuanzi_value_page_pv_${category}_${encodeURIComponent(filename).replace(/[^a-zA-Z0-9]/g, '_')}">0</span>
                         </span>
                     </div>
                     <h1 class="article-title">${title}</h1>
@@ -341,17 +341,54 @@ async function loadArticle(category, filename) {
         if (oldScript) {
             oldScript.remove();
         }
-        const newScript = document.createElement('script');
-        newScript.async = true;
-        newScript.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
-        newScript.onload = function() {
-            // 脚本加载完成后，等待一小段时间让不蒜子初始化
-            setTimeout(() => {
-                if (typeof BUSUANZI !== 'undefined') {
-                    BUSUANZI.fetch();
+        
+        // 添加自定义不蒜子脚本
+        const scriptContent = `
+            var bszCaller, bszTag;
+            !function(){
+                var c,d,e,f;
+                bszCaller={
+                    fetch:function(a,b){
+                        var c="BusuanziCallback_" + Math.floor(1099511627776 * Math.random());
+                        window[c]=this.evalCall.bind(this,b),
+                        a=a.replace("=BusuanziCallback","=" + c),
+                        scriptTag=document.createElement("SCRIPT"),
+                        scriptTag.type="text/javascript",
+                        scriptTag.defer=!0,
+                        scriptTag.src=a,
+                        document.getElementsByTagName("HEAD")[0].appendChild(scriptTag)
+                    },
+                    evalCall:function(a,b){
+                        try{
+                            a(b),
+                            scriptTag.parentElement.removeChild(scriptTag)
+                        }catch(c){
+                            console.log(c)
+                        }
+                    }
+                };
+
+                function fetchPageViews() {
+                    const id = "page_pv_${category}_${encodeURIComponent(filename).replace(/[^a-zA-Z0-9]/g, '_')}";
+                    const url = \`https://busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback&id=\${id}\`;
+                    bszCaller.fetch(url, function(a) {
+                        const element = document.getElementById("busuanzi_value_" + id);
+                        if(element) {
+                            element.innerHTML = a.page_pv;
+                        }
+                    });
                 }
-            }, 100);
-        };
+
+                // 立即获取一次
+                fetchPageViews();
+
+                // 每30秒更新一次
+                setInterval(fetchPageViews, 30000);
+            }();
+        `;
+
+        const newScript = document.createElement('script');
+        newScript.textContent = scriptContent;
         document.body.appendChild(newScript);
         
     } catch (error) {

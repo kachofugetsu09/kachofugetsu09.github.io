@@ -1,6 +1,6 @@
 # 花月的技术博客
 
-这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-13 18:35:03。
+这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-13 19:32:31。
 
 ## 📚 文章分类
 
@@ -25,9 +25,8 @@
 
 MIT 6.824 分布式系统课程笔记
 
-共 3 篇文章：
+共 2 篇文章：
 
-- [election_restriction_formatted](article.html?category=MIT6.824&file=election_restriction_formatted.md) (2025-06-13)
 - [Raft算法论文研究](article.html?category=MIT6.824&file=raft%E8%AE%BA%E6%96%87%E7%A0%94%E7%A9%B6.md) (2025-06-09)
 - [lab1](article.html?category=MIT6.824&file=lab1.md) (2025-06-06)
 
@@ -75,4 +74,4 @@ MIT 6.824 分布式系统课程笔记
 └── README.md           # 项目说明
 ```
 
-最后更新: 2025-6-13 18:35:03
+最后更新: 2025-6-13 19:32:31

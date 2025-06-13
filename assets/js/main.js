@@ -293,7 +293,7 @@ async function loadArticle(category, filename) {
                             <i class="fas fa-calendar"></i>
                             ${updateTime}
                         </span>
-                        <span id="busuanzi_container_page_pv" class="article-views">
+                        <span class="article-views">
                             <i class="fas fa-eye"></i>
                             阅读量 <span id="busuanzi_value_page_pv">0</span>
                         </span>
@@ -336,23 +336,23 @@ async function loadArticle(category, filename) {
         // 添加代码行包装
         wrapCodeLines();
         
-        // 重新加载不蒜子脚本以更新页面计数
-        if (typeof BUSUANZI !== 'undefined') {
-            BUSUANZI.fetch();
-        } else {
-            // 如果不蒜子脚本还没加载完成，等待加载
-            const checkBusuanzi = setInterval(() => {
+        // 重新加载不蒜子脚本
+        const oldScript = document.querySelector('script[src*="busuanzi"]');
+        if (oldScript) {
+            oldScript.remove();
+        }
+        const newScript = document.createElement('script');
+        newScript.async = true;
+        newScript.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+        newScript.onload = function() {
+            // 脚本加载完成后，等待一小段时间让不蒜子初始化
+            setTimeout(() => {
                 if (typeof BUSUANZI !== 'undefined') {
                     BUSUANZI.fetch();
-                    clearInterval(checkBusuanzi);
                 }
             }, 100);
-            
-            // 5秒后如果还没加载完就清除定时器
-            setTimeout(() => {
-                clearInterval(checkBusuanzi);
-            }, 5000);
-        }
+        };
+        document.body.appendChild(newScript);
         
     } catch (error) {
         console.error('加载文章失败:', error);

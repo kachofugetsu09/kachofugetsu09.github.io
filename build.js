@@ -34,6 +34,12 @@ const SITE_CONFIG = {    categories: {
             description: '面试准备和学习记录',
             icon: 'fas fa-briefcase',
             color: '#764ba2'
+        },
+        'chatting': {
+            name: '心情随笔',
+            description: '生活感悟与内心独白',
+            icon: 'fas fa-heart',
+            color: '#f093fb'
         }
     }
 };

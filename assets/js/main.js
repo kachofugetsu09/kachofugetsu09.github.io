@@ -340,6 +340,14 @@ async function loadArticle(category, filename) {
         // 添加代码行包装
         wrapCodeLines();
         
+        // 初始化 Gitalk 讨论区
+        if (typeof initGitalk === 'function') {
+            // 延迟初始化，确保页面完全渲染
+            setTimeout(() => {
+                initGitalk();
+            }, 500);
+        }
+        
     } catch (error) {
         console.error('加载文章失败:', error);
         dynamicContent.innerHTML = `

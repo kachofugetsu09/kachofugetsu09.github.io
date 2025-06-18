@@ -75,8 +75,7 @@ function initGitalk() {
         console.log('Gitalk 容器不存在，跳过初始化');
         return;
     }
-    
-    // 检查必要的配置
+      // 检查必要的配置
     if (GITALK_CONFIG.clientID === 'YOUR_GITHUB_CLIENT_ID' || 
         GITALK_CONFIG.clientSecret === 'YOUR_GITHUB_CLIENT_SECRET') {
         container.innerHTML = `
@@ -87,6 +86,28 @@ function initGitalk() {
                 <p style="margin-top: 10px; font-size: 0.9rem;">
                     配置教程：<a href="https://github.com/gitalk/gitalk#usage" target="_blank" style="color: #667eea;">查看 Gitalk 配置说明</a>
                 </p>
+            </div>
+        `;
+        return;
+    }
+    
+    // 检查 Client Secret 是否有效（简单验证）
+    if (GITALK_CONFIG.clientSecret.length < 30) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px;">
+                <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #dc3545; margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Client Secret 配置错误</h4>
+                <p>请检查您的 GitHub Application Client Secret 是否正确配置。</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">
+                    当前 Client Secret 长度: ${GITALK_CONFIG.clientSecret.length} 字符（应该大于30字符）
+                </p>
+                <div style="margin-top: 15px; padding: 10px; background: #fff; border-radius: 4px; font-family: monospace; font-size: 0.8rem;">
+                    <strong>解决步骤：</strong><br>
+                    1. 访问 <a href="https://github.com/settings/applications" target="_blank">GitHub OAuth Apps</a><br>
+                    2. 点击您的应用<br>
+                    3. 生成新的 Client Secret<br>
+                    4. 更新 gitalk-config.js 文件
+                </div>
             </div>
         `;
         return;

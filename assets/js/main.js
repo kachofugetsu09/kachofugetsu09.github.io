@@ -351,7 +351,7 @@ async function loadArticle(category, filename) {
         wrapCodeLines();
         
         // 初始化 Giscus 评论区
-        initGiscusComments();
+        initGiscusComments(category, filename);
         
     } catch (error) {
         console.error('加载文章失败:', error);
@@ -837,9 +837,11 @@ function initMobileInteractions() {
 /**
  * 初始化 Giscus 评论系统
  * 基于 GitHub Discussions 的现代评论解决方案
+ * @param {string} category 文章分类
+ * @param {string} filename 文章文件名
  */
-function initGiscusComments() {
-    console.log('开始初始化 Giscus 评论系统...');
+function initGiscusComments(category, filename) {
+    console.log('开始初始化 Giscus 评论系统...', { category, filename });
     
     // 1. 检查评论容器是否存在
     const container = document.getElementById('giscus-container');
@@ -851,14 +853,22 @@ function initGiscusComments() {
     // 2. 清空容器内容
     container.innerHTML = '';
     
-    // 3. 创建 Giscus 脚本元素
+    // 3. 生成文章唯一标识符
+    const articleId = `${category}/${filename}`;
+    const articleTitle = `${filename.replace('.md', '')} - ${category}`;
+    
+    console.log('文章唯一标识:', articleId);
+    console.log('文章标题:', articleTitle);
+    
+    // 4. 创建 Giscus 脚本元素
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', 'kachofugetsu09/kachofugetsu09.github.io');
     script.setAttribute('data-repo-id', 'R_kgDOO3Q_2g');
     script.setAttribute('data-category', 'General');
     script.setAttribute('data-category-id', 'DIC_kwDOO3Q_2s4CrqTm');
-    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-mapping', 'specific'); // 使用 specific 映射
+    script.setAttribute('data-term', articleId); // 使用文章唯一标识作为 term
     script.setAttribute('data-strict', '0');
     script.setAttribute('data-reactions-enabled', '1');
     script.setAttribute('data-emit-metadata', '0');
@@ -868,7 +878,7 @@ function initGiscusComments() {
     script.setAttribute('crossorigin', 'anonymous');
     script.async = true;
     
-    // 4. 添加加载事件监听器
+    // 5. 添加加载事件监听器
     script.onload = function() {
         console.log('Giscus 评论系统加载成功');
     };
@@ -884,8 +894,8 @@ function initGiscusComments() {
         `;
     };
     
-    // 5. 将脚本添加到容器中
+    // 6. 将脚本添加到容器中
     container.appendChild(script);
     
-    console.log('Giscus 脚本已添加到页面');
+    console.log('Giscus 脚本已添加到页面，文章ID:', articleId);
 }

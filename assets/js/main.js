@@ -116,7 +116,7 @@ async function renderCategories() {
 }
 
 /**
- * 渲染侧边栏分类列表（可展开式）
+ * 渲
  */
 function renderSidebarCategories() {
     const sidebarContainer = document.getElementById('sidebarCategories');
@@ -303,6 +303,15 @@ async function loadArticle(category, filename) {
                     ${processedHTML}
                 </div>
             </article>
+            
+            <!-- Giscus 评论区 -->
+            <div class="comments-section">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 讨论区</h3>
+                    <p class="comments-description">欢迎参与讨论，分享您的想法</p>
+                </div>
+                <div id="giscus-container"></div>
+            </div>
 
         `;
         
@@ -340,6 +349,9 @@ async function loadArticle(category, filename) {
         
         // 添加代码行包装
         wrapCodeLines();
+        
+        // 初始化 Giscus 评论区
+        initGiscusComments();
         
     } catch (error) {
         console.error('加载文章失败:', error);
@@ -820,4 +832,60 @@ function initMobileInteractions() {
             }
         }
     }
+}
+
+/**
+ * 初始化 Giscus 评论系统
+ * 基于 GitHub Discussions 的现代评论解决方案
+ */
+function initGiscusComments() {
+    console.log('开始初始化 Giscus 评论系统...');
+    
+    // 1. 检查评论容器是否存在
+    const container = document.getElementById('giscus-container');
+    if (!container) {
+        console.log('Giscus 容器不存在，跳过初始化');
+        return;
+    }
+    
+    // 2. 清空容器内容
+    container.innerHTML = '';
+    
+    // 3. 创建 Giscus 脚本元素
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'kachofugetsu09/kachofugetsu09.github.io');
+    script.setAttribute('data-repo-id', 'R_kgDOO3Q_2g');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOO3Q_2s4CrqTm');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'light'); // 使用 light 主题匹配黑白简约风格
+    script.setAttribute('data-lang', 'zh-CN');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    // 4. 添加加载事件监听器
+    script.onload = function() {
+        console.log('Giscus 评论系统加载成功');
+    };
+    
+    script.onerror = function() {
+        console.error('Giscus 评论系统加载失败');
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px;">
+                <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #dc3545; margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">评论系统加载失败</h4>
+                <p>请检查网络连接或稍后重试</p>
+            </div>
+        `;
+    };
+    
+    // 5. 将脚本添加到容器中
+    container.appendChild(script);
+    
+    console.log('Giscus 脚本已添加到页面');
 }

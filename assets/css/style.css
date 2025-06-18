@@ -1454,4 +1454,143 @@ pre::-webkit-scrollbar-thumb:hover {
     }
 }
 
+/* ================== Giscus 评论区样式 ================== */
+.comments-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+    background: #fff;
+}
+
+.comments-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.comments-header h3 {
+    font-size: 1.4rem;
+    color: #000;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.comments-header h3 i {
+    color: #666;
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+.comments-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+#giscus-container {
+    background: #fff;
+    max-width: 100%;
+}
+
+/* Giscus 组件样式优化 - 黑白简约风格 */
+#giscus-container .gsc-reactions-menu {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+#giscus-container .gsc-comment-box {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+}
+
+#giscus-container .gsc-comment-box-textarea {
+    background: #fff;
+    border: none;
+    color: #000;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#giscus-container .gsc-comment-box-textarea:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 1px #000;
+}
+
+#giscus-container .gsc-comment {
+    border-bottom: 1px solid #eee;
+    padding: 16px 0;
+}
+
+#giscus-container .gsc-comment:last-child {
+    border-bottom: none;
+}
+
+#giscus-container .gsc-comment-author {
+    color: #000;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#giscus-container .gsc-comment-author:hover {
+    color: #666;
+}
+
+#giscus-container .gsc-comment-content {
+    color: #000;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 8px 0;
+}
+
+#giscus-container .gsc-comment-edited {
+    color: #999;
+    font-size: 12px;
+}
+
+/* 按钮样式 */
+#giscus-container .gsc-comment-box-button {
+    background: #000;
+    border: 1px solid #000;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#giscus-container .gsc-comment-box-button:hover {
+    background: #333;
+    border-color: #333;
+}
+
+#giscus-container .gsc-comment-box-button:disabled {
+    background: #f8f9fa;
+    border-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .comments-section {
+        margin: 40px -20px 20px -20px;
+        padding: 30px 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .comments-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    #giscus-container {
+        margin: 0;
+    }
+}
+
 

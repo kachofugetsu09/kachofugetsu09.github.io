@@ -69,12 +69,16 @@ function generateArticleTitle() {
  * 在文章加载完成后调用此函数
  */
 function initGitalk() {
+    console.log('initGitalk函数被调用');
+    
     // 检查是否在文章页面
     const container = document.getElementById('gitalk-container');
     if (!container) {
         console.log('Gitalk 容器不存在，跳过初始化');
         return;
     }
+    
+    console.log('找到Gitalk容器，开始检查配置');
       // 检查必要的配置
     if (GITALK_CONFIG.clientID === 'YOUR_GITHUB_CLIENT_ID' || 
         GITALK_CONFIG.clientSecret === 'YOUR_GITHUB_CLIENT_SECRET') {

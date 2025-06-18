@@ -350,11 +350,23 @@ async function loadArticle(category, filename) {
         wrapCodeLines();
         
         // 初始化 Gitalk 讨论区
+        console.log('准备初始化Gitalk...');
+        console.log('typeof initGitalk:', typeof initGitalk);
+        console.log('Gitalk是否可用:', typeof Gitalk);
+        
         if (typeof initGitalk === 'function') {
+            console.log('开始初始化Gitalk');
             // 延迟初始化，确保页面完全渲染
             setTimeout(() => {
-                initGitalk();
+                try {
+                    initGitalk();
+                    console.log('Gitalk初始化成功');
+                } catch (error) {
+                    console.error('Gitalk初始化失败:', error);
+                }
             }, 500);
+        } else {
+            console.warn('initGitalk函数未找到，可能是gitalk-config.js未正确加载');
         }
         
     } catch (error) {
@@ -458,9 +470,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化移动端交互
     initMobileInteractions();
-    
-    // 增加访问量并更新显示
-    PageCounter.updateCounterDisplay();
 });
 
 /**

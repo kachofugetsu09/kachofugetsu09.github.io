@@ -32,13 +32,41 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       <!-- 不蒜子访问统计（只统计不显示） -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span id="busuanzi_container_site_pv" style="display: none;"><span id="busuanzi_value_site_pv">0</span></span>
-      <!-- Gitalk 讨论区 -->
+    <span id="busuanzi_container_site_pv" style="display: none;"><span id="busuanzi_value_site_pv">0</span></span>    <!-- Gitalk 讨论区 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" onerror="loadGitalkFallback()"></script>
+    
+    <!-- Gitalk 备用CDN -->
+    <script>
+    function loadGitalkFallback() {
+        console.warn('主CDN加载失败，尝试备用CDN');
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/gitalk/dist/gitalk.min.js';
+        script.onerror = function() {
+            console.error('所有Gitalk CDN都加载失败');
+        };
+        document.head.appendChild(script);
+        
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/gitalk/dist/gitalk.css';
+        document.head.appendChild(link);
+    }
+    
+    // 检查Gitalk是否加载成功
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            if (typeof Gitalk === 'undefined') {
+                console.error('Gitalk未能加载，请检查网络连接');
+            } else {
+                console.log('Gitalk加载成功');
+            }
+        }, 1000);
+    });
+    </script>
     
     <script src="assets/js/config.js"></script>
-    <script src="assets/js/gitalk-config.js"></script>
+    <script src="assets/js/gitalk-config.js" onerror="console.error('gitalk-config.js加载失败')"></script>
     <script src="assets/js/main.js"></script>
 </head>
 <body>

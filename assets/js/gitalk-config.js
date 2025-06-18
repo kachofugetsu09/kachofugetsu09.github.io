@@ -3,6 +3,8 @@
  * 用于管理博客讨论区的设置
  */
 
+console.log('gitalk-config.js 开始加载');
+
 // Gitalk 配置
 const GITALK_CONFIG = {
     // GitHub Application 配置
@@ -155,3 +157,5 @@ if (typeof module !== 'undefined' && module.exports) {
         initGitalk
     };
 }
+
+console.log('gitalk-config.js 加载完成，initGitalk函数已定义:', typeof initGitalk);

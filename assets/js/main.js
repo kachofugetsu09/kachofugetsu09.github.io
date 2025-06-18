@@ -351,22 +351,131 @@ async function loadArticle(category, filename) {
         
         // 初始化 Gitalk 讨论区
         console.log('准备初始化Gitalk...');
-        console.log('typeof initGitalk:', typeof initGitalk);
-        console.log('Gitalk是否可用:', typeof Gitalk);
+        console.log('typeof Gitalk:', typeof Gitalk);
         
-        if (typeof initGitalk === 'function') {
+        // 直接在这里定义 Gitalk 配置和初始化函数
+        const GITALK_CONFIG = {
+            clientID: 'Ov23lirBHS0XJdQDkktW',
+            clientSecret: 'a8d5bf15427656f1d57feebe42ec4ddeb622b6aa',
+            repo: 'kachofugetsu09.github.io',
+            owner: 'kachofugetsu09',
+            admin: ['kachofugetsu09'],
+            language: 'zh-CN',
+            labels: ['gitalk', 'comment'],
+            perPage: 10,
+            distractionFreeMode: false,
+            pagerDirection: 'last',
+            createIssueManually: false,
+            enableHotKey: true,
+            proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+        };
+        
+        function generateArticleId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            const file = urlParams.get('file');
+            
+            if (category && file) {
+                const id = `${category}-${file.replace('.md', '')}`;
+                return id.length > 50 ? id.substring(0, 50) : id;
+            }
+            
+            return location.pathname.replace(/[^\w\-]/g, '-').substring(0, 50);
+        }
+        
+        function generateArticleTitle() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const file = urlParams.get('file');
+            
+            if (file) {
+                return file.replace('.md', '') + ' - 花月的技术博客';
+            }
+            
+            return document.title || '博客文章讨论';
+        }
+        
+        function initGitalkInline() {
+            console.log('initGitalkInline函数被调用');
+            
+            const container = document.getElementById('gitalk-container');
+            if (!container) {
+                console.log('Gitalk 容器不存在，跳过初始化');
+                return;
+            }
+            
+            console.log('找到Gitalk容器，开始检查Gitalk库');
+            
+            if (typeof Gitalk === 'undefined') {
+                console.error('Gitalk库未加载');
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #dc3545; margin-bottom: 15px;"></i>
+                        <h4 style="margin-bottom: 10px;">Gitalk库加载失败</h4>
+                        <p>请检查网络连接，确保能访问CDN资源。</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log('Gitalk库已加载，开始初始化');
+            
+            try {
+                const gitalk = new Gitalk({
+                    ...GITALK_CONFIG,
+                    id: generateArticleId(),
+                    title: generateArticleTitle(),
+                    body: `${location.href}\n\n欢迎在此讨论文章内容，分享您的想法和建议！`
+                });
+                
+                console.log('Gitalk实例创建成功，开始渲染');
+                gitalk.render('gitalk-container');
+                console.log('Gitalk渲染成功');
+                
+            } catch (error) {
+                console.error('Gitalk初始化失败:', error);
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #dc3545; margin-bottom: 15px;"></i>
+                        <h4 style="margin-bottom: 10px;">讨论区加载失败</h4>
+                        <p>Gitalk初始化时出现错误：${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 延迟初始化Gitalk
+        if (typeof Gitalk !== 'undefined') {
             console.log('开始初始化Gitalk');
-            // 延迟初始化，确保页面完全渲染
             setTimeout(() => {
-                try {
-                    initGitalk();
-                    console.log('Gitalk初始化成功');
-                } catch (error) {
-                    console.error('Gitalk初始化失败:', error);
-                }
+                initGitalkInline();
             }, 500);
         } else {
-            console.warn('initGitalk函数未找到，可能是gitalk-config.js未正确加载');
+            console.warn('Gitalk库未加载，等待资源加载完成');
+            // 检查Gitalk是否稍后加载
+            let checkCount = 0;
+            const checkInterval = setInterval(() => {
+                checkCount++;
+                if (typeof Gitalk !== 'undefined') {
+                    console.log('Gitalk库已加载，开始初始化');
+                    clearInterval(checkInterval);
+                    setTimeout(() => {
+                        initGitalkInline();
+                    }, 500);
+                } else if (checkCount > 10) {
+                    console.error('等待Gitalk库加载超时');
+                    clearInterval(checkInterval);
+                    const container = document.getElementById('gitalk-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #ffa500; margin-bottom: 15px;"></i>
+                                <h4 style="margin-bottom: 10px;">资源加载超时</h4>
+                                <p>Gitalk库加载超时，请刷新页面重试。</p>
+                            </div>
+                        `;
+                    }
+                }
+            }, 1000);
         }
         
     } catch (error) {

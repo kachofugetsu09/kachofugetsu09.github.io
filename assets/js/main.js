@@ -303,6 +303,15 @@ async function loadArticle(category, filename) {
                     ${processedHTML}
                 </div>
             </article>
+            
+            <!-- Gitalk 讨论区容器 -->
+            <div class="comments-section">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 讨论区</h3>
+                    <p class="comments-description">欢迎您的讨论</p>
+                </div>
+                <div id="gitalk-container"></div>
+            </div>
         `;
         
         dynamicContent.innerHTML = articleHTML;

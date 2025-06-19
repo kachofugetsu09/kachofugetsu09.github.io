@@ -3,9 +3,9 @@
 <head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>花月的技术博客</title>
-    
-    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
-    <link rel="stylesheet" href="assets/css/style.css">    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/links.css"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- 添加Markdown解析和语法高亮支持 -->
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js"></script>
@@ -44,8 +44,8 @@
     
     <!-- 不蒜子访问统计 -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    
-    <script src="assets/js/config.js"></script>
+      <script src="assets/js/config.js"></script>
+    <script src="assets/js/url-utils.js"></script>
     <script src="assets/js/main.js"></script>
 </head>
 <body>    <!-- 统一头部区域 -->
@@ -81,11 +81,23 @@
         <div class="content-wrapper">
             <div class="content-layout">
                 <div class="article-container">                    <section id="welcomeSection" class="welcome-section">
-                        <article class="article-content">
-                            <h1>欢迎来到花月的博客</h1>                            <p>这里记录了我的面经整理项目复盘以及技术分享</p>                            <div class="social-links">
-                                <a href="https://github.com/kachofugetsu09" target="_blank" class="social-link github-link">
-                                    <img src="img/githubImg.jpg" alt="我的GitHub头像" class="github-avatar">
-                                    <span>关注我的GitHub</span>
+                        <article class="article-content blog-intro">                            <div class="blog-title-section">
+                                <h1>欢迎来到花月的博客</h1>
+                                <a href="https://github.com/kachofugetsu09/kachofugetsu09.github.io" target="_blank" class="elegant-link repo-link">博客源码</a>
+                            </div>
+                            <div class="blog-intro-text">
+                                <p>你好！我是花月，一位热衷于探索技术深度的软件开发者。</p>
+                            </div>
+
+                            <div class="blog-content">
+                                <p>在这里，我专注于分享深度技术文章，将复杂的技术问题转化为清晰的知识讲解。每一篇文章都力求准确、深入且易懂。</p>                                <h3>推荐阅读</h3>
+                                <p><a href="#" onclick="handleArticleClick('tech/零拷贝技术解析.md', event)" class="elegant-link internal">零拷贝技术解析</a></p>
+
+
+                            </div><div class="social-links">
+                                <a href="https://github.com/kachofugetsu09" target="_blank" class="social-link github-link" title="访问我的GitHub主页">
+                                    <img src="img/githubImg.jpg" alt="GitHub" class="github-avatar">
+                                    <span>Follow me on GitHub</span>
                                 </a>
                             </div>
                         </article>

@@ -1,0 +1,27 @@
+/* 可折叠区域的样式 */
+details {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+summary {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+}
+
+summary:hover {
+    background-color: #45a049;
+}
+
+details[open] summary {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}

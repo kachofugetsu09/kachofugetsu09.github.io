@@ -1,6 +1,63 @@
 # Java虚拟机笔记
 
+<link rel="stylesheet" href="../assets/css/details.css">
 
+让我们通过一个贯穿全文的示例来理解JVM的内存模型：
+
+```java
+// 示例代码：一个简单的学生成绩管理系统
+public class Student {
+    // 静态字段：存储在元空间的类信息中
+    private static String schoolName = "清华大学";
+    private static int totalStudents = 0;
+    
+    // 实例字段：存储在堆内存中
+    private String name;
+    private int score;
+    
+    // 构造方法
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+        totalStudents++;
+    }
+    
+    // 实例方法：方法本身存储在元空间，执行时在虚拟机栈中创建栈帧
+    public void updateScore(int newScore) {
+        // 局部变量：存储在虚拟机栈的局部变量表中
+        int oldScore = this.score;
+        this.score = newScore;
+        System.out.println(name + "的分数从" + oldScore + "更新为" + newScore);
+    }
+    
+    // 静态方法：方法本身存储在元空间，执行时在虚拟机栈中创建栈帧
+    public static void printSchoolInfo() {
+        // 字符串字面量：存储在字符串常量池（堆）中
+        System.out.println("学校名称：" + schoolName);
+        System.out.println("学生总数：" + totalStudents);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // main方法的参数args是局部变量，存储在main方法对应栈帧的局部变量表中
+        
+        // new操作符在堆内存中创建对象，student1是局部变量，存储在栈中的引用
+        Student student1 = new Student("张三", 80);
+        
+        // 同上，student2也是存储在栈中的引用
+        Student student2 = new Student("李四", 90);
+        
+        // 调用实例方法时，会在虚拟机栈中创建新的栈帧
+        student1.updateScore(85);
+        
+        // 调用静态方法
+        Student.printSchoolInfo();
+    }
+}
+```
+
+这个示例包含了JVM中各个内存区域的重要概念，我们将在后续章节中详细解释每个部分是如何在JVM中存储和运行的。
 
 # JVM内存模型
 
@@ -67,14 +124,33 @@
 
 程序计数器（Program Counter Register）就像是JVM的GPS导航系统，时刻记录着当前线程执行到了哪一行字节码指令。
 
+在我们的示例中，当执行`student1.updateScore(85)`时，程序计数器会依次指向：
+
+<details>
+<summary>🔍 点击查看：程序计数器如何跟踪代码执行 ➡️</summary>
+
 ```java
-// 想象这样的代码执行过程
-public void example() {
-    int a = 1;        // PC指向第1行字节码
-    int b = 2;        // PC指向第2行字节码  
-    int sum = a + b;  // PC指向第3行字节码
+// 从示例代码中提取的相关部分
+public class Main {
+    public static void main(String[] args) {
+        Student student1 = new Student("张三", 80);
+        student1.updateScore(85);  // 程序计数器指向这行
+    }
+}
+
+public class Student {
+    public void updateScore(int newScore) {  // 程序计数器指向这行
+        int oldScore = this.score;           // 程序计数器指向这行
+        this.score = newScore;               // 程序计数器指向这行
+        System.out.println(name + "的分数从" + oldScore + "更新为" + newScore);  // 程序计数器指向这行
+    }                                        // 程序计数器返回到main方法
 }
 ```
+</details>
+
+1. main方法中调用updateScore的位置
+2. updateScore方法中的各条指令
+3. 执行完毕后返回main方法的下一条指令
 
 ### 关键特性
 
@@ -108,6 +184,23 @@ public void example() {
 ### 栈帧的四大组件
 
 #### 1. 局部变量表：线程私有栈中的"私人储物柜"
+
+<details>
+<summary>🔍 点击展开：虚拟机栈中的局部变量表实例 ➡️</summary>
+
+```java
+// 从示例代码中提取的相关部分
+public void updateScore(int newScore) {
+    // 局部变量表内容：
+    // slot 0: this (对当前Student对象的引用)
+    // slot 1: newScore (参数，值为85)
+    int oldScore = this.score;  // slot 2: oldScore (局部变量)
+    this.score = newScore;
+    System.out.println(name + "的分数从" + oldScore + "更新为" + newScore);
+}
+```
+</details>
+
 在**线程私有的虚拟机栈**中，每个栈帧都有自己的局部变量表，存储方法参数和局部变量：
 - **基本类型**：`boolean`、`byte`、`char`、`short`、`int`、`float`、`long`、`double`
 - **引用类型（reference）**：这里是重点！存储的是**指向线程共享堆内存中对象的"门牌号"**，而不是对象本身
@@ -124,6 +217,30 @@ public void example() {
 
 #### 4. 方法返回地址：回家的"路标"
 记录方法执行完毕后应该返回到哪里继续执行。
+
+以我们的示例代码为例，当执行到`student1.updateScore(85)`时，虚拟机栈中会有这样的结构：
+
+```
+🏰 虚拟机栈结构
+│
+├── 📦 栈帧2 (updateScore方法)
+│   ├── 📋 局部变量表
+│   │   ├── this = 对student1对象的引用
+│   │   ├── newScore = 85
+│   │   └── oldScore = 80
+│   ├── 🎯 操作数栈
+│   ├── 🔗 动态链接
+│   └── 📍 方法返回地址
+│
+└── 📦 栈帧1 (main方法)
+    ├── 📋 局部变量表
+    │   ├── args = String[]引用
+    │   ├── student1 = Student对象引用
+    │   └── student2 = Student对象引用
+    ├── 🎯 操作数栈
+    ├── 🔗 动态链接
+    └── 📍 方法返回地址
+```
 
 ### 常见异常
 
@@ -157,23 +274,52 @@ public void infiniteRecursion() {
 
 **Java堆**（Java Heap）是**运行时数据区**中最重要的**线程共享区域**，承担着所有对象实例的存储任务。如果说JVM是一座城市，那么堆就是这座城市中最大的居民区。
 
-> **重要提醒**：堆中存储的是对象实例本身，而**栈中**存储的reference（对象引用）就是指向这些对象实例的"地址"。记住这个关系：**栈中的reference** → **堆中的对象实例**。
+> **重要提醒**：以我们的示例来说，`student1`和`student2`这两个引用存储在各自方法的栈帧中，而这些引用指向的Student对象实例（包含name和score字段的值）则存储在堆内存中。
 
 ### 堆内存的分代设计智慧
 
-现代JVM采用分代垃圾收集算法，将堆内存划分为不同区域：
+现代JVM采用分代垃圾收集算法，将堆内存划分为不同区域。以我们的示例来说：
 
 ```
 🏘️ 堆内存分区（分代设计）
-├── 🌱 新生代 (Young Generation) - 年轻对象的聚集地
-│   ├── 🌿 Eden区 (对象诞生地)
-│   ├── 🔄 Survivor0区 (幸存者营地)
-│   └── 🔄 Survivor1区 (幸存者营地)
-└── 🏛️ 老年代 (Old Generation) - 长寿对象的安居区
-    └── 🗂️ 经历多次GC依然存活的对象
+├── 🌱 新生代 (Young Generation)
+│   ├── 🌿 Eden区
+│   │   └── 新创建的Student对象最初在这里
+│   ├── 🔄 Survivor0区
+│   └── 🔄 Survivor1区
+└── 🏛️ 老年代 (Old Generation)
+    └── 🗂️ 长期存活的对象
+        例如：经常使用的"清华大学"字符串
 ```
 
 ### 对象的"人生历程"
+
+<details>
+<summary>🔍 点击查看：对象在堆内存中的生命周期 ➡️</summary>
+
+```java
+// 从示例代码中提取的相关部分
+public class Main {
+    public static void main(String[] args) {
+        // 在Eden区创建新对象
+        Student student1 = new Student("张三", 80);  // 对象在堆内存中分配
+        Student student2 = new Student("李四", 90);  // 另一个对象实例
+        
+        // student1和student2的实例数据在堆内存中：
+        // student1对象：
+        //   - name = "张三" (String对象的引用)
+        //   - score = 80
+        
+        // student2对象：
+        //   - name = "李四" (String对象的引用)
+        //   - score = 90
+        
+        // "张三"和"李四"这两个字符串对象也在堆内存中（字符串常量池）
+    }
+}
+```
+
+</details>
 
 在堆内存中，对象有着清晰的生命周期：
 
@@ -197,6 +343,32 @@ public void infiniteRecursion() {
 
 ### JDK1.8前的方法区（运行时数据区）
 
+<details>
+<summary>🔍 点击探索：元空间中的类信息存储结构 ➡️</summary>
+
+```java
+// 从示例代码中提取的相关部分
+public class Student {
+    // 静态字段：存储在元空间的类信息中
+    private static String schoolName = "清华大学";  // 类变量
+    private static int totalStudents = 0;          // 类变量
+    
+    // 实例字段：字段信息存储在元空间，实际值在堆中
+    private String name;   // 实例变量的描述信息
+    private int score;     // 实例变量的描述信息
+    
+    // 方法信息：存储在元空间
+    public void updateScore(int newScore) {
+        // 方法的字节码指令存储在元空间
+    }
+    
+    public static void printSchoolInfo() {
+        // 静态方法的字节码指令也存储在元空间
+    }
+}
+```
+</details>
+
 方法区是**运行时数据区**中的一个**线程共享区域**，存储类的元数据信息：
 - 类信息（Class Info）
 - 字段信息（Field Info）
@@ -219,6 +391,37 @@ JDK1.8后，Oracle对JVM内存模型进行了一次重要的改革：**运行时
 # 设置元空间最大值
 -XX:MaxMetaspaceSize=256m
 ```
+
+### 对象访问定位：多内存区域协作的最终体现
+
+让我们通过示例代码来理解对象访问的过程：
+
+```java
+Student student1 = new Student("张三", 80);
+student1.updateScore(85);
+```
+
+当执行这段代码时，涉及三个内存区域的协作：
+1. **虚拟机栈**：存储`student1`这个引用
+2. **堆内存**：存储Student对象的实例数据（name="张三", score=80）
+3. **元空间**：存储Student类的类型信息、方法代码等
+
+#### 方式二：直接指针访问（HotSpot采用）
+
+以我们的示例来说，当执行`student1.updateScore(85)`时：
+
+1. JVM首先通过栈中的`student1`引用直接找到堆中的对象实例
+2. 对象实例的对象头中包含指向元空间中Student类型数据的指针
+3. 根据类型数据找到updateScore方法的字节码并执行
+
+```
+[虚拟机栈]              [堆内存]               [元空间]
+student1引用  ----→ Student对象实例 ----→ Student类信息
+                    name="张三"           方法代码
+                    score=80             字段定义
+```
+
+这种直接指针访问方式避免了额外的跳转，提高了访问效率。
 
 ---
 
@@ -284,53 +487,57 @@ ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
 
 ### 对象创建的五个阶段：多内存区域的精密协作
 
+让我们通过示例中的这行代码来详细了解对象创建过程：
 ```java
-Person person = new Person("张三", 25);
+Student student1 = new Student("张三", 80);
 ```
 
-当JVM遇到`new`指令时，这是一个涉及**多个内存区域协作**的复杂过程：**检查 → 分配 → 初始化 → 设置 → 调用**。
+当JVM遇到这个`new`指令时，这是一个涉及**多个内存区域协作**的复杂过程：**检查 → 分配 → 初始化 → 设置 → 调用**。
 
-#### � 五个核心阶段的内存区域协作
+#### 🎯 五个核心阶段的内存区域协作
 
 ```
-🎬 第一幕：类加载检查                     🎬 第二幕：内存分配
-┌─────────────────────────┐              ┌─────────────────────────┐
-│    [线程私有：虚拟机栈]    │     ──→     │   [线程共享：堆内存]     │
-│     遇到new指令         │              │     分配对象空间        │
-└─────────────────────────┘              └─────────────────────────┘
-           ↓                                        ↑
-┌─────────────────────────┐                        │
-│   [本地内存：元空间]     │                        │
-│   检查Person类是否存在   │  ──────────────────────┘
+🎬 第一幕：类加载检查
+┌─────────────────────────┐
+│    [线程私有：虚拟机栈]    │     
+│     遇到new Student     │              
+└─────────────────────────┘              
+           ↓                                        
+┌─────────────────────────┐                        
+│   [本地内存：元空间]     │                        
+│   检查Student类是否已加载│  
 └─────────────────────────┘
 
-🎬 第三幕：初始化零值                     � 第四幕：设置对象头
-┌─────────────────────────┐              ┌─────────────────────────┐
-│   [线程共享：堆内存]     │              │   [线程共享：堆内存]     │
-│   JVM将内存区域清零     │              │     ← [元空间类信息]    │
-│   int age = 0           │              │   设置类型指针等元信息   │
-│   String name = null    │              │                        │
-└─────────────────────────┘              └─────────────────────────┘
+🎬 第二幕：内存分配
+┌─────────────────────────┐
+│   [线程共享：堆内存]     │
+│   为Student对象分配内存  │
+│   包括name和score字段    │
+└─────────────────────────┘
 
-              🎬 第五幕：执行初始化（大结局）
-              ┌─────────────────────────┐
-              │   [线程私有：虚拟机栈]   │
-              │   调用<init>方法        │  ──→  完成！
-              │   执行构造器逻辑        │       栈中reference
-              └─────────────────────────┘       指向堆中对象
+🎬 第三幕：初始化零值
+┌─────────────────────────┐
+│   [线程共享：堆内存]     │
+│   name = null          │
+│   score = 0           │
+└─────────────────────────┘
+
+🎬 第四幕：设置对象头
+┌─────────────────────────┐
+│   [线程共享：堆内存]     │
+│   设置对象的类型指针     │
+│   指向Student类元数据    │
+└─────────────────────────┘
+
+🎬 第五幕：执行初始化
+┌─────────────────────────┐
+│   [线程私有：虚拟机栈]   │
+│   调用构造器            │
+│   name = "张三"        │
+│   score = 80          │
+└─────────────────────────┘
 ```
 
-#### 🎯 详细流程解析
-
-1. **类加载检查** - 确认类是否已加载到**本地内存的元空间**
-
-2. **内存分配** - 在**线程共享的堆内存**中为对象分配空间
-
-3. **初始化零值** - JVM自动将内存区域清零
-
-4. **设置对象头** - 记录对象元信息
-
-5. **执行初始化** - 调用构造方法完成对象初始化
 #### 📋 分配策略的技术细节
 
 在第二幕"内存分配"中，堆内存会根据垃圾收集器选择不同的分配策略：
@@ -350,29 +557,27 @@ Person person = new Person("张三", 25);
 
 ### 对象的内存布局
 
+以我们的Student对象为例：
+
 ```
-📦 Java对象在内存中的布局
+📦 Student对象在内存中的布局
 ├── 🏷️ 对象头 (Object Header)
 │   ├── 📊 标记字段 (Mark Word)
-│   │   ├── 哈希码 (HashCode)
-│   │   ├── GC年龄 (GC Age)  
-│   │   └── 锁状态 (Lock Status)
+│   │   ├── 哈希码
+│   │   ├── GC年龄
+│   │   └── 锁状态
 │   └── 🎯 类型指针 (Class Pointer)
-│       └── 指向方法区中的类元数据
+│       └── 指向元空间中的Student类元数据
 ├── 💾 实例数据 (Instance Data)
-│   └── 对象的实际属性值
+│   ├── String name = "张三"  // 引用类型，存储的是指向字符串常量池中"张三"的引用
+│   └── int score = 80      // 基本类型，直接存储值
 └── 🎯 对齐填充 (Padding)
     └── 确保对象大小是8字节的倍数
 ```
 
 ### 对象访问定位：多内存区域协作的最终体现
 
-> 🔄 **知识串联**：现在我们已经了解了所有内存区域，让我们看看它们是如何协作完成对象访问的。
-
-当我们在Java代码中访问一个对象时，这个过程涉及**三个内存区域的协作**：
-- **线程私有的虚拟机栈**：存储reference（对象引用）
-- **线程共享的堆内存**：存储对象实例数据  
-- **本地内存的元空间**：存储类型数据
+> 🔄 **知识串联**：现在让我们通过示例代码来看看这些内存区域是如何协作完成对象访问的。
 
 **为什么要把类型数据和对象实例分开存储？**
 
@@ -405,15 +610,29 @@ Person person = new Person("张三", 25);
 
 #### 方式二：直接指针访问 🎯
 
-直接指针访问就像"**直达电梯**"：你的卡（**reference，栈中的对象引用**）直接带你到目标楼层（对象实例），对象实例中包含了类型数据的地址。
+让我们通过示例代码来理解直接指针访问：
 
-```
-[局部变量表中的reference] → [堆中的对象实例] ← [本地内存元空间中的类型数据]
+```java
+// 在main方法中：
+Student student1 = new Student("张三", 80);
+student1.updateScore(85);
 ```
 
-**对象实例的对象头中包含：**
-- 指向类型数据的指针（在本地内存的元空间中）
-- 对象的运行时信息（哈希码、GC年龄等）
+这段代码的执行涉及三个内存区域的协作：
+
+1. **线程私有的虚拟机栈**：
+   - 存储`student1`这个引用变量
+   - 存储`updateScore`方法调用的参数`85`
+
+2. **线程共享的堆内存**：
+   - 存储Student对象的实例数据
+   - name字段（存储指向"张三"的引用）
+   - score字段（直接存储值80，后来更新为85）
+
+3. **本地内存的元空间**：
+   - 存储Student类的完整定义
+   - 存储updateScore方法的字节码
+   - 存储静态字段schoolName和totalStudents的定义
 
 **优势**：
 - **访问速度快**：只需一次指针跳转，栈中的reference直接指向堆中的对象

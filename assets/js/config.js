@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-19T11:47:46.067Z
+// 生成时间: 2025-06-19T16:02:37.983Z
 
 window.SITE_DATA = {
     categories: {
@@ -66,7 +66,7 @@ window.SITE_DATA = {
     },
     "CS-basics/Java虚拟机.md": {
         "title": "Java虚拟机笔记",
-        "preview": "在JDK1.7的时代，JVM的内存布局就像一个传统的三层建筑： ` 📊 JDK1.7 内存布局 ├── 🏢 运行时数据区域 │ ├── 👥 线程共享区域 │ │ ├── 🗃️ 堆内存 [包含字符串常量池] │ │ └── 📚 方法区 [包含运行时常量池] │ └── 🔒 线程私有区域 │ ├── 📚 虚拟机栈 │ ├── 🌐 本地方法栈 │ └── 📍 程序计数器 └── 💾 ...",
+        "preview": "<link rel=\"stylesheet\" href=\"../assets/css/details.css\"> 让我们通过一个贯穿全文的示例来理解JVM的内存模型： `java // 示例代码：一个简单的学生成绩管理系统 public class Student { // 静态字段：存储在元空间的类信息中 private static String schoolName = \"清华大学\"; pr...",
         "updateTime": "2025-06-19"
     },
     "chatting/六月的蝉鸣.md": {

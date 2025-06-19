@@ -1,6 +1,6 @@
 # 花月的技术博客
 
-这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-18 23:10:58。
+这是一个基于GitHub Pages的静态博客网站，自动生成于 2025-6-19 19:34:39。
 
 ## 📚 文章分类
 
@@ -18,8 +18,9 @@
 
 计算机网络、数据结构与算法、组成原理等基础课程笔记
 
-共 1 篇文章：
+共 2 篇文章：
 
+- [Java虚拟机笔记](article.html?category=CS-basics&file=Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md) (2025-06-19)
 - [**Network Edge 网络边缘**](article.html?category=CS-basics&file=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md) (2025-02-23)
 
 ### fas fa-network-wired MIT6.824笔记
@@ -83,4 +84,4 @@ MIT 6.824 分布式系统课程笔记
 └── README.md           # 项目说明
 ```
 
-最后更新: 2025-6-18 23:10:58
+最后更新: 2025-6-19 19:34:39

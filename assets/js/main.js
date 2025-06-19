@@ -199,10 +199,22 @@ async function loadArticle(category, filename) {
     const welcomeSection = document.getElementById('welcomeSection');
     const dynamicContent = document.getElementById('dynamicContent');
     
-    // 显示加载状态
-    dynamicContent.innerHTML = '<div class="loading">正在加载文章...</div>';
+    // 如果当前已有内容，先添加淡出效果
+    if (dynamicContent.querySelector('.article-content')) {
+        const currentContent = dynamicContent.querySelector('.article-content');
+        currentContent.classList.add('fade-out');
+        
+        // 等待淡出动画完成
+        await new Promise(resolve => setTimeout(resolve, 300));
+    }
+      
+    // 显示加载状态，并添加淡入效果
+    dynamicContent.innerHTML = '<div class="loading animate-fade-in">正在加载文章...</div>';
     dynamicContent.style.display = 'block';
     welcomeSection.style.display = 'none';
+    
+    // 重置动态内容容器的滚动位置
+    dynamicContent.scrollTop = 0;
     
     try {
         // 获取文章内容
@@ -282,10 +294,9 @@ async function loadArticle(category, filename) {
                 updateTime = articleDetail.updateTime;
             }
         }
-        
-        // 生成文章HTML
+          // 生成文章HTML
         const articleHTML = `
-            <article class="article-content">
+            <article class="article-content fade-in">
                 <header class="article-header">
                     <div class="article-meta">
                         <span class="article-category">
@@ -343,15 +354,24 @@ async function loadArticle(category, filename) {
         url.searchParams.set('category', category);
         url.searchParams.set('file', filename);
         history.pushState({ category, filename }, title, url);
-        
-        // 更新页面标题
+          // 更新页面标题
         document.title = `${title} - 花月的技术博客`;
         
         // 添加代码行包装
         wrapCodeLines();
-        
-        // 初始化 Giscus 评论区
+          // 初始化 Giscus 评论区
         initGiscusComments(category, filename);
+        
+        // 修复：确保每次加载新文章时滚动到页面顶部
+        window.scrollTo(0, 0);
+        
+        // 添加延时，等待DOM完全更新后应用渐变效果
+        setTimeout(() => {
+            const articleContent = dynamicContent.querySelector('.article-content');
+            if (articleContent) {
+                articleContent.classList.add('visible');
+            }
+        }, 100);
         
     } catch (error) {
         console.error('加载文章失败:', error);

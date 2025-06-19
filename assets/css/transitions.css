@@ -1,0 +1,65 @@
+/**
+ * 过渡动画样式
+ * 提供文章内容渐变效果和页面切换效果
+ */
+
+/* 文章内容渐变效果 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 文章容器进入/退出效果 */
+.article-content {
+    transition: opacity 0.2s ease;
+}
+
+.article-content.fade-out {
+    opacity: 0;
+}
+
+/* 加载状态渐变效果 */
+.loading {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+/* 页面切换效果 */
+.page-transition {
+    position: relative;
+    transition: opacity 0.4s ease;
+}
+
+.page-transition.hidden {
+    opacity: 0;
+}
+
+/* 优化 TOC 渐变 */
+.toc-link {
+    transition: color 0.3s ease, border-left 0.3s ease;
+}
+
+/* 渐现渐退动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-fade-out {
+    animation: fadeOut 0.4s ease forwards;
+}

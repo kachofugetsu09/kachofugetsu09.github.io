@@ -171,9 +171,12 @@ async function loadAndRenderArticle() {
         configureMarked();
         
         // 转换Markdown为HTML
-        const htmlContent = marked.parse(markdownContent);
-          // 渲染到页面
+        const htmlContent = marked.parse(markdownContent);        // 渲染到页面
         articleBody.innerHTML = htmlContent;
+        
+        // 确保文章内容从顶部显示
+        articleBody.scrollTop = 0;
+        window.scrollTo(0, 0);
         
         // 重新应用代码高亮
         if (typeof hljs !== 'undefined') {
@@ -378,6 +381,9 @@ document.addEventListener('DOMContentLoaded', function() {
             languages: ['java', 'javascript', 'python', 'cpp', 'sql', 'html', 'css']
         });
     }
+    
+    // 确保页面从顶部开始显示
+    window.scrollTo(0, 0);
     
     loadAndRenderArticle();
     handleAnchorLinks();

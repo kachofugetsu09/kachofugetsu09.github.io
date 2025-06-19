@@ -21,7 +21,9 @@
 }
 
 .blog-intro .blog-title-section {
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
@@ -31,12 +33,9 @@
 }
 
 .blog-title-section .repo-link {
-    position: absolute;
-    right: 0;
-    top: 0;
     font-size: 0.9rem;
     opacity: 0.75;
-    transform: translateY(-50%);
+    margin-top: 4px;
 }
 
 .blog-title-section .repo-link:hover {

@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-23T14:29:55.137Z
+// 生成时间: 2025-06-23T17:50:39.281Z
 
 window.SITE_DATA = {
     "categories": {
@@ -87,8 +87,8 @@ window.SITE_DATA = {
             "title": "Java虚拟机笔记",
             "preview": "<link rel=\"stylesheet\" href=\"../assets/css/details.css\"> 让我们通过一个贯穿全文的示例来理解JVM的内存模型： `java // 示例代码：一个简单的学生成绩管理系统 public class Student { // 静态字段：存储在元空间的类信息中 private static String schoolName = \"清华大学\"; pr...",
             "updateTime": "2025-06-23",
-            "wordCount": 10385,
-            "readingTime": 70,
+            "wordCount": 15970,
+            "readingTime": 107,
             "relativePath": "Java虚拟机.md"
         },
         "CS-basics/计算机网络.md": {

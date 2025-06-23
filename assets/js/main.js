@@ -285,16 +285,23 @@ async function loadArticle(category, filename) {
         const title = filename.replace('.md', '');
         const categoryInfo = window.SITE_DATA?.categories[category] || SITE_CONFIG.categories[category];
         
-        // 尝试从SITE_DATA中获取文章的实际更新时间
+        // 尝试从SITE_DATA中获取文章的详细信息
         let updateTime = '未知时间';
+        let wordCount = 0;
+        let readingTime = 1;
+        let articleDetail = null;
+
         if (window.SITE_DATA?.articleDetails) {
             const key = `${category}/${filename}`;
-            const articleDetail = window.SITE_DATA.articleDetails[key];
-            if (articleDetail && articleDetail.updateTime) {
-                updateTime = articleDetail.updateTime;
+            articleDetail = window.SITE_DATA.articleDetails[key];
+            if (articleDetail) {
+                updateTime = articleDetail.updateTime || '未知时间';
+                wordCount = articleDetail.wordCount || 0;
+                readingTime = articleDetail.readingTime || 1;
             }
         }
-          // 生成文章HTML
+
+        // 生成文章HTML
         const articleHTML = `
             <article class="article-content fade-in">
                 <header class="article-header">
@@ -306,6 +313,12 @@ async function loadArticle(category, filename) {
                         <span class="article-date">
                             <i class="fas fa-calendar"></i>
                             ${updateTime}
+                        </span>
+                        <span class="article-stats">
+                            <i class="fas fa-book-reader"></i>
+                            ${wordCount}字
+                            <i class="fas fa-clock"></i>
+                            预计阅读${readingTime}分钟
                         </span>
                     </div>
                     <h1 class="article-title">${title}</h1>

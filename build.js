@@ -18,6 +18,12 @@ const SITE_CONFIG = {
             icon: 'fas fa-laptop-code',
             color: '#667eea'
         },
+        'redis-mini': {
+            name: 'Redis实现',
+            description: 'Redis源码分析与Java版本实现',
+            icon: 'fas fa-database',
+            color: '#dc382d'
+        },
         'CS-basics': {
             name: '计算机基础',
             description: '计算机网络、数据结构与算法、组成原理等基础课程笔记',

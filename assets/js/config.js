@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-23T17:50:39.281Z
+// 生成时间: 2025-06-24T16:49:21.011Z
 
 window.SITE_DATA = {
     "categories": {
@@ -9,6 +9,12 @@ window.SITE_DATA = {
             "description": "技术学习笔记和经验分享",
             "icon": "fas fa-laptop-code",
             "color": "#667eea"
+        },
+        "redis-mini": {
+            "name": "Redis实现",
+            "description": "Redis源码分析与Java版本实现",
+            "icon": "fas fa-database",
+            "color": "#dc382d"
         },
         "CS-basics": {
             "name": "计算机基础",
@@ -40,6 +46,9 @@ window.SITE_DATA = {
             "Kafka和RocketMQ的背压机制解析.md",
             "kafka笔记.md",
             "零拷贝技术解析.md"
+        ],
+        "redis-mini": [
+            "渐进式哈希实现思路.md"
         ],
         "CS-basics": [
             "Java虚拟机.md",
@@ -83,12 +92,20 @@ window.SITE_DATA = {
             "readingTime": 24,
             "relativePath": "零拷贝技术解析.md"
         },
+        "redis-mini/渐进式哈希实现思路.md": {
+            "title": "渐进式哈希实现思路",
+            "preview": "### 一个支持CoW的渐进式哈希表 > 💡 核心问题：如何在Java环境下实现一个支持以下特性的哈希表？ > - 创建完全一致的数据快照（例如：RDB持久化、AOF重写） > - 支持渐进式扩容（类似Redis的渐进式哈希） > - 在快照创建期间保持高性能写入 > 🎯 解决方案： > - 采用MVCC（多版本并发控制）思想 > - 基于不可变对象实现应用层CoW（写时复制） > - 单线程...",
+            "updateTime": "2025-06-24",
+            "wordCount": 4063,
+            "readingTime": 28,
+            "relativePath": "渐进式哈希实现思路.md"
+        },
         "CS-basics/Java虚拟机.md": {
             "title": "Java虚拟机笔记",
             "preview": "<link rel=\"stylesheet\" href=\"../assets/css/details.css\"> 让我们通过一个贯穿全文的示例来理解JVM的内存模型： `java // 示例代码：一个简单的学生成绩管理系统 public class Student { // 静态字段：存储在元空间的类信息中 private static String schoolName = \"清华大学\"; pr...",
             "updateTime": "2025-06-23",
-            "wordCount": 15970,
-            "readingTime": 107,
+            "wordCount": 17416,
+            "readingTime": 117,
             "relativePath": "Java虚拟机.md"
         },
         "CS-basics/计算机网络.md": {

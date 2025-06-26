@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-25T16:03:56.448Z
+// 生成时间: 2025-06-26T18:21:11.267Z
 
 window.SITE_DATA = {
     "categories": {
@@ -48,6 +48,7 @@ window.SITE_DATA = {
             "kafka笔记.md"
         ],
         "redis-mini": [
+            "批处理AOF.md",
             "渐进式哈希实现思路.md",
             "网络传输层的零拷贝.md"
         ],
@@ -92,6 +93,14 @@ window.SITE_DATA = {
             "wordCount": 3561,
             "readingTime": 24,
             "relativePath": "零拷贝技术解析.md"
+        },
+        "redis-mini/批处理AOF.md": {
+            "title": "一个高性能的批处理AOF",
+            "preview": "# 一个高性能的批处理AOF AOF（Append Only File）是Redis的持久化机制之一，它通过记录所有的写命令来保证数据的持久性。与RDB快照相比，AOF能提供更好的数据安全性，因为它几乎可以做到不丢失数据。 Redis作为一个内存数据库，所有数据都存在内存中。这带来了极致的性能，但同时也面临着数据易失性的问题： 服务器断电会导致数据丢失 程序崩溃会导致内存数据消失 系统重启需要重新...",
+            "updateTime": "2025-06-26",
+            "wordCount": 3511,
+            "readingTime": 24,
+            "relativePath": "批处理AOF.md"
         },
         "redis-mini/渐进式哈希实现思路.md": {
             "title": "渐进式哈希实现思路",

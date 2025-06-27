@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-26T18:21:11.267Z
+// 生成时间: 2025-06-27T00:48:49.538Z
 
 window.SITE_DATA = {
     "categories": {
@@ -48,6 +48,7 @@ window.SITE_DATA = {
             "kafka笔记.md"
         ],
         "redis-mini": [
+            "sds字符串.md",
             "批处理AOF.md",
             "渐进式哈希实现思路.md",
             "网络传输层的零拷贝.md"
@@ -93,6 +94,14 @@ window.SITE_DATA = {
             "wordCount": 3561,
             "readingTime": 24,
             "relativePath": "零拷贝技术解析.md"
+        },
+        "redis-mini/sds字符串.md": {
+            "title": "SDS (Simple Dynamic String) - Redis的字符串实现解析",
+            "preview": "# SDS (Simple Dynamic String) - Redis的字符串实现解析 SDS (Simple Dynamic String) 是Redis中的核心数据结构，用于字符串存储和操作。本文将深入探讨SDS的设计理念、实现细节，以及在Java环境下与String和StringBuilder的对比分析。 O(1)时间复杂度的长度获取 通过预存储长度字段，避免了每次计算长度的开销 对比C...",
+            "updateTime": "2025-06-27",
+            "wordCount": 1187,
+            "readingTime": 8,
+            "relativePath": "sds字符串.md"
         },
         "redis-mini/批处理AOF.md": {
             "title": "一个高性能的批处理AOF",

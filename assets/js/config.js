@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-27T00:48:49.538Z
+// 生成时间: 2025-06-28T00:20:38.288Z
 
 window.SITE_DATA = {
     "categories": {
@@ -54,6 +54,7 @@ window.SITE_DATA = {
             "网络传输层的零拷贝.md"
         ],
         "CS-basics": [
+            "IO多路复用.md",
             "Java虚拟机.md",
             "计算机网络.md"
         ],
@@ -126,6 +127,14 @@ window.SITE_DATA = {
             "wordCount": 2224,
             "readingTime": 15,
             "relativePath": "网络传输层的零拷贝.md"
+        },
+        "CS-basics/IO多路复用.md": {
+            "title": "IO多路复用",
+            "preview": "### 深入理解 I/O 多路复用：从传统阻塞到 epoll 高效事件驱动 在编写 Mini-Redis 时研究 I/O 多路复用是必然的，因为高性能的中间件，如 Redis，正是基于此。让我们用图书馆的比喻来深入理解这背后的技术。 想象一个传统图书馆，每来一位读者（客户端连接），你就专门派一位管理员（服务器线程）去全程服务他。这位管理员会一直陪着读者，直到他找到书或还完书。问题在于，如果读者数量...",
+            "updateTime": "2025-06-28",
+            "wordCount": 3700,
+            "readingTime": 25,
+            "relativePath": "IO多路复用.md"
         },
         "CS-basics/Java虚拟机.md": {
             "title": "Java虚拟机笔记",

@@ -10,7 +10,6 @@ article.html?category=tech&file=Kafka%E5%92%8CRocketMQ%E7%9A%84%E8%83%8C%E5%8E%8
 article.html?category=tech&file=kafka%E7%AC%94%E8%AE%B0.md
 article.html?category=redis-mini&file=%E6%89%B9%E5%A4%84%E7%90%86AOF.md
 article.html?category=redis-mini&file=%E6%B8%90%E8%BF%9B%E5%BC%8F%E5%93%88%E5%B8%8C%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF.md
-article.html?category=redis-mini&file=%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D.md
 article.html?category=CS-basics&file=IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.md
 article.html?category=CS-basics&file=Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md
 article.html?category=CS-basics&file=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md

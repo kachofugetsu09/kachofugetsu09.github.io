@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-29T02:05:02.858Z
+// 生成时间: 2025-06-30T00:21:44.481Z
 
 window.SITE_DATA = {
     "categories": {
@@ -49,8 +49,7 @@ window.SITE_DATA = {
         ],
         "redis-mini": [
             "批处理AOF.md",
-            "渐进式哈希实现思路.md",
-            "网络传输层的零拷贝.md"
+            "渐进式哈希实现思路.md"
         ],
         "CS-basics": [
             "IO多路复用.md",
@@ -110,14 +109,6 @@ window.SITE_DATA = {
             "wordCount": 4065,
             "readingTime": 28,
             "relativePath": "渐进式哈希实现思路.md"
-        },
-        "redis-mini/网络传输层的零拷贝.md": {
-            "title": "网络传输层的零拷贝",
-            "preview": "### redis-mini 完整链路及“仅此一次拷贝”优化详解 在 redis-mini 项目中，我实现了一个高性能的网络传输层，采用了“仅此一次拷贝”的优化策略。 本文将详细介绍这个链路的工作原理，以及如何通过不可变性和零拷贝引用来实现高效的数据处理。 客户端的请求处理链路如下： 客户端 (redis-cli) -\\> RedisMiniServer -\\> RespDecoder -\\> R...",
-            "updateTime": "2025-06-25",
-            "wordCount": 2224,
-            "readingTime": 15,
-            "relativePath": "网络传输层的零拷贝.md"
         },
         "CS-basics/IO多路复用.md": {
             "title": "IO多路复用",

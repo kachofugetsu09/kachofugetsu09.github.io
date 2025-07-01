@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-01T04:51:20.407Z
+// 生成时间: 2025-07-01T10:09:58.182Z
 
 window.SITE_DATA = {
     "categories": {
@@ -58,6 +58,7 @@ window.SITE_DATA = {
             "渐进式哈希实现思路.md"
         ],
         "CS-basics": [
+            "MYSQL笔记.md",
             "IO多路复用.md",
             "Java虚拟机.md",
             "计算机网络.md"
@@ -134,6 +135,14 @@ window.SITE_DATA = {
             "wordCount": 17416,
             "readingTime": 117,
             "relativePath": "Java虚拟机.md"
+        },
+        "CS-basics/MYSQL笔记.md": {
+            "title": "MySQL 核心概念笔记",
+            "preview": "# MySQL 核心概念笔记 > 🔑 核心要点：SQL语句在MySQL中的执行是一个多阶段协作的过程，涉及连接器、解析器、优化器等多个组件，旨在确保安全、高效、准确地处理数据。 SQL 语句在 MySQL 数据库中的执行流程可以概括为以下核心组件的协同工作： 连接器 (Connector)：负责客户端与数据库的连接建立、身份认证和会话管理，维护连接的权限及状态。 查询缓存 (Query Cach...",
+            "updateTime": "2025-07-01",
+            "wordCount": 11627,
+            "readingTime": 78,
+            "relativePath": "MYSQL笔记.md"
         },
         "CS-basics/计算机网络.md": {
             "title": "**Network Edge 网络边缘**",

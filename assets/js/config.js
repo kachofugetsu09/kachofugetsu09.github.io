@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-06-30T00:21:44.481Z
+// 生成时间: 2025-07-01T04:51:20.407Z
 
 window.SITE_DATA = {
     "categories": {
@@ -39,6 +39,12 @@ window.SITE_DATA = {
             "description": "生活感悟与内心独白",
             "icon": "fas fa-heart",
             "color": "#f093fb"
+        },
+        "jdk": {
+            "name": "JDK源码解析",
+            "description": "Java开发工具包源码深度剖析与学习笔记",
+            "icon": "fab fa-java",
+            "color": "#f89820"
         }
     },
     "articleLists": {
@@ -67,6 +73,9 @@ window.SITE_DATA = {
         ],
         "chatting": [
             "六月的蝉鸣.md"
+        ],
+        "jdk": [
+            "AQS和可重入锁.md"
         ]
     },
     "articleDetails": {
@@ -181,6 +190,14 @@ window.SITE_DATA = {
             "wordCount": 1923,
             "readingTime": 13,
             "relativePath": "六月的蝉鸣.md"
+        },
+        "jdk/AQS和可重入锁.md": {
+            "title": "AQS和可重入锁源码解析",
+            "preview": "# AQS和可重入锁源码解析 本篇文章我们以解析的方式来学习 AQS 和 可重入锁 在JDK源码中是如何实现的。 --- AQS 是什么？在Java的具体实现中，它是一个抽象类，名字叫 AbstractQueuedSynchronizer，简称 AQS，它是一个专门用来构建锁的框架。 它提供了一个 FIFO队列，实质上是一个 双向链表，来管理线程的等待和唤醒，每一个节点都是对一个线程的封装。简单来...",
+            "updateTime": "2025-07-01",
+            "wordCount": 6143,
+            "readingTime": 41,
+            "relativePath": "AQS和可重入锁.md"
         }
     }
 };

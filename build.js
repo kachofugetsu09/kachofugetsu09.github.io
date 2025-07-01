@@ -47,6 +47,12 @@ const SITE_CONFIG = {
             description: '生活感悟与内心独白',
             icon: 'fas fa-heart',
             color: '#f093fb'
+        },
+        'jdk': {
+            name: 'JDK源码解析',
+            description: 'Java开发工具包源码深度剖析与学习笔记',
+            icon: 'fab fa-java',
+            color: '#f89820'
         }
     }
 };

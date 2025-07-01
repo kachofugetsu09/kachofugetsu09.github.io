@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-01T10:09:58.182Z
+// 生成时间: 2025-07-01T10:13:09.043Z
 
 window.SITE_DATA = {
     "categories": {
@@ -50,8 +50,7 @@ window.SITE_DATA = {
     "articleLists": {
         "tech": [
             "零拷贝技术解析.md",
-            "Kafka和RocketMQ的背压机制解析.md",
-            "kafka笔记.md"
+            "Kafka和RocketMQ的背压机制解析.md"
         ],
         "redis-mini": [
             "批处理AOF.md",
@@ -61,6 +60,7 @@ window.SITE_DATA = {
             "MYSQL笔记.md",
             "IO多路复用.md",
             "Java虚拟机.md",
+            "kafka笔记.md",
             "计算机网络.md"
         ],
         "MIT6.824": [
@@ -87,14 +87,6 @@ window.SITE_DATA = {
             "wordCount": 3860,
             "readingTime": 26,
             "relativePath": "Kafka和RocketMQ的背压机制解析.md"
-        },
-        "tech/kafka笔记.md": {
-            "title": "kafka笔记",
-            "preview": "Kafka 提供高度的容错能力：在包含 n 个副本的集群中，可以容忍 n-1 个节点失败而保持系统可用。 消费者可以组成 Consumer Group，每条消息只会被同一组内的一个消费者处理。这种设计完美匹配 Kafka 的分区特性：当一个主题有多个分区时，消息会动态分配给多个消费者，显著提高并发处理的吞吐量。 `java public class KafkaConsumer<K, V> impl...",
-            "updateTime": "2025-06-21",
-            "wordCount": 1062,
-            "readingTime": 8,
-            "relativePath": "kafka笔记.md"
         },
         "tech/零拷贝技术解析.md": {
             "title": "零拷贝技术解析：从麦当劳点餐看I/O优化之道",
@@ -140,9 +132,17 @@ window.SITE_DATA = {
             "title": "MySQL 核心概念笔记",
             "preview": "# MySQL 核心概念笔记 > 🔑 核心要点：SQL语句在MySQL中的执行是一个多阶段协作的过程，涉及连接器、解析器、优化器等多个组件，旨在确保安全、高效、准确地处理数据。 SQL 语句在 MySQL 数据库中的执行流程可以概括为以下核心组件的协同工作： 连接器 (Connector)：负责客户端与数据库的连接建立、身份认证和会话管理，维护连接的权限及状态。 查询缓存 (Query Cach...",
             "updateTime": "2025-07-01",
-            "wordCount": 11627,
-            "readingTime": 78,
+            "wordCount": 13259,
+            "readingTime": 89,
             "relativePath": "MYSQL笔记.md"
+        },
+        "CS-basics/kafka笔记.md": {
+            "title": "kafka笔记",
+            "preview": "Kafka 提供高度的容错能力：在包含 n 个副本的集群中，可以容忍 n-1 个节点失败而保持系统可用。 消费者可以组成 Consumer Group，每条消息只会被同一组内的一个消费者处理。这种设计完美匹配 Kafka 的分区特性：当一个主题有多个分区时，消息会动态分配给多个消费者，显著提高并发处理的吞吐量。 `java public class KafkaConsumer<K, V> impl...",
+            "updateTime": "2025-06-21",
+            "wordCount": 1062,
+            "readingTime": 8,
+            "relativePath": "kafka笔记.md"
         },
         "CS-basics/计算机网络.md": {
             "title": "**Network Edge 网络边缘**",

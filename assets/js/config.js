@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-01T10:13:09.043Z
+// 生成时间: 2025-07-03T11:14:23.952Z
 
 window.SITE_DATA = {
     "categories": {
@@ -64,6 +64,7 @@ window.SITE_DATA = {
             "计算机网络.md"
         ],
         "MIT6.824": [
+            "lab2A.md",
             "lab1.md",
             "raft论文研究.md"
         ],
@@ -130,10 +131,10 @@ window.SITE_DATA = {
         },
         "CS-basics/MYSQL笔记.md": {
             "title": "MySQL 核心概念笔记",
-            "preview": "# MySQL 核心概念笔记 > 🔑 核心要点：SQL语句在MySQL中的执行是一个多阶段协作的过程，涉及连接器、解析器、优化器等多个组件，旨在确保安全、高效、准确地处理数据。 SQL 语句在 MySQL 数据库中的执行流程可以概括为以下核心组件的协同工作： 连接器 (Connector)：负责客户端与数据库的连接建立、身份认证和会话管理，维护连接的权限及状态。 查询缓存 (Query Cach...",
-            "updateTime": "2025-07-01",
-            "wordCount": 13259,
-            "readingTime": 89,
+            "preview": "> 🔑 核心要点：SQL语句在MySQL中的执行是一个多阶段协作的过程，涉及连接器、解析器、优化器等多个组件，旨在确保安全、高效、准确地处理数据。 SQL 语句在 MySQL 数据库中的执行流程可以概括为以下核心组件的协同工作： 连接器 (Connector)：负责客户端与数据库的连接建立、身份认证和会话管理，维护连接的权限及状态。 查询缓存 (Query Cache)：（MySQL 8.0 之...",
+            "updateTime": "2025-07-03",
+            "wordCount": 8803,
+            "readingTime": 59,
             "relativePath": "MYSQL笔记.md"
         },
         "CS-basics/kafka笔记.md": {
@@ -159,6 +160,14 @@ window.SITE_DATA = {
             "wordCount": 4270,
             "readingTime": 29,
             "relativePath": "lab1.md"
+        },
+        "MIT6.824/lab2A.md": {
+            "title": "lab2A",
+            "preview": "## Lab 2A: Raft 领导人选举与心跳 > 本实验要求您在 raft/raft.go 文件中实现 Raft 共识算法。该文件已提供骨架代码，并包含如何发送和接收 RPC 的示例。您的实现必须支持以下接口，测试器和（最终）您的键/值服务器将使用这些接口。raft.go 中的注释提供了更多详细信息。 一个服务通过调用 Make(peers, me, ...) 来创建一个 Raft 节点。pe...",
+            "updateTime": "2025-07-03",
+            "wordCount": 4350,
+            "readingTime": 29,
+            "relativePath": "lab2A.md"
         },
         "MIT6.824/raft论文研究.md": {
             "title": "Raft算法论文研究",

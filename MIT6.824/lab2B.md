@@ -372,7 +372,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 ```
 
 **关键点补充：**
-在将新的日志条目追加到 Leader 自己的日志之后，再次检查 Leader 的身份和当前任期是否发生了变化 (`rf.state != Leader || rf.currentTerm != currentTerm`) 是非常关键的。 这是因���在 `Start` 函数执行期间，Leader 可能因为收到更高任期的 RPC 而退位。如果发生了这种情况，那么之前追加的日志条目就不应该被复制，必须立即回滚 (`rf.log = rf.log[:len(rf.log)-1]`)。这个检查确保了只有在当前服务器仍然是 Leader 且任期未变的情况下，新的命令才会被尝试复制和提交。
+在将新的日志条目追加到 Leader 自己的日志之后，再次检查 Leader 的身份和当前任期是否发生了变化 (`rf.state != Leader || rf.currentTerm != currentTerm`) 是非常关键的。 这是因为在 `Start` 函数执行期间，Leader 可能因为收到更高任期的 RPC 而退位。如果发生了这种情况，那么之前追加的日志条目就不应该被复制，必须立即回滚 (`rf.log = rf.log[:len(rf.log)-1]`)。这个检查确保了只有在当前服务器仍然是 Leader 且任期未变的情况下，新的命令才会被尝试复制和提交。
 
 ---
 

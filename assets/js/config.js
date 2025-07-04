@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-03T11:14:23.952Z
+// 生成时间: 2025-07-04T08:34:35.939Z
 
 window.SITE_DATA = {
     "categories": {
@@ -64,6 +64,7 @@ window.SITE_DATA = {
             "计算机网络.md"
         ],
         "MIT6.824": [
+            "lab2B.md",
             "lab2A.md",
             "lab1.md",
             "raft论文研究.md"
@@ -168,6 +169,14 @@ window.SITE_DATA = {
             "wordCount": 4350,
             "readingTime": 29,
             "relativePath": "lab2A.md"
+        },
+        "MIT6.824/lab2B.md": {
+            "title": "Lab 2B: 日志复制 (Log Replication)",
+            "preview": "我们先来看一遍需求： > 请实现领导者和跟随者代码，以追加新的日志条目，从而通过 go test -run 2B 测试。运行 git pull 以获取最新的实验软件。 > > 您的第一个目标应该是通过 TestBasicAgree2B()。首先实现 Start()，然后按照图 2 的指示，编写通过 AppendEntries RPC 发送和接收新日志条目的代码。您需要实现选举限制（论文第 5.4....",
+            "updateTime": "2025-07-04",
+            "wordCount": 2307,
+            "readingTime": 16,
+            "relativePath": "lab2B.md"
         },
         "MIT6.824/raft论文研究.md": {
             "title": "Raft算法论文研究",

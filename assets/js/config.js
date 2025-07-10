@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-04T08:42:59.480Z
+// 生成时间: 2025-07-10T23:29:33.982Z
 
 window.SITE_DATA = {
     "categories": {
@@ -45,6 +45,12 @@ window.SITE_DATA = {
             "description": "Java开发工具包源码深度剖析与学习笔记",
             "icon": "fab fa-java",
             "color": "#f89820"
+        },
+        "CS186": {
+            "name": "CS186数据库系统",
+            "description": "UC Berkeley CS186 数据库系统课程笔记",
+            "icon": "fas fa-database",
+            "color": "#805ad5"
         }
     },
     "articleLists": {
@@ -79,6 +85,9 @@ window.SITE_DATA = {
         ],
         "jdk": [
             "AQS和可重入锁.md"
+        ],
+        "CS186": [
+            "CS186笔记.md"
         ]
     },
     "articleDetails": {
@@ -225,6 +234,14 @@ window.SITE_DATA = {
             "wordCount": 6143,
             "readingTime": 41,
             "relativePath": "AQS和可重入锁.md"
+        },
+        "CS186/CS186笔记.md": {
+            "title": "CS186笔记",
+            "preview": "### . 概述：数据表示 (Overview: Representations) 数据库系统需要将数据持久化存储在磁盘上。数据在磁盘上的组织方式是数据库管理系统（DBMS）的基础。数据通常被组织成文件（Files），文件由一系列的页面（Pages）组成，而每个页面又包含一系列的记录（Records）。 例如，一个员工表的数据可以表示为多条记录，每条记录包含员工的SSN、姓氏、名字、年龄和薪水等字...",
+            "updateTime": "2025-07-10",
+            "wordCount": 3601,
+            "readingTime": 25,
+            "relativePath": "CS186笔记.md"
         }
     }
 };

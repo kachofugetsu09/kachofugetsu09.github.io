@@ -53,6 +53,12 @@ const SITE_CONFIG = {
             description: 'Java开发工具包源码深度剖析与学习笔记',
             icon: 'fab fa-java',
             color: '#f89820'
+        },
+        'CS186': {
+            name: 'CS186数据库系统',
+            description: 'UC Berkeley CS186 数据库系统课程笔记',
+            icon: 'fas fa-database',
+            color: '#805ad5'
         }
     }
 };

@@ -45,7 +45,7 @@
 
 ### CS186数据库系统
 
-- [Task 1: LeafNode::fromBytes](CS186/CS185-proj2.md) - 2025-07-12 - 547字 - 4分钟
+- [Task 1: `LeafNode::fromBytes`](CS186/CS185-proj2.md) - 2025-07-12 - 2477字 - 17分钟
 - [CS186 笔记](CS186/CS186笔记.md) - 2025-07-11 - 9635字 - 65分钟
 
 ## 统计信息

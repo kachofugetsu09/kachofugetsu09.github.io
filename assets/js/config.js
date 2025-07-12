@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-12T14:10:22.223Z
+// 生成时间: 2025-07-12T16:47:13.929Z
 
 window.SITE_DATA = {
     "categories": {
@@ -237,11 +237,11 @@ window.SITE_DATA = {
             "relativePath": "AQS和可重入锁.md"
         },
         "CS186/CS185-proj2.md": {
-            "title": "Task 1: LeafNode::fromBytes",
+            "title": "Task 1: `LeafNode::fromBytes`",
             "preview": "这篇文章是对于CS186的proj2的总结和实现思路。 在这个任务中，我们需要实现LeafNode::fromBytes函数，这个函数就是一个反序列化，我们只需要参考LeafNode::toBytes的实现即可。我们需要从字节数组中读取数据，并将其转换为LeafNode对象。 首先我们分析一下LeafNode::toBytes的实现，它将LeafNode对象的各个字段转换为字节数组。 `java ...",
             "updateTime": "2025-07-12",
-            "wordCount": 547,
-            "readingTime": 4,
+            "wordCount": 2477,
+            "readingTime": 17,
             "relativePath": "CS185-proj2.md"
         },
         "CS186/CS186笔记.md": {

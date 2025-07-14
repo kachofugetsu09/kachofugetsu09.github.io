@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-12T21:03:58.076Z
+// 生成时间: 2025-07-14T05:40:17.173Z
 
 window.SITE_DATA = {
     "categories": {
@@ -87,7 +87,8 @@ window.SITE_DATA = {
             "AQS和可重入锁.md"
         ],
         "CS186": [
-            "CS185-proj2.md",
+            "CS186-proj3.md",
+            "CS186-proj2.md",
             "CS186笔记01.md",
             "CS186笔记02.md"
         ]
@@ -237,13 +238,21 @@ window.SITE_DATA = {
             "readingTime": 41,
             "relativePath": "AQS和可重入锁.md"
         },
-        "CS186/CS185-proj2.md": {
+        "CS186/CS186-proj2.md": {
             "title": "Task 1: `LeafNode::fromBytes`",
             "preview": "这篇文章是对于CS186的proj2的总结和实现思路。 在这个任务中，我们需要实现LeafNode::fromBytes函数，这个函数就是一个反序列化，我们只需要参考LeafNode::toBytes的实现即可。我们需要从字节数组中读取数据，并将其转换为LeafNode对象。 首先我们分析一下LeafNode::toBytes的实现，它将LeafNode对象的各个字段转换为字节数组。 `java ...",
             "updateTime": "2025-07-12",
             "wordCount": 2477,
             "readingTime": 17,
-            "relativePath": "CS185-proj2.md"
+            "relativePath": "CS186-proj2.md"
+        },
+        "CS186/CS186-proj3.md": {
+            "title": "Task1: Blocking Nested Loop join（BNJL）",
+            "preview": "这篇文章是对于CS186的proj3的总结和实现思路。 这个proj有一个不一样的地方是他建议我们阅读一下对应的代码骨架。 那么我们就大致浏览一下，整理一下各个部分的功能。 里面有一个BacktrackingIterator接口，对比普通迭代器他多了一个功能就是可以用一个指针来储存想要回溯的地方，等到需要回溯的时候可以通过reset()方法回到这个位置。 类QueryOperator实现了这个接口...",
+            "updateTime": "2025-07-14",
+            "wordCount": 2122,
+            "readingTime": 15,
+            "relativePath": "CS186-proj3.md"
         },
         "CS186/CS186笔记01.md": {
             "title": "CS186 笔记01",

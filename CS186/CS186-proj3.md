@@ -8,7 +8,7 @@
 类`JoinOperator`继承自`QueryOperator`，实现了连接操作。他的主要作用是实现高效的多表连接。
 他是一个抽象类，里面实现了多个Operator以提供不同的连接方式，根据对应的关键字有不同的选择。
 SequentialScanOperator.java - 接收一个表名，提供该表所有记录的迭代器
- IndexScanOperator.java - 接收一个表名、列名、一个谓词操作符（>、<、<=、>=、=）和一个值。指定的列必须在该列上建立索引，此操作符才能工作。如果建立了索引，索引扫描将利用索引高效地返回满足给定谓词和值的记录（例如 salaries.yearid >= 2000 ）。
+ IndexScanOperator.java - 接收一个表名、列名、一个谓词操作符（>、<、<=、>=、=）和一个值。指定的列必须在该列上建立索引，此操作符才能工作。如果建立了索引，索引扫描将利用索引高效地返回满足给定谓词和值的记录（例�� salaries.yearid >= 2000 ）。
 
 这大致就是比较关键的骨架。
 
@@ -46,7 +46,7 @@ BNLJ 的核心在于**块级别的嵌套循环**。它将左关系 (Outer Relati
 
 1.  当一个左块，比如范围是 **`[1, 100]`** 的记录加载到内存后，它需要依次与右关系的所有页面进行匹配。
     * 比如，它先与右关系的第一页，范围是 **`[1, 50]`** 的记录进行匹配。
-    * 当 `rightPageIterator` 遍历完 `[1, 50]` 中的所有记录后，需要加载右关系的下一页，例如范围是 **`[51, 100]`** 的记录。此时，为了确保左块 `[1, 100]` 中的所有记录都能从头开始与新的右页 `[51, 100]` 进行匹配，`leftBlockIterator` 必须 **重置** 回到左块的起始位置 `1`。
+    * 当 `rightPageIterator` 遍历完 `[1, 50]` 中的所有记录后，需要加载右关系的下一页，例如范围是 **`[51, 100]`** 的记录。此时，为了确保左块 `[1, 100]` 中的所有记录都能从头开始��新的右页 `[51, 100]` 进行匹配，`leftBlockIterator` 必须 **重置** 回到左块的起始位置 `1`。
 2.  当左块 `[1, 100]` 已经遍历完整个右关系的所有页面后（即匹配完了 `[1, 50]`, `[51, 100]`, `[101, 150]` 等所有右页），会加载左关系的下一个块，比如范围是 **`[101, 200]`** 的记录。此时，`rightSourceIterator` 必须 **重置** 回到整个右关系 $R$ 的起始位置（即 `1`），才能确保 `[101, 200]` 这个左块也能从头开始遍历右关系的所有页面。
 
 
@@ -176,4 +176,540 @@ else {
 
 ---
 
-# Task2: Hash Joins
+# Task2: Grace Hash Join (GHJ)
+
+第二个任务是实现**Grace Hash Join (GHJ)**。与BNLJ不同，哈希连接是一种完全不同的连接思路，它利用哈希函数将大问题分解成小问题来解决。
+
+### 为什么需要 Grace Hash Join？
+
+在数据库中，我们经常需要处理比内存大得多的数据。框架中已经提供了一个简单的哈希连接实现 `SHJOperator` (Simple Hash Join)。它的工作方式是：
+1.  将整个左关系（Inner Relation）读入内存，并为其建立一个哈希表。
+2.  然后逐条读取右关系（Outer Relation）的记录，利用哈希表查找匹配项。
+
+这种方法的**致命弱点**是：它假设整个左关系可以完全装入内存。如果左关系太大，`SHJOperator` 就会因为内存不足而失败。
+
+**Grace Hash Join** 正是为了解决这个问题而设计的。它的核心思想是“分而治之”：如果数据一次性处理不了，就把它切分成若干个小块，直到每一块都小到可以轻松放进内存里进行处理。
+
+GHJ 分为两个主要阶段：
+
+1.  **分区 (Partition) 阶段**：
+    *   **目标**：将左关系 R 和右关系 S，根据连接键（Join Key）的哈希值，分别划分到不同的分区（Partition）中。
+    *   **过程**：遍历 R 和 S 中的每一条记录，计算其连接键的哈希值，然后根据哈希结果（通常是 `hash % num_partitions`）决定这条记录属于哪个分区。例如，所有哈希到分区 `i` 的 R 记录形成 `Ri`，所有哈希到分区 `i` 的 S 记录形成 `Si`。
+    *   **关键保证**：通过这种方式，我们知道 `Ri` 中的记录**只可能**与 `Si` 中的记录匹配，而不可能与任何其他分区 `Sj` (j ≠ i) 的记录匹配。这极大地缩小了搜索范围。
+
+2.  **构建与探测 (Build & Probe) 阶段**：
+    *   **目标**：对每一对分区 `(Ri, Si)` 执行连接操作。
+    *   **过程**：依次处理每个分区对。对于分区对 `(Ri, Si)`，我们把它当作一个独立的、规模更小的连接问题来处理。我们读取其中一个分区（通常是较小的那个，比如 `Ri`）到内存中，为其建立一个哈希表（**Build**）。然后，我们逐条读取另一个分区 `Si` 的记录，在刚刚建立的哈希表中查找匹配项（**Probe**）。
+    *   **内存要求**：这个阶段能成功的前提是，对于每一对分区 `(Ri, Si)`，至少有一个分区的大小小于可用的内存缓冲区（`B-2`页）。
+
+### 任务分析
+
+>您需要实现的功能都将完成在 GHJOperator.java 中。您需要实现函数 partition 、 buildAndProbe �� run 。此外，您还需要在 getBreakSHJInputs 和 getBreakGHJInputs 中提供一些输入，这些输入将用于测试 Simple Hash Join 失败但 Grace Hash Join 通过（在 testBreakSHJButPassGHJ 中测试）以及 GHJ 出现错误（在 testGHJBreak 中测试）。
+
+接下来，我们一步步实现这几个关键方法。
+
+### `partition` 方法
+
+`partition` 方法是 GHJ 的基石。我们需要一个通用的分区逻辑，既能处理左关系，也能处理右关系，并且支持多轮分区（这是 GHJ 的“Grace”所在，我们稍后会看到）。
+
+一个很好的起点是参考 `SHJOperator` 中已有的 `partition` 方法：
+```java
+private void partition(Partition[] partitions, Iterable<Record> leftRecords) {
+        for (Record record: leftRecords) {
+            // Partition left records on the chosen column
+            DataBox columnValue = record.getValue(getLeftColumnIndex());
+            int hash = HashFunc.hashDataBox(columnValue, 1);
+            // modulo to get which partition to use
+            int partitionNum = hash % partitions.length;
+            if (partitionNum < 0)  // hash might be negative
+                partitionNum += partitions.length;
+            partitions[partitionNum].add(record);
+        }
+    }
+```
+这个实现只为左关系设计，并且只使用固定的哈希函数（`pass=1`）。为了让它更通用，我们需要进行扩展：
+1.  **支持左右关系**：通过一个 `boolean left` 参数来决定是使用左连接键还是右连接键。
+2.  **支持多轮哈希**：通过一个 `int pass` 参数来改变哈希函数。这至关重要，因为如果第一轮分区后某个分区仍然太大，我们需要用**不同**的哈希函数在下一轮对它进行再次切分。
+
+这是我们优化后的 `partition` 实现：
+```java
+private void partition(Partition[] partitions, Iterable<Record> records, boolean left,
+ int pass) {
+        for(Record record: records){
+            int columnIndex = left ? getLeftColumnIndex() : getRightColumnIndex();
+            DataBox columnValue = record.getValue(columnIndex);
+            int hash = HashFunc.hashDataBox(columnValue, pass);
+
+            int partitionNum = hash % partitions.length;
+            if (partitionNum < 0)  
+                partitionNum += partitions.length;
+            partitions[partitionNum].add(record);
+        }
+    }
+```
+这个方法现在可以根据 `left` 参数为任一关系分区，并利用 `pass` 参数在递归分区时改变哈希行为。
+
+### `buildAndProbe` 方法
+
+当分区完成后，我们就得到了一系列成对的、规模更小的分区 `(leftPartitions[i], rightPartitions[i])`。`buildAndProbe` 的任务就是处理这样一对分区。
+
+**设计核心**：为了在内存中构建哈希表，我们必须选择两个分区中较小的一个。这样可以最大化利用有限的内存空间。
+*   如果左分区 `leftPartition` 更小（页数 `≤ B-2`），我们就用它来构建哈希表，然后用右分区 `rightPartition` 来探测。
+*   反之，如果右分区更小，就用它来构建，用左分区来探测。
+*   如果两个分区都大于 `B-2` 页，说明这一轮分区还不够“细”，当前方法无法处理，需要抛出异常（这个异常会在 `run` 方法中被捕获并触发递归分区）。
+
+**举例说明**：假设我们有 `B=20` 个缓冲区，那么可用于构建哈希表的内存是 `B-2 = 18` 页。现在要处理一对分区：`leftPartitions[i]` 大小为 `15` 页，`rightPartitions[i]` 大小为 `100` 页。
+1.  我们检查发现 `15 <= 18`，所以选择 `leftPartitions[i]` 作为构建方。
+2.  我们将 `leftPartitions[i]` 的所有记录读入内存，并根据连接键的值构建一个哈希表，例如 `Map<DataBox, List<Record>>`。
+3.  然后，我们逐条读取 `rightPartitions[i]` 中的记录（探测方），计算其连接键，并在哈希表中查找。
+4.  如果找到了匹配的 `DataBox`，就将当前探测记录与哈希表中该 `DataBox` 对应的所有记录进行连接，并将结果存入 `joinedRecords`。
+
+以下是完整的代码实现：
+```java
+private void buildAndProbe(Partition leftPartition, Partition rightPartition) {
+        // probe的数据来自左分区
+        boolean probeFirst;
+        // build用的records
+        Iterable<Record> buildRecords;
+        // probe用的records
+        Iterable<Record> probeRecords;
+        // build用的索引列
+        int buildColumnIndex;
+        // probe用的索引列
+        int probeColumnIndex;
+
+        if (leftPartition.getNumPages() <= this.numBuffers - 2) {
+            // 左分区较小
+            buildRecords = leftPartition;
+            buildColumnIndex = getLeftColumnIndex();
+            probeRecords = rightPartition;
+            probeColumnIndex = getRightColumnIndex();
+            probeFirst = false;
+        } else if (rightPartition.getNumPages() <= this.numBuffers - 2) {
+            buildRecords = rightPartition;
+            buildColumnIndex = getRightColumnIndex();
+            probeRecords = leftPartition;
+            probeColumnIndex = getLeftColumnIndex();
+            probeFirst = true;
+        } else {
+            throw new IllegalArgumentException(
+                "Neither the left nor the right records in this partition " +
+                "fit in B-2 pages of memory."
+            );
+        }
+
+        Map<DataBox, List<Record>> hashTable = new HashMap<>();
+
+        // Building stage
+        for(Record buildRecord : buildRecords){
+            DataBox joinValue = buildRecord.getValue(buildColumnIndex);
+            hashTable.putIfAbsent(joinValue, new ArrayList<>());
+            hashTable.get(joinValue).add(buildRecord);
+        }
+
+        // Probing stage
+        for(Record probeRecord: probeRecords){
+            DataBox joinValue = probeRecord.getValue(probeColumnIndex);
+            if(hashTable.containsKey(joinValue)){
+                for(Record buildRecord: hashTable.get(joinValue)){
+                    Record joinedRecord;
+                    if(probeFirst){
+                        joinedRecord = probeRecord.concat(buildRecord);
+                    } else {
+                        joinedRecord = buildRecord.concat(probeRecord);
+                    }
+                    this.joinedRecords.add(joinedRecord);
+                }
+            }
+        }
+
+    }
+```
+
+### `run` 方法：递归分区的总指挥
+
+`run` 方法是整个 GHJ 算法的“大脑”，它负责协调 `partition` 和 `buildAndProbe`。它的逻辑体现了算法的“Grace”（优雅）之处——递归处理。
+
+1.  **初始化**：为左右关系创建一组空的分区。
+2.  **第一轮分区**：调用我们实现的 `partition` 方法，将 `leftRecords` 和 `rightRecords` 分别散列到 `leftPartitions` 和 `rightPartitions` 中。这是 `pass=1` 的过程。
+3.  **检查与执行**：遍历每一对分区 `(leftPartitions[i], rightPartitions[i])`：
+    *   **理想情况**：如果 `leftPartitions[i]` 或 `rightPartitions[i]` 至少有一个足够小（`≤ B-2` 页），太棒了！直接调用 `buildAndProbe` 来完成这对分区的连接。
+    *   **棘手情况**：如果两个分区都还是太大，怎么办？这就是 GHJ 的精髓所在。我们不能直接对它们进行 `buildAndProbe`，而是将这对“太大”的分区 `(leftPartitions[i], rightPartitions[i])` **作为新的输入，递归调用 `run` 方法**，并把 `pass` 加一（`pass+1`）。
+    *   **递归的意义**：`pass+1` 会让 `partition` 方法使用一个新的哈希函数，从而有望将这些之前聚集在一起的数据再次切分开，生成更小的下一级子分区。这个过程会一直持续下去，直到所有子分区都小到可以被 `buildAndProbe` 处理，或者达到最大递归深度（本项目中为5）。
+
+以下是代码实现：
+```java
+    private void run(Iterable<Record> leftRecords, Iterable<Record> rightRecords, int pass) {
+        assert pass >= 1;
+        if (pass > 5) throw new IllegalStateException("Reached the max number of passes");
+
+        // Create empty partitions
+        Partition[] leftPartitions = createPartitions(true);
+        Partition[] rightPartitions = createPartitions(false);
+
+        // Partition records into left and right
+        this.partition(leftPartitions, leftRecords, true, pass);
+        this.partition(rightPartitions, rightRecords, false, pass);
+
+        for (int i = 0; i < leftPartitions.length; i++) {
+            if(leftPartitions[i].getNumPages() <= this.numBuffers - 2|| rightPartitions[i].getNumPages() <= this.numBuffers - 2) {
+                buildAndProbe(leftPartitions[i], rightPartitions[i]);
+            }
+            else{
+                run(leftPartitions[i], rightPartitions[i], pass+1);
+            }
+        }
+    }
+```
+
+### 构造测试：如何让 Join “失败”？
+
+最后，我们需要构造特定的输入数据来“打破” SHJ 和 GHJ，以证明我们理解了它们的工作极限。
+
+#### 让 Simple Hash Join (SHJ) 失败
+
+**失败原理**：SHJ 只有一轮分区（或者说，它根本没有磁盘上的分区阶段，而是直接在内存里 build）。如果输入的数据经过哈希后，大量记录集中在某一个（或几个）分区，导致该分区所需内存超过 `B-2`，SHJ 就会失败。
+
+**构造方法**：我们只需要创建足够多的记录，并给它们**相同**的连接键值（例如 `0`）。这样，在 `SHJOperator` 内部，所有这些记录都会被哈希到同一个地方。只要记录数量足够多，使得这个隐形的“分区”大小超过 `B-2` 页，SHJ 就会因为无法在内存中为其建立哈希表而失败。
+
+例如，创建 `50` 条 join key 都为 `0` 的记录，足以让一个分区的大小超过默认的缓冲区限制。
+
+```java
+public static Pair<List<Record>, List<Record>> getBreakSHJInputs() {
+        ArrayList<Record> leftRecords = new ArrayList<>();
+        ArrayList<Record> rightRecords = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+            leftRecords.add(createRecord(0)); // 使用相同的join key确保hash到同一分区
+        }
+        return new Pair<>(leftRecords, rightRecords);
+    }
+```
+
+#### 让 Grace Hash Join (GHJ) 失败
+
+**失败原理**：GHJ 的强大之处在于递归分区。但如果有一种数据，无论我们用多少种不同的哈希函数（改变 `pass` 值），他们都顽固地聚集在一起，无法被切分，那么 GHJ 最终也会“放弃”。
+
+**构造方法**：最极端的情况就是所有记录的连接键**完全相同**。例如，我们创建 `200` 条左记录和 `200` 条右记录，它们的连接键全部是 `0`。
+*   **Pass 1**: 所有记录都被哈希到同一个分区（比如分区 `0`）。这个分区显然大于 `B-2` 页。
+*   **Pass 2**: `run` 方法被递归调用，`pass` 变为 `2`。`partition` 方法使用新的哈希函数 `HashFunc.hashDataBox(key, 2)`。但因为所有记录的 `key` 都是 `0`，它们很可能再次被哈希到同一个子分区。
+*   **... Pass 5**: 这个过程不断重复。由于数据无法被有效拆分，分区大小始终没有减小。最终，`run` 方法的递归深度达到 `5`，触发 `IllegalStateException`，GHJ 宣告失败。
+
+```java
+public static Pair<List<Record>, List<Record>> getBreakGHJInputs() {
+        ArrayList<Record> leftRecords = new ArrayList<>();
+        ArrayList<Record> rightRecords = new ArrayList<>();
+        
+        for (int i = 0; i < 200; i++) {
+            leftRecords.add(createRecord(0)); 
+        }
+        
+        for (int i = 0; i < 200; i++) {
+            rightRecords.add(createRecord(0)); 
+        }
+        
+        return new Pair<>(leftRecords, rightRecords);
+    }
+```
+
+
+---
+
+# Task 3: External Sort
+
+第三个任务是实现一个经典的**外部排序 (External Sort)** 算法。当我们要排序的数据量远超内存大小时，就无法像常规排序一样一次性把所有数据读入内存。外部排序正是为了解决这个挑战而设计的，其核心理念是通过“分治”和磁盘的巧妙利用，完成对大型文件的排序。
+
+整个过程可以分为两个主要阶段：
+
+1.  **Pass 0: 排序阶段 (Sorting Pass)**
+    *   **目标**: 将庞大的输入文件分割成多个、每个都能在内存中独立排序的小数据块，我们称这些排序好的小块为 **“顺串” (run)**。
+    *   **过程**:
+        1.  **读取**: 从输入源（一个大表）中，一次性读取 `B` 页（`B` 是可用缓冲区数量）数据到内存中。
+        2.  **内存排序**: 对内存中的这 `B` 页数据，使用标准的内存排序算法（如快速排序）进行排序。
+        3.  **写回磁盘**: 将排序好的这 `B` 页数据作为一个独立的 “run” 写回到磁盘上。
+    *   重复以上步骤，直到输入文件的所有数据都被处理完毕。最终，磁盘上会有一系列内部有序但彼此之间无序的 runs。
+
+2.  **后续 Passes: 合并阶段 (Merging Passes)**
+    *   **目标**: 将磁盘上所有已经排好序的 runs 合并成一个单一的、全局有序的 run。
+    *   **过程**: 这是一个多路归并的过程。我们每次从磁盘读取 `B-1` 个 runs 的第一页到内存的输入缓冲区中，并预留 `1` 个缓冲区作为输出缓冲区。然后，我们在这 `B-1` 个 runs 中找到全局最小的记录，将其移动到输出缓冲区。当输出缓冲区满了，就将其写回磁盘，形成一个更大的新 run。这个过程会不断重复，每一轮合并都会减少 runs 的数量，直到最后只剩下一个完全排序好的 run。
+
+### 任务分析
+>您需要实现 SortOperator 中的 sortRun 、 mergeSortedRuns 、 mergePass 和 sort 方法。
+
+让我们逐一攻克这些方法。
+
+### `sortRun` 方法
+
+`sortRun` 是 Pass 0 的核心。它的职责很简单：接收一个迭代器（代表了一批可以装入内存的记录），将它们完全排序，然后返回一个包含这些有序记录的 run。
+
+**实现思路**:
+1.  创建一个空的 `ArrayList` 来存储从迭代器中读取的记录。
+2.  遍历迭代器，将所有记录添加到这个 `List` 中。
+3.  使用 `List.sort()` 和我们预设的 `comparator` 对列表进行内存排序。
+4.  将排序后的列表中的所有记录添加到一个新的 `Run` 对象中并返回。
+
+```java
+public Run sortRun(Iterator<Record> records) {
+        // TODO(proj3_part1): implement
+        Run run = makeRun();
+        List<Record> recordList = new ArrayList<>();
+        while(records.hasNext()){
+            Record record = records.next();
+            if (record == null) {
+                continue; // Skip null records
+            }
+            recordList.add(record);
+
+        }
+        recordList.sort(comparator);
+        run.addAll(recordList);
+        return run;
+
+    }
+```
+
+### `mergeSortedRuns` 方法
+
+`mergeSortedRuns` 是合并阶段的核心。它接收多个已经排好序的 runs，并将它们合并成一个单一的、完全有序的 run。这正是**多路归并**的经典应用场景。
+
+**设计核心**: 为了高效地在多个 runs 中找到全局最小的记录，**优先队列 (Priority Queue)** 是最理想的数据结构。
+
+**实现思路**:
+1.  创建一个优先队列。队列中的每个元素是一个 `Pair<Record, Integer>`，其中 `Record` 是记录本身，`Integer` 是该记录所属的 run 在输入列表中的索引 `runIndex`。这个 `runIndex` 至关重要，因为它告诉我们，当一个 record 被取出后，我们应该从哪个 run 中补充下一条记录。
+2.  为输入的每一个 run 创建一个迭代器。从每个 run 的迭代器中取出第一条记录，连同它的 `runIndex` 一起，作为一个 `Pair` 放入优先队列。
+3.  循环执行以下操作，直到优先队列为空：
+    a. 从优先队列中 `poll()` 出最小的元素（即全局最小的记录）。
+    b. 将这条记录添加到我们的结果 `Run` 中。
+    c. 根据取出的 `Pair` 中的 `runIndex`，找到对应的 run 迭代器。
+    d. 如果该迭代器中还有下一条记录，就将其取出，与 `runIndex` 再次配对，`add()` 回优先队列中。
+
+**场景举例**:
+假设我们有3个 runs 需要合并，它们的内容分别是：
+*   `run 0`: `[3, 8, 15]`
+*   `run 1`: `[2, 6, 10]`
+*   `run 2`: `[1, 9, 12]`
+
+1.  **初始化**: 我们从每个 run 中取出第一个元素放入优先队列。队列当前状态（按记录值排序）：`[(1, run_idx=2), (2, run_idx=1), (3, run_idx=0)]`。
+2.  **第一次迭代**:
+    *   取出 `(1, 2)`。将 `1` 添加到结果中。
+    *   从 `run 2` 的迭代器中取出下一个元素 `9`，将其与索引 `2` 配对后放入队列。
+    *   队列状态：`[(2, 1), (3, 0), (9, 2)]`。
+3.  **第二次迭代**:
+    *   取出 `(2, 1)`。将 `2` 添加到结果中。
+    *   从 `run 1` 的迭代器中取出下一个元素 `6`，放入队列。
+    *   队列状态：`[(3, 0), (6, 1), (9, 2)]`。
+4.  这个过程循环往复，直到所有 runs 的所有记录都被处理完毕，最终得到一个完全有序的 run `[1, 2, 3, 6, 8, 9, 10, 12, 15]`。
+
+以下是代码实现：
+```java
+// ... inside mergeSortedRuns ...
+        Run result = makeRun();
+
+        PriorityQueue<Pair<Record,Integer>> pq = new PriorityQueue<>(runs.size(), new RecordPairComparator());
+
+        List<BacktrackingIterator<Record>> iterators = new ArrayList<>();
+        for(int i = 0; i < runs.size(); i++) {
+            BacktrackingIterator<Record> it = runs.get(i).iterator();
+            iterators.add(it);
+            
+            if (it.hasNext()) {
+                Record record = it.next();
+                pq.add(new Pair<>(record, i));
+            }
+        }
+
+        while(!pq.isEmpty()){
+            Pair<Record, Integer> pair = pq.poll();
+            Record record = pair.getFirst();    
+            int runIndex = pair.getSecond();    
+            
+            result.add(record);
+
+            BacktrackingIterator<Record> iterator = iterators.get(runIndex);
+            if (iterator.hasNext()) {
+                Record nextRecord = iterator.next();
+                pq.add(new Pair<>(nextRecord, runIndex));
+            }
+        }
+        return result;
+```
+
+### `mergePass` 方法
+
+`mergePass` 方法负责执行一整轮的合并。它接收一个包含 `N` 个 runs 的列表，并按照每次最多合并 `B-1` 个 run 的规则，将它们合并成更少、更大的新 runs。
+
+**实现思路**:
+这是一个简单的分批处理过程。
+1.  创建一个空列表 `result` 用于存放这一轮合并后生成的新 runs。
+2.  以 `B-1` 为步长，遍历输入的 `runs` 列表。
+3.  在每次循环中，取出一批（`batch`） runs，数量最多为 `B-1`。
+4.  调用我们刚刚实现的 `mergeSortedRuns` 方法，将这一批 `batch` 合并成一个单一的、更大的 run。
+5.  将合并后的 `mergedRun` 添加到 `result` 列表中。
+6.  循环结束后，返回 `result` 列表。
+
+**场景举例**:
+假设我们有 `B=4` 个缓冲区，并且当前有 `8` 个 runs `[r1, r2, ..., r8]`。
+1.  `mergePass` 会先取前 `B-1 = 3` 个 runs `[r1, r2, r3]`，调用 `mergeSortedRuns` 将它们合并成 `R1`。
+2.  接着，取 `[r4, r5, r6]`，合并成 `R2`。
+3.  最后，取 `[r7, r8]`，合并成 `R3`。
+4.  这一轮 `mergePass` 结束后，返回一个新的列表 `[R1, R2, R3]`。原来的 `8` 个 runs 变成了 `3` 个更大的 runs。
+
+```java
+    public List<Run> mergePass(List<Run> runs) {
+        // TODO(proj3_part1): implement
+        List<Run> result = new ArrayList<>();
+        for(int i = 0; i < runs.size(); i += this.numBuffers - 1) {
+            List<Run> batch = runs.subList(i, Math.min(i + this.numBuffers - 1, runs.size()));
+            Run mergedRun = mergeSortedRuns(batch);
+            result.add(mergedRun);
+        }
+        return result;
+    }
+```
+
+### `sort` 方法：串联所有逻辑者
+
+`sort` 方法是外部排序算法的入口和总指挥。它负责从头到尾完成整个排序过程：从最初的 Pass 0 生成 runs，到后续不断地执行合并 passes，直到最终只剩下一个 run。
+
+**实现步骤**:
+1.  **Pass 0: 创建初始 runs**
+    *   从源操作符获取记录的迭代器 `sourceIterator`。
+    *   循环调用 `getBlockIterator`，每次从 `sourceIterator` 中读取 `B` 页数据块。
+    *   对每个数据块，调用 `sortRun` 方法进行内存排序，生成一个有序的 run。
+    *   将所有生成的 runs 添加到一个列表中。
+2.  **后续 Passes: 循环合并**
+    *   使用一个 `while` 循环，条件是 `runs.size() > 1`。
+    *   在循环体内，调用 `mergePass` 方法，对当前的 `runs` 列表执行一轮合并，并将返回的新列表赋值回 `runs` 变量。
+    *   这个循环会一直进行，每一轮都会减少 runs 的数量（大约减少为原来的 `1 / (B-1)`），直到列表中只剩下一个 run。
+3.  **返回结果**: 当循环结束时，列表中唯一的那个 run 就是全局排序的结果，将其返回。
+
+```java
+     public Run sort() {
+        Iterator<Record> sourceIterator = getSource().iterator();
+
+        //PASS 0 
+        List<Run> runs = new ArrayList<>();
+        while(sourceIterator.hasNext()){
+            BacktrackingIterator<Record> blockIterator = getBlockIterator(sourceIterator, getSchema(), this.numBuffers);
+            Run sortedRun = sortRun(blockIterator);
+            runs.add(sortedRun);
+        }
+
+        // 后续轮次 
+        while(runs.size() > 1){
+            runs = mergePass(runs);  //更新排序过后的自己
+        }
+
+        return runs.get(0);
+    }
+```
+
+至此，我们就完成了整个外部排序的实现。
+
+---
+
+# Task 4: Sort Merge Join
+>任务要求：现在你已经有了可工作的外部排序，你可以实现排序合并连接（SMJ）。为了简化，你的 SMJ 实现在任何情况下都不应使用讲座中讨论的优化（排序的最终合并过程与连接同时发生）。因此，在 SMJ 的排序阶段，你应该使用 SortOperator 进行排序。你需要在 SortMergeOperator 的 SortMergeIterator 内部类中实现 fetchNextRecord() 。
+
+这个 `fetchNextRecord` 的核心是使用“双指针”思想，同时遍历两个已排序的记录列表（`leftIterator` 和 `rightIterator`），高效地找出所有匹配的记录对。由于连接键可能存在重复（例如，多个员工属于同一个部门），我们需要一个巧妙的机制来处理“多对多”的匹配关系，这就是 `mark` 和 `reset` 发挥作用的地方。
+
+让我们用具体的记录和场景来分析 `fetchNextRecord` 的三种主要情况：
+
+假设左表（员工）和右表（部门）已经按 `department_id` 排序：
+-   `leftIterator` 指向的员工记录: `[ (emp1, dept_id=10), (emp2, dept_id=20), (emp3, dept_id=20), (emp4, dept_id=30) ]`
+-   `rightIterator` 指向的部门记录: `[ (deptA, id=10), (deptB, id=20), (deptC, id=20), (deptD, id=40) ]`
+
+当前 `leftRecord` 是 `(emp1, 10)`，`rightRecord` 是 `(deptA, 10)`。
+
+### Case 1: `leftRecord` == `rightRecord` (键值匹配)
+
+这是最复杂的情况，因为可能存在一对多或多对多的匹配。
+
+- **首次匹配**: `(emp2, 20)` 与 `(deptB, 20)` 匹配。
+    1.  **标记右指针**: 我们找到了一个匹配，但右边可能还有其他 `id=20` 的部门（比如 `deptC`）。为了让 `emp2` 也能和它们匹配，我们必须在 `(deptB, 20)` 的位置做一个标记 (`rightIterator.markPrev()`)。这个标记就像一个书签，记录了匹配的起始点。
+    2.  **生成结果**: 返回 `(emp2, deptB)`。
+    3.  **推进右指针**: `rightIterator` 前进，`rightRecord` 变为 `(deptC, 20)`。
+- **后续匹配 (同一左记录)**: `(emp2, 20)` 再次与 `(deptC, 20)` 匹配。
+    1.  **生成结果**: 返回 `(emp2, deptC)`。
+    2.  **推进右指针**: `rightIterator` 前进，`rightRecord` 变为 `(deptD, 40)`。此时，`compare` 结果将变为 `< 0`，进入 Case 2。
+- **后续匹配 (新左记录)**: 当 `leftIterator` 推进到 `(emp3, 20)` 时，它也需要与所有 `id=20` 的部门匹配。
+    1.  **重置右指针**: `rightIterator` 通过 `reset()` 回到之前标记的 `(deptB, 20)` 位置。
+    2.  **为什么要重置?** 如果不重置，`rightIterator` 将从 `(deptD, 40)` 开始，直接错过了 `(deptB, 20)` 和 `(deptC, 20)`，导致 `(emp3, deptB)` 和 `(emp3, deptC)` 这两条匹配记录 **被完全遗漏**。`reset` 操作确保了每一个匹配的左记录都能与所有匹配的右记录进行连接。
+
+### Case 2: `leftRecord` < `rightRecord` (左指针落后)
+
+- **场景**: `leftRecord` 是 `(emp1, 10)`，`rightRecord` 是 `(deptB, 20)`。
+- **逻辑**: 由于列表已排序，`emp1` 不可能与 `deptB` 或之后的任何部门匹配。因此，我们只需安全地推进左指针。
+- **操作**: `leftIterator.next()`，`leftRecord` 变为 `(emp2, 20)`。
+
+### Case 3: `leftRecord` > `rightRecord` (右指针落后)
+
+- **场景**: `leftRecord` 是 `(emp4, 30)`，`rightRecord` 是 `(deptC, 20)`。
+- **逻辑**: `deptC` 不可能与 `emp4` 或之后的任何员工匹配。因此，我们只需推进右指针。
+- **操作**: `rightIterator.next()`，`rightRecord` 变为 `(deptD, 40)`。
+
+通过这三种情况的循环处理，`fetchNextRecord` 可以正确、高效地生成所有连接结果，而不会遗漏任何多对多的匹配。
+
+```java
+private Record fetchNextRecord() {
+            if (leftRecord == null || rightRecord == null) {
+                return null;
+            }
+
+            while (true) {
+                int cmp = compare(leftRecord, rightRecord);
+                
+                if (cmp == 0) {
+                    // 键值匹配：生成连接结果
+                    if (!marked) {
+                        // 首次匹配时标记右表位置，用于后续回溯
+                        rightIterator.markPrev();
+                        marked = true;
+                    }
+                    
+                    Record result = leftRecord.concat(rightRecord);
+                    
+                    // 右表前进，继续寻找更多匹配
+                    if (rightIterator.hasNext()) {
+                        rightRecord = rightIterator.next();
+                    } else {
+                       
+                        if (leftIterator.hasNext()) {
+                            leftRecord = leftIterator.next();
+                            rightIterator.reset();
+                            rightRecord = rightIterator.hasNext() ? rightIterator.next() : null;
+                        } else {
+                            leftRecord = null;
+                        }
+                    }
+                    
+                    return result;
+                    
+                } else if (cmp < 0) {
+                    // 左值 < 右值：左表前进
+                    if (leftIterator.hasNext()) {
+                        leftRecord = leftIterator.next();
+                        if (marked) {
+
+                            rightIterator.reset();
+                            rightRecord = rightIterator.hasNext() ? rightIterator.next() : null;
+                            marked = false;
+                        }
+                    } else {
+                        return null;
+                    }
+                    
+                } else {
+                    // 左值 > 右值：右表前进
+                    if (rightIterator.hasNext()) {
+                        rightRecord = rightIterator.next();
+                    } else {
+                        return null;
+                    }
+                    marked = false; 
+                }
+            }
+        }
+```
+
+---

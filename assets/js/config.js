@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-14T05:40:17.173Z
+// 生成时间: 2025-07-14T21:09:34.578Z
 
 window.SITE_DATA = {
     "categories": {
@@ -88,8 +88,8 @@ window.SITE_DATA = {
         ],
         "CS186": [
             "CS186-proj3.md",
-            "CS186-proj2.md",
             "CS186笔记01.md",
+            "CS186-proj2.md",
             "CS186笔记02.md"
         ]
     },
@@ -250,14 +250,14 @@ window.SITE_DATA = {
             "title": "Task1: Blocking Nested Loop join（BNJL）",
             "preview": "这篇文章是对于CS186的proj3的总结和实现思路。 这个proj有一个不一样的地方是他建议我们阅读一下对应的代码骨架。 那么我们就大致浏览一下，整理一下各个部分的功能。 里面有一个BacktrackingIterator接口，对比普通迭代器他多了一个功能就是可以用一个指针来储存想要回溯的地方，等到需要回溯的时候可以通过reset()方法回到这个位置。 类QueryOperator实现了这个接口...",
             "updateTime": "2025-07-14",
-            "wordCount": 2122,
-            "readingTime": 15,
+            "wordCount": 6588,
+            "readingTime": 44,
             "relativePath": "CS186-proj3.md"
         },
         "CS186/CS186笔记01.md": {
             "title": "CS186 笔记01",
             "preview": "DBMS 架构是一个分层的软件系统，负责将用户的高级数据请求（如 SQL）转化为对物理存储设备的底层操作。它像一个精密的工厂，每一层都有明确的分工。 直接操作磁盘是极其复杂和低效的。一个分层的架构可以将复杂的问题分解，每一层专注于解决特定的问题（如查询解析、并发控制、内存管理、磁盘 I/O），从而实现关注点分离。这使得 DBMS 的设计、实现和维护变得更加模块化和高效。 一个典型的 DBMS 从上...",
-            "updateTime": "2025-07-12",
+            "updateTime": "2025-07-14",
             "wordCount": 9536,
             "readingTime": 64,
             "relativePath": "CS186笔记01.md"

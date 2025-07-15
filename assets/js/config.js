@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-14T21:09:34.578Z
+// 生成时间: 2025-07-15T03:02:52.303Z
 
 window.SITE_DATA = {
     "categories": {
@@ -88,9 +88,9 @@ window.SITE_DATA = {
         ],
         "CS186": [
             "CS186-proj3.md",
+            "CS186笔记02.md",
             "CS186笔记01.md",
-            "CS186-proj2.md",
-            "CS186笔记02.md"
+            "CS186-proj2.md"
         ]
     },
     "articleDetails": {
@@ -249,9 +249,9 @@ window.SITE_DATA = {
         "CS186/CS186-proj3.md": {
             "title": "Task1: Blocking Nested Loop join（BNJL）",
             "preview": "这篇文章是对于CS186的proj3的总结和实现思路。 这个proj有一个不一样的地方是他建议我们阅读一下对应的代码骨架。 那么我们就大致浏览一下，整理一下各个部分的功能。 里面有一个BacktrackingIterator接口，对比普通迭代器他多了一个功能就是可以用一个指针来储存想要回溯的地方，等到需要回溯的时候可以通过reset()方法回到这个位置。 类QueryOperator实现了这个接口...",
-            "updateTime": "2025-07-14",
-            "wordCount": 6588,
-            "readingTime": 44,
+            "updateTime": "2025-07-15",
+            "wordCount": 8572,
+            "readingTime": 58,
             "relativePath": "CS186-proj3.md"
         },
         "CS186/CS186笔记01.md": {
@@ -265,9 +265,9 @@ window.SITE_DATA = {
         "CS186/CS186笔记02.md": {
             "title": "CS186 笔记02",
             "preview": "缓冲区管理器（Buffer Manager） 是数据库管理系统（DBMS）的核心组件之一，它是一个位于内存中的缓冲区，负责在内存（缓冲池，Buffer Pool）和磁盘之间高效地移动和管理数据页面（Page）。它为上层组件提供了一个抽象，让它们感觉数据“总是在内存中”。 磁盘 I/O 相比内存访问要慢几个数量级。缓冲区管理器的主要目的就是为了最小化磁盘 I/O 的次数，通过将最常访问的数据页保留在...",
-            "updateTime": "2025-07-12",
-            "wordCount": 6156,
-            "readingTime": 42,
+            "updateTime": "2025-07-15",
+            "wordCount": 18474,
+            "readingTime": 124,
             "relativePath": "CS186笔记02.md"
         }
     }

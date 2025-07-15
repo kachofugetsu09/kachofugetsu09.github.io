@@ -713,3 +713,199 @@ private Record fetchNextRecord() {
 ```
 
 ---
+
+# Task 5: Single Table Access Selection
+任务要求：
+>回想一下，搜索算法的第一部分涉及为每个表单独找到具有最低估计成本的计划（第 i 轮涉及为 i 个表集找到最佳计划，因此第 1 轮涉及为 1 个表集找到最佳计划）。这项功能应该实现在 QueryPlan#minCostSingleAccess 辅助方法中，该方法接收一个表并返回扫描该表的最佳 QueryOperator 方法。在我们的数据库中，我们只考虑两种类型的表扫描：顺序全表扫描（ SequentialScanOperator ）和索引扫描（ IndexScanOperator ），后者需要索引和在列上的过滤谓词。
+
+>你应该首先计算顺序扫描的估计 I/O 成本，因为这是始终可行的（它是默认选项：我们只有在索引扫描既可行又更高效时才会选择偏离它）。
+>然后，如果表中的任何列上存在我们具有选择谓词的索引，你应该计算在该列上执行索引扫描的估计 I/O 成本。如果其中任何一种比顺序扫描更高效，就选择最优的一种。
+
+也就是说我们要实现`minCostSingleAccess`这个方法，在实现过程中我们应该考虑顺序权标扫描和索引扫描两种方法，简而言之，就是判断使用索引的情况iocost是否低于顺序扫描的cost,如果低于就使用索引扫描，否则就使用顺序扫描。
+然后我们就仿照任务要求中的提示，首先计算顺序的扫描的io成本。然后比较用索引会不会更快，如果更快就换掉，然后返回对应的更优的`QueryOperator`。
+
+以下是实现
+```java
+  public QueryOperator minCostSingleAccess(String table) {
+        QueryOperator minOp = new SequentialScanOperator(this.transaction, table);
+        int minCost = minOp.estimateIOCost();
+        int chosenIndex = -1; //初始化索引
+        List<Integer> eligibleIndices = this.getEligibleIndexColumns(table);
+        for(int index: eligibleIndices){
+            SelectPredicate p = this.selectPredicates.get(index);
+            QueryOperator indexOp = new IndexScanOperator(
+                    this.transaction, table, p.column, p.operator, p.value
+            );
+            int indexCost = indexOp.estimateIOCost();
+            if(indexCost < minCost){
+                minOp = indexOp;
+                minCost = indexCost;
+                chosenIndex = index;
+            }
+
+        }
+
+        minOp = this.addEligibleSelections(minOp, chosenIndex);
+        return minOp;
+    }
+```
+
+这个selectPredicaes是一个List，存储了所有的选择谓词，getEligibleIndexColumns方法返回一个List，存储了所有可以使用索引的列。然后我们遍历所有的索引列，计算索引扫描的成本，如果成本低于顺序扫描的成本，就选择索引扫描。
+
+---
+
+# Task 6:Join Selection (Pass i > 1)
+任务要求：
+>回想一下，对于 i > 1，动态规划算法的第 i 趟会接收所有可能的 i - 1 个表组合的优化计划（除了涉及笛卡尔积的组合），并返回所有可能的 i 个表组合的优化计划（同样排除涉及笛卡尔积的组合）。我们将两趟之间的状态表示为一个从字符串集合（表名）到对应最优 QueryOperator 的映射。你需要实现搜索算法第 i 趟（i > 1）的逻辑，在 QueryPlan#minCostJoins 辅助方法中。
+>该方法应该，给定一个从 i - 1 个表组合到这些 i - 1 个表组合的优化计划的映射，返回一个从 i 个表组合到所有 i 个表组合（排除涉及笛卡尔积的组合）的最优左深连接计划的映射。你应该使用用户调用 QueryPlan#join 方法时添加的显式连接条件列表来识别潜在的连接。
+
+注释里写道
+>回顾一下，对于 i > 1，动态规划算法的第 i 趟会接收所有可能的 i - 1 个表组合的优化计划（除了涉及笛卡尔积的组合），并返回所有可能的 i 个表组合的优化计划（同样排除涉及笛卡尔积的组合）。我们将两趟之间的状态表示为一个从字符串集合（表名）到对应最优 QueryOperator 的映射。你需要实现搜索算法第 i 趟（i > 1）的逻辑，在 QueryPlan#minCostJoins 辅助方法中。
+>该方法应该，给定一个从 i - 1 个表组合到这些 i - 1 个表组合的优化计划的映射，返回一个从 i 个表组合到所有 i 个表组合（排除涉及笛卡尔积的组合）的最优左深连接计划的映射。你应该使用用户调用 QueryPlan#join 方法时添加的显式连接条件列表来识别潜在的连接。
+
+>对于 `prevMap` 中的每个表集合：
+> 对于 `this.joinPredicates` 中列出的每个连接谓词：
+>    获取谓词的左侧和右侧（表名和列）。
+>
+>    情况 1：如果当前表集合包含左表但不包含右表，则使用 `pass1Map` 获取一个操作符来访问右表。
+>    情况 2：如果当前表集合包含右表但不包含左表，则使用 `pass1Map` 获取一个操作符来访问左表。
+>    情况 3：否则，跳过此连接谓词并继续循环。
+>
+>    使用情况 1 或情况 2 中获取的操作符，使用 `minCostJoinType` 计算新表（通过 `pass1Map` 获取操作符的表）与之前已连接表的组合的最便宜连接。然后，如果需要，更新结果映射。
+
+注意这里是最优左深连接计划的映射，所以我们需要使用左深连接的方式来实现。左深连接意味着，处理好的表在左侧，新的表在右侧进行连接。
+有几个步骤来实现
+首先遍历i-1种组合，然后遍历所有尚未连接的表，尝试将它们与当前组合进行左深连接。
+对于每个连接，找出最优的type。选择最优，然后把他加入到我们左手边已经处理好的表中。
+
+prevMap是一个从i-1个表组合到这些i-1个表组合的优化计划的映射，pass1Map是一个从单个表到其最优查询操作符的映射。
+joinPredicates是一个连接谓词的列表，包含了所有可能的连接条件。
+我们在这个方法中要做的就是把新的想加入的和旧的已经处理好的进行连接，传入的prevMap不变，我们从pass1Map中获取，然后加入到result中。
+以下是实现代码：
+
+
+```java
+public Map<Set<String>, QueryOperator> minCostJoins(
+            Map<Set<String>, QueryOperator> prevMap,
+            Map<Set<String>, QueryOperator> pass1Map) {
+        Map<Set<String>, QueryOperator> result = new HashMap<>();
+        for(Set<String> tables : prevMap.keySet()){
+            for(JoinPredicate jp : joinPredicates){
+                String leftTableName = jp.leftTable;
+                String leftColumnName = jp.leftColumn;
+                String rightTableName = jp.rightTable;
+                String rightColumnName = jp.rightColumn;
+                
+                Set<String> newTableSet = null;
+                QueryOperator joinOp = null;
+
+                if(tables.contains(leftTableName) && !tables.contains(rightTableName)){
+                    // Case 1: 现有表集合包含左表，需要加入右表
+                    Set<String> rightTableSet = Collections.singleton(rightTableName);
+                    QueryOperator operator = pass1Map.get(rightTableSet);
+                    if(operator != null) {
+                        joinOp = minCostJoinType(prevMap.get(tables),operator,
+                                leftColumnName, rightColumnName);
+                        newTableSet = new HashSet<>(tables);
+                        newTableSet.add(rightTableName);
+                    }
+                }
+                else if(!tables.contains(leftTableName) && tables.contains(rightTableName)){
+                    // Case 2: 现有表集合包含右表，需要加入左表
+                    Set<String> leftTableSet = Collections.singleton(leftTableName);
+                    QueryOperator operator = pass1Map.get(leftTableSet);
+                    if(operator != null) {
+                        joinOp = minCostJoinType(prevMap.get(tables),operator,
+                                rightColumnName, leftColumnName);
+                        newTableSet = new HashSet<>(tables);
+                        newTableSet.add(leftTableName);
+                    }
+                }
+                else{
+                    continue;
+                }
+                
+                // 更新result
+                if(joinOp != null) {
+                    if(!result.containsKey(newTableSet)){
+                        result.put(newTableSet, joinOp);
+                    }
+                    else{
+                        QueryOperator existingOp = result.get(newTableSet);
+                        if(joinOp.estimateIOCost() < existingOp.estimateIOCost()){
+                            result.put(newTableSet, joinOp);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+```
+
+---
+
+# Task 7: Optimal Plan Selection
+
+任务要求：
+>你的最终任务是编写优化器的最外层驱动方法 QueryPlan#execute ，该方法应利用你已经实现的两个辅助方法来找到最佳查询计划。
+>你需要添加查询中剩余的分组和投影运算符，这些运算符是查询的一部分，但尚未添加到查询计划中（参见为 QueryPlan 类实现的私有辅助方法）。注意： QueryPlan 中的表保存在变量 tableNames 中。
+
+注释中写道：
+Pass 1：对于每个表，找到访问该表的最低成本 QueryOperator。构建一个从每个表名到其最低成本操作符的映射。
+
+Pass i：在每一趟中，使用前一趟的结果，找到与 Pass 1 中每个表的最低成本连接。重复此过程，直到所有表都已连接。
+
+将最终操作符设置为最后一趟的最低成本操作符，添加 group by、project、sort 和 limit 操作符，并返回最终操作符的迭代器。
+
+我们首先来实现pass1的逻辑，为每个表找到最低成本，就是使用之前的那个minCostSingleAccess方法。然后把他放入pass1Map当中。
+同时创建一个allPlans,这个也就是之后用来迭代的prevmap我们相当于做了一个初始化
+```java
+ Map<Set<String>, QueryOperator> pass1Map = new HashMap<>();
+        for(String table : this.tableNames){
+            QueryOperator lowCostOperator = minCostSingleAccess(table);
+            pass1Map.put(Collections.singleton(table), lowCostOperator);
+        }
+        Map<Set<String>, QueryOperator> allPlans = new HashMap<>(pass1Map);
+```
+
+按照pass i的语义，我们每一趟相当于添加了一个表，假设有n个表，我们就需要n-1次组合，才能完整组合起来n张表。
+思路就是首先用上一次的allplans当作prevmap，找到里面个数和当前轮次一样的表组合，比如说在pass=1的时候，说明这一轮需要组合出两个表，那么就得找之前的allplans当中长度为1的组合，和他们组合，让长度达到2。
+```java
+for(int pass = 1; pass < this.tableNames.size(); pass++){
+            Map<Set<String>, QueryOperator> prevPassResults = new HashMap<>();
+            for(Set<String> tableSet : allPlans.keySet()){
+                if(tableSet.size() == pass){
+                    prevPassResults.put(tableSet, allPlans.get(tableSet));
+                }
+            }
+            
+            if(prevPassResults.isEmpty()){
+                break;
+            }
+```
+
+通过在task6中写好的组合方式，找到当前轮次的最优解,然后加入到总计划，给下一轮组合时用。
+```java
+ Map<Set<String>, QueryOperator> currentPassResults =
+                    minCostJoins(prevPassResults, pass1Map);
+                    allPlans.putAll(currentPassResults);
+}
+```
+
+在组合过后，找到所有包含所有表的组合，并将其作为最终操作符。
+然后更新finalOperator，并添加必要的 group by、project、sort 和 limit 操作符。
+```java
+Set<String> allTables = new HashSet<>(this.tableNames);
+        finalOperator = allPlans.get(allTables);
+        
+        addGroupBy();
+        addProject();
+        addSort();
+        addLimit();
+        
+        return finalOperator.iterator();
+        }
+        ```
+
+以上，proj3完结。

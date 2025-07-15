@@ -45,10 +45,10 @@
 
 ### CS186数据库系统
 
-- [Task1: Blocking Nested Loop join（BNJL）](CS186/CS186-proj3.md) - 2025-07-14 - 6588字 - 44分钟
+- [Task1: Blocking Nested Loop join（BNJL）](CS186/CS186-proj3.md) - 2025-07-15 - 8572字 - 58分钟
+- [CS186 笔记02](CS186/CS186笔记02.md) - 2025-07-15 - 18474字 - 124分钟
 - [CS186 笔记01](CS186/CS186笔记01.md) - 2025-07-14 - 9536字 - 64分钟
 - [Task 1: `LeafNode::fromBytes`](CS186/CS186-proj2.md) - 2025-07-12 - 2477字 - 17分钟
-- [CS186 笔记02](CS186/CS186笔记02.md) - 2025-07-12 - 6156字 - 42分钟
 
 ## 统计信息
 

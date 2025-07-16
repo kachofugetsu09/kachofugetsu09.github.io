@@ -16,8 +16,8 @@ article.html?category=CS-basics&file=Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md
 article.html?category=CS-basics&file=MYSQL%E7%AC%94%E8%AE%B0.md
 article.html?category=CS-basics&file=kafka%E7%AC%94%E8%AE%B0.md
 article.html?category=CS-basics&file=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md
-article.html?category=MIT6.824&file=lab1.md
 article.html?category=MIT6.824&file=lab2A.md
+article.html?category=MIT6.824&file=lab1.md
 article.html?category=MIT6.824&file=lab2B.md
 article.html?category=MIT6.824&file=raft%E8%AE%BA%E6%96%87%E7%A0%94%E7%A9%B6.md
 article.html?category=interview&file=redis%202025.5.29.md

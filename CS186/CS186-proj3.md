@@ -8,7 +8,7 @@
 类`JoinOperator`继承自`QueryOperator`，实现了连接操作。他的主要作用是实现高效的多表连接。
 他是一个抽象类，里面实现了多个Operator以提供不同的连接方式，根据对应的关键字有不同的选择。
 SequentialScanOperator.java - 接收一个表名，提供该表所有记录的迭代器
- IndexScanOperator.java - 接收一个表名、列名、一个谓词操作符（>、<、<=、>=、=）和一个值。指定的列必须在该列上建立索引，此操作符才能工作。如果建立了索引，索引扫描将利用索引高效地返回满足给定谓词和值的记录（例�� salaries.yearid >= 2000 ）。
+ IndexScanOperator.java - 接收一个表名、列名、一个谓词操作符（>、<、<=、>=、=）和一个值。指定的列必须在该列上建立索引，此操作符才能工作。如果建立了索引，索引扫描将利用索引高效地返回满足给定谓词和值的记录（例如 salaries.yearid >= 2000 ）。
 
 这大致就是比较关键的骨架。
 
@@ -46,7 +46,7 @@ BNLJ 的核心在于**块级别的嵌套循环**。它将左关系 (Outer Relati
 
 1.  当一个左块，比如范围是 **`[1, 100]`** 的记录加载到内存后，它需要依次与右关系的所有页面进行匹配。
     * 比如，它先与右关系的第一页，范围是 **`[1, 50]`** 的记录进行匹配。
-    * 当 `rightPageIterator` 遍历完 `[1, 50]` 中的所有记录后，需要加载右关系的下一页，例如范围是 **`[51, 100]`** 的记录。此时，为了确保左块 `[1, 100]` 中的所有记录都能从头开始��新的右页 `[51, 100]` 进行匹配，`leftBlockIterator` 必须 **重置** 回到左块的起始位置 `1`。
+    * 当 `rightPageIterator` 遍历完 `[1, 50]` 中的所有记录后，需要加载右关系的下一页，例如范围是 **`[51, 100]`** 的记录。此时，为了确保左块 `[1, 100]` 中的所有记录都能从头开始和新的右页 `[51, 100]` 进行匹配，`leftBlockIterator` 必须 **重置** 回到左块的起始位置 `1`。
 2.  当左块 `[1, 100]` 已经遍历完整个右关系的所有页面后（即匹配完了 `[1, 50]`, `[51, 100]`, `[101, 150]` 等所有右页），会加载左关系的下一个块，比如范围是 **`[101, 200]`** 的记录。此时，`rightSourceIterator` 必须 **重置** 回到整个右关系 $R$ 的起始位置（即 `1`），才能确保 `[101, 200]` 这个左块也能从头开始遍历右关系的所有页面。
 
 
@@ -204,7 +204,7 @@ GHJ 分为两个主要阶段：
 
 ### 任务分析
 
->您需要实现的功能都将完成在 GHJOperator.java 中。您需要实现函数 partition 、 buildAndProbe �� run 。此外，您还需要在 getBreakSHJInputs 和 getBreakGHJInputs 中提供一些输入，这些输入将用于测试 Simple Hash Join 失败但 Grace Hash Join 通过（在 testBreakSHJButPassGHJ 中测试）以及 GHJ 出现错误（在 testGHJBreak 中测试）。
+>您需要实现的功能都将完成在 GHJOperator.java 中。您需要实现函数 partition 、 buildAndProbe、run 。此外，您还需要在 getBreakSHJInputs 和 getBreakGHJInputs 中提供一些输入，这些输入将用于测试 Simple Hash Join 失败但 Grace Hash Join 通过（在 testBreakSHJButPassGHJ 中测试）以及 GHJ 出现错误（在 testGHJBreak 中测试）。
 
 接下来，我们一步步实现这几个关键方法。
 

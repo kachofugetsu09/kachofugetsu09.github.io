@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-16T13:13:51.949Z
+// 生成时间: 2025-07-16T13:18:24.317Z
 
 window.SITE_DATA = {
     "categories": {
@@ -70,8 +70,8 @@ window.SITE_DATA = {
             "计算机网络.md"
         ],
         "MIT6.824": [
-            "lab1.md",
             "lab2A.md",
+            "lab1.md",
             "lab2B.md",
             "raft论文研究.md"
         ],
@@ -99,7 +99,7 @@ window.SITE_DATA = {
         "tech/Kafka和RocketMQ的背压机制解析.md": {
             "title": "消息中间件背压机制深度解析",
             "preview": "背压是一种流量控制机制,用于处理系统中生产者和消费者处理能力不匹配的情况。简单来说,就是当下游系统(消费者)处理数据的速度跟不上上游系统(生产者)产生数据的速度时,需要一种机制来对上游进行限流,从而保护系统不会因为负载过高而崩溃。 系统稳定性保护 防止消费者被大量数据压垮 避免内存溢出(OOM)问题 保持系统的可用性和稳定性 资源合理利用 在系统负载高峰期合理分配资源 避免资源浪费和过度消耗 实现...",
-            "updateTime": "2025-07-15",
+            "updateTime": "2025-07-16",
             "wordCount": 3860,
             "readingTime": 26,
             "relativePath": "Kafka和RocketMQ的背压机制解析.md"
@@ -179,9 +179,9 @@ window.SITE_DATA = {
         "MIT6.824/lab2A.md": {
             "title": "lab2A",
             "preview": "## Lab 2A: Raft 领导人选举与心跳 > 本实验要求您在 raft/raft.go 文件中实现 Raft 共识算法。该文件已提供骨架代码，并包含如何发送和接收 RPC 的示例。您的实现必须支持以下接口，测试器和（最终）您的键/值服务器将使用这些接口。raft.go 中的注释提供了更多详细信息。 一个服务通过调用 Make(peers, me, ...) 来创建一个 Raft 节点。pe...",
-            "updateTime": "2025-07-15",
-            "wordCount": 4350,
-            "readingTime": 29,
+            "updateTime": "2025-07-16",
+            "wordCount": 4352,
+            "readingTime": 30,
             "relativePath": "lab2A.md"
         },
         "MIT6.824/lab2B.md": {
@@ -252,7 +252,7 @@ window.SITE_DATA = {
             "title": "Task1: Blocking Nested Loop join（BNJL）",
             "preview": "这篇文章是对于CS186的proj3的总结和实现思路。 这个proj有一个不一样的地方是他建议我们阅读一下对应的代码骨架。 那么我们就大致浏览一下，整理一下各个部分的功能。 里面有一个BacktrackingIterator接口，对比普通迭代器他多了一个功能就是可以用一个指针来储存想要回溯的地方，等到需要回溯的时候可以通过reset()方法回到这个位置。 类QueryOperator实现了这个接口...",
             "updateTime": "2025-07-16",
-            "wordCount": 8572,
+            "wordCount": 8574,
             "readingTime": 58,
             "relativePath": "CS186-proj3.md"
         },

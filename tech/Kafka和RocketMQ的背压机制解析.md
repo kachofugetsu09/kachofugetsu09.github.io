@@ -184,7 +184,7 @@ private void completeBatch(ProducerBatch batch, ProduceResponse.PartitionRespons
         transactionManager.handleCompletedBatch(batch, response);
     }
 
-    // � 网络发送成功！可以让这辆车出停车场了
+    // 网络发送成功！可以让这辆车出停车场了
     if (batch.complete(response.baseOffset, response.logAppendTime)) {
         maybeRemoveAndDeallocateBatch(batch);
     }
@@ -192,7 +192,7 @@ private void completeBatch(ProducerBatch batch, ProduceResponse.PartitionRespons
 
 private void maybeRemoveAndDeallocateBatch(ProducerBatch batch) {
     maybeRemoveFromInflightBatches(batch);
-    // � 车辆出场，释放车位给停车场
+    //  车辆出场，释放车位给停车场
     this.accumulator.deallocate(batch);
 }
 ```

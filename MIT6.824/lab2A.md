@@ -211,7 +211,7 @@ type RequestVoteReply struct {
 
 #### 3.1 在 `Raft` 结构体中添加定时器
 
-首先，在 `Raft` 结构体中添加选举定时器和心跳定时器��
+首先，在 `Raft` 结构体中添加选举定时器和心跳定时器
 
 ```go
 // Raft struct
@@ -464,7 +464,7 @@ func (rf *Raft) becomeLeader() {
 
 成为 Leader 后，节点需要周期性地向所有 Follower 发送 `AppendEntries` RPC 作为心跳，以维持其领导地位。在 Lab 2A 中，这个 RPC 的 `Entries` 字段为空。
 
-> **退位场景**：在 `sendHeartbeats` 的回复处理中，Leader 可能会发现一个任期比自己更高的节点。这通常发生在网络分区后，���分区的 Leader（比如 A）重新连接到主网络，但主网络中已经选举出了一个任期更高的 Leader（比如 B）。此时，A 必须承认新的 Leader 并退位成为 Follower。
+> **退位场景**：在 `sendHeartbeats` 的回复处理中，Leader 可能会发现一个任期比自己更高的节点。这通常发生在网络分区后，分区的 Leader（比如 A）重新连接到主网络，但主网络中已经选举出了一个任期更高的 Leader（比如 B）。此时，A 必须承认新的 Leader 并退位成为 Follower。
 
 ```go
 func (rf *Raft) sendHeartbeats() {
@@ -533,7 +533,7 @@ func (rf *Raft) sendHeartbeats() {
     -   **日志新旧度判断**：候选人的日志必须“至少和自己一样新”。
 
 > **选举限制 (Election Restriction)**
-> 日志新旧度判断是 Raft 的核心安全机制之���。它确保了只有拥有最新（或至少一样新）日志的候选人才能当选 Leader，从而防止任何已提交的日志条目被覆盖或丢失。
+> 日志新旧度判断是 Raft 的核心安全机制之一。它确保了只有拥有最新（或至少一样新）日志的候选人才能当选 Leader，从而防止任何已提交的日志条目被覆盖或丢失。
 >
 > 判断规则为：
 > -   候选人的最后一条日志的任期号 > 接收者的最后一条日志的任期号，**或者**
@@ -601,7 +601,7 @@ type AppendEntriesReply struct {
 
 > **核心逻辑**：
 > 1.  **任期检查**：如果 Leader 的任期 `args.Term` 小于自己的当前任期 `rf.currentTerm`，则拒绝该心跳。
-> 2.  **承认 Leader**：只要 `args.Term >= rf.currentTerm`，就说明存在一个合法的 Leader。当前节点（无论是 Follower、Candidate 还是旧 Leader）���应承认其地位，转为 Follower 状态，并更新自己的任期（如果 `args.Term` 更高）。
+> 2.  **承认 Leader**：只要 `args.Term >= rf.currentTerm`，就说明存在一个合法的 Leader。当前节点（无论是 Follower、Candidate 还是旧 Leader）就应承认其地位，转为 Follower 状态，并更新自己的任期（如果 `args.Term` 更高）。
 > 3.  **重置选举定时器**：这是心跳机制的根本目的。收到有效心跳后，立即重置选举定时器，以防止自己因超时而发起不必要的选举。
 
 ```go

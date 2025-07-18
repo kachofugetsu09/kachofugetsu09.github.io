@@ -613,3 +613,26 @@ public void promote(TransactionContext transaction, ResourceName name,
 
 
 #  Task3 LockContext
+
+这是我认为整个proj4最难的一部分。
+
+任务要求：
+
+>  `LockContext` 类代表层次结构中的单个资源；所有多粒度操作（例如，在获取或执行锁升级之前确保你拥有适当的意图锁）都在这里实现。
+> 您需要实现 `LockContext` 中的以下方法：
+>
+>  `acquire` ：此方法在确保满足所有多粒度约束后，通过底层 `LockManager` 执行获取。例如，如果事务具有 IS(database) 并请求 X(table)，必须抛出适当的异常（见方法上方注释）。如果一个事务有一个 SIX 锁，那么它对任何后代资源拥有 IS/S 锁是多余的。因此，在我们的实现中，如果祖先有 SIX，我们禁止获取 IS/S 锁，并认为这是无效请求。
+>
+> `release` ：此方法在确保释放后仍然满足所有多粒度约束后，通过底层 `LockManager` 执行释放。例如，如果事务具有 X(table) 并尝试释放 IX(database)，必须抛出适当的异常（见方法上方注释）。
+>
+> `promote` : 该方法在确保满足所有多粒度约束后，通过底层 `LockManager` 执行锁升级。例如，如果事务具有 IS(database)且请求从 S(table)升级到 X(table)，必须抛出适当的异常（见方法上方注释）。在从 IS/IX/S 升级到 SIX 的特殊情况下，您应同时释放所有 S/IS 类型的后代锁，因为我们不允许在持有 SIX 锁时，后代上存在 IS/S 锁。如果祖先已持有 SIX 锁，您还应禁止升级到 SIX 锁，因为这将是冗余的。
+>
+> `escalate` : 此方法执行锁升级至当前级别（详见下文）。由于多个事务（在不同线程上运行）允许交错调用多个 `LockManager` ，你必须确保仅对 `LockManager` 使用一次变异数据调用，并且仅从 `LockManager` 请求有关当前事务的信息（因为查询与获取之间的任何其他事务相关信息可能会发生变化）。
+>
+> `getExplicitLockType` : 此方法返回当前级别上显式持有的锁的类型。例如，如果事务对数据库有 X(db)， `dbContext.getExplicitLockType(transaction)` 应返回 X，但 `tableContext.getExplicitLockType(transaction)` 应返回 NL（未显式持有锁）。
+>
+>  `getEffectiveLockType` : 这个方法返回当前级别上隐式或显式持有的锁的类型。
+>
+> 由于意向锁不会隐式授予较低级别的锁定权限，如果一个事务只有 SIX(database)， `tableContext.getEffectiveLockType(transaction)` 应该返回 S（而不是 SIX），因为该事务通过 SIX 锁隐式拥有表上的 S，但不是 SIX 锁的 IX 部分（该部分仅在数据库级别可用）。显式锁类型可以是其中一种类型，而有效锁类型可以是不同的锁类型，特别是如果祖先有一个 SIX 锁。
+>
+> 对于这项任务，以下辅助方法可能会有所帮助： `LockType` 和 `LockManager` 的方法， `ResourceName#parent` 和 `ResourceName#isDescendantOf` 的方法， `hasSIXAncestor` 和 `sisDescendants` 的方法（你将实现这些方法），以及 `fromResourceName` 。

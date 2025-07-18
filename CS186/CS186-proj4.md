@@ -1,10 +1,4 @@
-﻿# CS186 Project 4 深度解析与实现
-
-本文是对 UC Berkeley CS186 数据库课程 Project 4: Locking 的个人总结与实现思路分享。
-
-Proj4 是前四个里面我目前认为最烧脑的一个
-
-# Task 1: LockType
+﻿# Task 1: LockType
 
 这个任务的核心是实现对不同锁类型之间关系的判断。
 
@@ -233,7 +227,7 @@ public static boolean substitutable(LockType substitute, LockType required) {
 *   如果已持有（`existingLock != null`），则先移除旧锁，再添加新锁，完成锁的更新（例如，在锁升级 `promote` 时）。
 *   如果未持有，则直接添加新锁。
 
-最后，必须同步更新 `LockManager` 中全局的 `transactionLocks` 映射，以确保事务持���的所有锁记录保持一致。
+最后，必须同步更新 `LockManager` 中全局的 `transactionLocks` 映射，以确保事务持有的所有锁记录保持一致。
 
 **具体实现代码:**
 ```java
@@ -612,27 +606,564 @@ public void promote(TransactionContext transaction, ResourceName name,
 
 
 
-#  Task3 LockContext
+# Task3: LockContext 
 
-这是我认为整个proj4最难的一部分。
 
-任务要求：
 
->  `LockContext` 类代表层次结构中的单个资源；所有多粒度操作（例如，在获取或执行锁升级之前确保你拥有适当的意图锁）都在这里实现。
-> 您需要实现 `LockContext` 中的以下方法：
+这是我个人认为整个 Project 4 中最烧脑的一个部分。`LockContext` 类是多粒度锁定策略的核心，它抽象了资源层级结构中的单个节点，并负责在该节点上执行所有多粒度锁操作，同时确保层次化约束始终得到满足。
+
+> **任务要求:**
 >
->  `acquire` ：此方法在确保满足所有多粒度约束后，通过底层 `LockManager` 执行获取。例如，如果事务具有 IS(database) 并请求 X(table)，必须抛出适当的异常（见方法上方注释）。如果一个事务有一个 SIX 锁，那么它对任何后代资源拥有 IS/S 锁是多余的。因此，在我们的实现中，如果祖先有 SIX，我们禁止获取 IS/S 锁，并认为这是无效请求。
+> LockContext 类代表层次结构中的单个资源；所有多粒度操作（例如，在获取或执行锁升级之前确保你拥有适当的意图锁）都在这里实现。
 >
-> `release` ：此方法在确保释放后仍然满足所有多粒度约束后，通过底层 `LockManager` 执行释放。例如，如果事务具有 X(table) 并尝试释放 IX(database)，必须抛出适当的异常（见方法上方注释）。
+> 您需要实现 LockContext 中的以下方法：
 >
-> `promote` : 该方法在确保满足所有多粒度约束后，通过底层 `LockManager` 执行锁升级。例如，如果事务具有 IS(database)且请求从 S(table)升级到 X(table)，必须抛出适当的异常（见方法上方注释）。在从 IS/IX/S 升级到 SIX 的特殊情况下，您应同时释放所有 S/IS 类型的后代锁，因为我们不允许在持有 SIX 锁时，后代上存在 IS/S 锁。如果祖先已持有 SIX 锁，您还应禁止升级到 SIX 锁，因为这将是冗余的。
->
-> `escalate` : 此方法执行锁升级至当前级别（详见下文）。由于多个事务（在不同线程上运行）允许交错调用多个 `LockManager` ，你必须确保仅对 `LockManager` 使用一次变异数据调用，并且仅从 `LockManager` 请求有关当前事务的信息（因为查询与获取之间的任何其他事务相关信息可能会发生变化）。
->
-> `getExplicitLockType` : 此方法返回当前级别上显式持有的锁的类型。例如，如果事务对数据库有 X(db)， `dbContext.getExplicitLockType(transaction)` 应返回 X，但 `tableContext.getExplicitLockType(transaction)` 应返回 NL（未显式持有锁）。
->
->  `getEffectiveLockType` : 这个方法返回当前级别上隐式或显式持有的锁的类型。
+> - `acquire` ：此方法在确保满足所有多粒度约束后，通过底层 `LockManager` 执行获取。例如，如果事务具有 IS(database) 并请求 X(table)，必须抛出适当的异常（见方法上方注释）。如果一个事务有一个 SIX 锁，那么它对任何后代资源拥有 IS/S 锁是多余的。因此，在我们的实现中，如果祖先有 SIX，我们禁止获取 IS/S 锁，并认为这是无效请求。
+> - `release` ：此方法在确保释放后仍然满足所有多粒度约束后，通过底层 `LockManager` 执行释放。例如，如果事务具有 X(table) 并尝试释放 IX(database)，必须抛出适当的异常（见方法上方注释）。
+> - `promote` : 该方法在确保满足所有多粒度约束后，通过底层 `LockManager` 执行锁升级。例如，如果事务具有 IS(database)且请求从 S(table)升级到 X(table)，必须抛出适当的异常（见方法上方注释）。在从 IS/IX/S 升级到 SIX 的特殊情况下，您应同时释放所有 S/IS 类型的后代锁，因为我们不允许在持有 SIX 锁时，后代上存在 IS/S 锁。如果祖先已持有 SIX 锁，您还应禁止升级到 SIX 锁，因为这将是冗余的。
+> - `escalate` : 此方法执行锁升级至当前级别（详见下文）。由于多个事务（在不同线程上运行）允许交错调用多个 `LockManager` ，你必须确保仅对 `LockManager` 使用一次变异数据调用，并且仅从 `LockManager` 请求有关当前事务的信息（因为查询与获取之间的任何其他事务相关信息可能会发生变化）。
+> - `getExplicitLockType` : 此方法返回当前级别上显式持有的锁的类型。例如，如果事务对数据库有 X(db)， `dbContext.getExplicitLockType(transaction)` 应返回 X，但 `tableContext.getExplicitLockType(transaction)` 应返回 NL（未显式持有锁）。
+> - `getEffectiveLockType` : 这个方法返回当前级别上隐式或显式持有的锁的类型。
 >
 > 由于意向锁不会隐式授予较低级别的锁定权限，如果一个事务只有 SIX(database)， `tableContext.getEffectiveLockType(transaction)` 应该返回 S（而不是 SIX），因为该事务通过 SIX 锁隐式拥有表上的 S，但不是 SIX 锁的 IX 部分（该部分仅在数据库级别可用）。显式锁类型可以是其中一种类型，而有效锁类型可以是不同的锁类型，特别是如果祖先有一个 SIX 锁。
 >
 > 对于这项任务，以下辅助方法可能会有所帮助： `LockType` 和 `LockManager` 的方法， `ResourceName#parent` 和 `ResourceName#isDescendantOf` 的方法， `hasSIXAncestor` 和 `sisDescendants` 的方法（你将实现这些方法），以及 `fromResourceName` 。
+
+我们来逐一实现这些关键方法。
+
+首先，让我们了解 `LockContext` 的基本结构。它封装了一个资源在多粒度层次结构中的上下文信息，包括：
+
+- `lockman`: 底层的 **LockManager** 实例，用于实际的锁操作。
+- `parent`: 当前资源的父 `LockContext`，用于向上检查层次化约束。
+- `name`: 当前资源的 `ResourceName`。
+- `readonly`: 标记该上下文是否只读。
+- `numChildLocks`: 一个映射表，记录每个事务在当前上下文的 **直接子资源** 上持有的锁数量。这是维护多粒度锁完整性的关键。
+- `children`: 一个映射表，存储当前上下文的所有直接子 `LockContext`。
+
+```java
+    protected final LockContext parent;
+
+    protected ResourceName name;
+
+    protected boolean readonly;
+
+    protected final Map<Long, Integer> numChildLocks;
+
+    protected final Map<String, LockContext> children;
+```
+
+------
+
+
+
+### 3.1 `acquire` 方法：获取锁（多粒度规则）
+
+目标: 事务请求在当前资源上获取指定类型的锁。此方法必须严格遵循多粒度锁定的规则，尤其是在父子锁类型之间的兼容性上。
+
+逻辑解析:
+在调用底层 `LockManager` 的 `acquire` 方法之前，我们需要执行一系列前置检查，以确保事务能够在该资源上合法地获取锁，并维护 `numChildLocks` 计数。这些检查是多粒度锁体系中“**意图自上而下传递**”原则的体现：
+
+* **只读检查**: 如果 `LockContext` 被标记为只读，表示这个资源是不可修改的，自然不允许任何锁获取操作（包括意向锁，因为它们最终可能导致修改），直接抛出 `UnsupportedOperationException`。
+* **NL 锁请求检查**: `NL` 锁是“无锁”状态。请求 `NL` 锁没有任何意义，因为它不提供任何权限，并且通常通过 `release` 方法来达到无锁状态，因此若请求 `NL` 锁则抛出 `InvalidLockException`。
+* **重复锁检查**: 获取当前事务在当前资源上已持有的锁类型。如果事务已经持有了非 `NL` 类型的锁，说明是**重复请求**，一个事务不能对同一个资源重复获取锁，应抛出 `DuplicateLockRequestException`。
+* **父子锁兼容性检查 (核心)**: 这是多粒度锁定的**基石**。
+    * **原理**: 父节点上的锁必须“授权”或“包含”子节点上锁的意图或权限。如果父节点没有表达出足够的“意图”（例如，没有 `IS` 或 `IX` 意向锁），那么子节点就不能直接获取可能需要这种意图的锁（如 `S` 或 `X`）。
+    * **实现**: 如果当前资源有父节点 (`parent != null`)，我们需要检查父节点上事务持有的锁 (`parentLockType`) 是否允许子节点获取 `lockType`。这通过 `LockType.canBeParentLock(parentLockType, lockType)` 方法来判断。
+    * **例子**: 假设数据库（父）上只有 `S` 锁（共享读），如果你试图在表（子）上获取 `IX` 锁（意向排他写），这将违反规则。因为数据库的 `S` 锁表明它只打算读取其所有子资源，而没有进行修改的意图。如果允许子表获取 `IX`，就会造成父子意图不一致。因此，这种情况下会抛出 `InvalidLockException`。这个检查确保了锁的**层次一致性**。
+* **`SIX` 祖先检查**: 如果请求的锁类型是 `IS` 或 `S`，并且其任何祖先节点已经持有了 `SIX` 锁（共享加意向排他），则拒绝此请求。**为什么？** 因为 `SIX` 祖先已经隐式地获得了对当前资源及其所有后代的 `S` 锁权限。在这种情况下，再在当前资源上显式地获取 `IS` 或 `S` 锁是**冗余**的，并且可能导致逻辑上的混乱。为了简化锁管理，直接禁止这种冗余的获取操作，抛出 `InvalidLockException`。这通过辅助方法 `hasSIXAncestor(transaction)` 来判断。
+
+**实际获取锁**: 如果所有前置检查都通过，则表示该锁请求在多粒度层次上是合法的。此时，我们通过 `lockman.acquire(transaction, name, lockType)` 调用底层的 `LockManager` 来实际获取锁。`LockManager` 会负责处理该资源自身的并发冲突和等待队列。
+
+**更新子锁计数 (`numChildLocks`)**:
+* **原理**: `numChildLocks` 是 `LockContext` 维护层次完整性的关键机制，它统计了**当前事务**在**当前 `LockContext` 所代表的资源的直接子资源上**持有的非 `NL` 锁的数量。
+* **实现**: 如果当前 `LockContext` 有父节点，并且成功获取了锁（这意味着当前锁成为了父节点的“子锁”），我们就需要更新父节点的 `numChildLocks` 映射，将当前事务的子锁计数加 1。这对于后续父锁的释放检查（是否仍有子锁持有）至关重要。
+
+
+**具体实现代码:**
+
+```java
+public void acquire(TransactionContext transaction, LockType lockType)
+            throws InvalidLockException, DuplicateLockRequestException {
+        // TODO(proj4_part2): implement
+
+        if(this.readonly){
+            throw new UnsupportedOperationException("Read only locks are not supported");
+        }
+        
+        if (lockType == LockType.NL) {
+            throw new InvalidLockException("Cannot acquire NL lock, use release instead");
+        }
+        
+        long transNum = transaction.getTransNum();
+        if(!lockman.getLockType(transaction,name).equals(LockType.NL)){
+            throw new DuplicateLockRequestException("Transaction " + transNum + " already holds a lock on " + name);
+        }
+
+        if (parent != null) {
+            LockType parentLockType = lockman.getLockType(transaction, parent.getResourceName());
+            if (!LockType.canBeParentLock(parentLockType, lockType)) {
+                throw new InvalidLockException("Parent lock " + parentLockType + 
+                    " does not allow child lock " + lockType);
+            }
+        }
+
+        lockman.acquire(transaction, name, lockType);
+
+        if (parent != null) {
+            parent.numChildLocks.put(transNum,
+                    parent.numChildLocks.getOrDefault(transNum, 0) + 1);
+        }
+    }
+```
+
+------
+
+
+
+### 3.2 `release` 方法：释放锁（多粒度规则）
+
+目标: 事务请求释放当前资源上的锁。此操作同样需要遵循多粒度锁定规则，特别是在是否存在子锁时。
+
+逻辑解析:
+释放锁时，我们必须确保释放操作不会破坏多粒度锁定的层次完整性。这意味着如果当前资源有任何子资源被同一个事务持有锁，那么父资源上的锁就不能被轻易释放。这是多粒度锁体系中“**权限自下而上聚合**”原则的体现，也是防止“悬空意图”的关键。
+* **只读检查**: 与 `acquire` 类似，只读上下文不允许锁释放操作，抛出 `UnsupportedOperationException`。
+* **未持有锁检查**: 检查事务是否实际持有当前资源上的锁。如果事务在该资源上是 `NL` (无锁) 状态，则说明它没有持有锁，无法释放，应抛出 `NoLockHeldException`。
+* **子锁存在性检查 (核心)**:
+    * **原理**: 在多粒度锁体系中，如果一个事务在父节点上持有意向锁（例如 `IX`），其目的是为了在子节点上获取更细粒度的锁（例如 `X`）。如果父节点上的意向锁被释放了，但子节点上的实际锁仍然存在，这将导致子节点上的锁“失去父级意图的授权”，违反了层次约束（即你不能在没有父级意图锁的情况下直接在子级持有锁）。为了避免这种情况，我们必须确保在释放父锁之前，该事务**在任何直接子资源上都没有持有非 `NL` 类型的锁**。
+    * **实现**: 这个信息由 `numChildLocks` 映射表提供。如果 `numChildLocks.getOrDefault(transNum, 0)` 大于 0，表示当前事务在当前资源下仍有直接子锁，此时不能释放当前锁，应抛出 `InvalidLockException`。
+* **实际释放锁**: 如果所有检查都通过，表示当前锁可以安全释放。此时，调用 `lockman.release(transaction, name)` 将实际的锁释放。底层 `LockManager` 会负责从持有列表中移除锁并自动调用 `processQueue` 来唤醒等待的事务。
+* **更新子锁计数 (`numChildLocks`)**:
+    * **原理**: 当当前资源上的锁被成功释放后，它不再是其父节点的“子锁”。
+    * **实现**: 如果当前 `LockContext` 有父节点，并且成功释放了锁，则意味着父节点在其子资源上持有的锁数量减少。我们应将父节点的 `numChildLocks` 中对应事务的计数减 1。注意，需要确保计数不会减到负数。
+
+**具体实现代码:**
+
+```java
+public void release(TransactionContext transaction)
+            throws NoLockHeldException, InvalidLockException {
+        // TODO(proj4_part2): implement
+        if(this.readonly){
+            throw new UnsupportedOperationException("Read only locks are not supported");
+        }
+        long transNum = transaction.getTransNum();
+        LockType lockType = lockman.getLockType(transaction, name);
+        if(lockType.equals(LockType.NL)) {
+            throw new NoLockHeldException("Transaction " + transNum + " does not hold a lock on " + name);
+        }
+
+        // 检查是否有子锁阻止释放
+        int childLockCount = numChildLocks.getOrDefault(transNum, 0);
+        if (childLockCount > 0) {
+            throw new InvalidLockException("Cannot release lock when child locks are held");
+        }
+
+        lockman.release(transaction, name);
+        if(parent != null){
+            int currentCount = parent.numChildLocks.getOrDefault(transNum, 0);
+            if (currentCount > 0) {
+                parent.numChildLocks.put(transNum, currentCount - 1);
+            }
+        }
+
+    }
+```
+
+------
+
+
+
+### 3.3 `promote` 方法：锁升级（多粒度规则）
+
+
+目标: 将事务在当前资源上持有的锁升级为更强的类型。此操作同样具有高优先级，并涉及对多粒度规则的特殊处理。
+
+逻辑解析:
+锁升级是数据库并发控制中常见的操作，它允许事务在不释放现有锁的情况下获取更高级别的权限（例如，从读锁升级到写锁）。在多粒度锁框架下，升级需要考虑以下几点，这些是确保层次约束和优化锁管理的体现：
+* **只读检查**: 只读上下文不允许锁升级操作，因为升级通常意味着获取更高权限，可能用于修改数据。
+* **未持有锁检查**: 如果事务未持有当前资源上的任何锁（即 `NL` 状态），则无法进行“升级”操作，因为没有“旧锁”可升，抛出 `NoLockHeldException`。
+* **重复锁检查**: 如果请求升级的目标锁类型 (`newLockType`) 与当前已持有的锁类型 (`currentLockType`) 相同，则无需升级，这是冗余操作，抛出 `DuplicateLockRequestException`。
+* **权限检查**: 确保 `newLockType` 确实比 `currentLockType` 更强，即 `newLockType` 能够**替代** `currentLockType`。这意味着，如果事务拥有 `newLockType`，它必须能够完成所有 `currentLockType` 允许的操作。这通过 `LockType.substitutable(newLockType, currentLockType)` 方法来判断。如果不能替代（例如，从 `X` 降级到 `S`），则抛出 `InvalidLockException`。
+* **`SIX` 锁的特殊处理**: 这是 `promote` 方法中的一个复杂点，旨在优化和简化 `SIX` 锁的语义。
+    * **祖先 `SIX` 锁禁止升级到 `SIX`**: 如果当前事务的任何祖先节点已经持有了 `SIX` 锁，则不允许将当前锁升级到 `SIX`。**为什么？** 因为 `SIX` 锁（共享加意向排他）意味着事务已经隐式地获得了对**整个子树的 `S` 权限**，并且在**当前节点及其后代可以向下加 `IX`/`X` 锁**。如果父节点已经有了 `SIX` 锁，其子节点再获取 `SIX` 锁就完全是**冗余**的，因为权限已经被祖先的 `SIX` 锁覆盖了。这种冗余不仅浪费资源，还可能引入不必要的复杂性或死锁风险。因此，我们选择禁止。为此，我们首先需要实现一个辅助方法 `hasSIXAncestor(transaction)`。
+    * **升级到 `SIX` 时的子锁释放**: 如果事务尝试将 `IS` 或 `IX` 锁（或其他更弱的锁，如 `S`）升级到 `SIX` 锁，并且当前资源没有 `SIX` 祖先，则除了当前锁的升级外，还需要**原子性地释放**该事务在当前资源所有后代上持有的所有 `S` 锁和 `IS` 锁。**为什么？** 当一个资源获得了 `SIX` 锁后，它就**隐式地拥有了对其所有后代的 `S` 锁权限**。因此，这些后代资源再显式地持有 `S` 或 `IS` 锁就变得多余，它们已经被父节点的 `SIX` 锁所“覆盖”或“包含了”。释放这些冗余的子锁可以优化锁的内存使用，并简化后续的锁管理。为了实现这一机制，我们需要另一个辅助方法 `sisDescendants(transaction)`，它会返回所有需要被释放的 `S` 或 `IS` 后代锁的 `ResourceName` 列表。
+    * **原子性操作**: 在这种升级到 `SIX` 的特殊情况下，我们不能简单地先释放再获取，因为这可能导致短暂的无保护状态。因此，我们必须使用 `lockman.acquireAndRelease` 方法来**原子性地**完成“释放所有指定后代锁 + 升级当前锁”的操作，确保在整个过程中，资源始终处于受保护的状态。
+    * **更新 `numChildLocks`**: 在 `SIX` 升级并释放后代锁后，必须相应地更新当前 `LockContext` 的 `numChildLocks` 计数，减去被释放的子锁数量，以反映实际的锁持有情况。
+
+* **普通升级**: 对于除了升级到 `SIX` 之外的其他情况（即非 `SIX` 锁的升级），直接调用 `lockman.promote(transaction, name, newLockType)` 即可，`LockManager` 会处理其原子性。
+
+------
+
+
+
+#### 3.3.1 `hasSIXAncestor` 方法：判断是否存在 SIX 祖先
+
+
+目标: 检查当前事务是否在当前资源的任何祖先节点上持有 `SIX` 锁。
+
+逻辑解析:
+这个方法是辅助 `promote` 方法中的 `SIX` 锁特殊处理的。它的核心逻辑是沿着 `LockContext` 的父链**向上遍历**，查找事务是否在任何祖先节点上持有 `SIX` 锁。
+* 从 `this.parent` （当前资源的直接父节点）开始，逐级向上访问父节点。
+* 对于每个祖先节点，使用 `current.lockman.getLockType(transaction, current.getResourceName())` 获取事务在该祖先上持有的锁类型。
+* 如果找到 `LockType.SIX`，则立即返回 `true`，表示存在 `SIX` 祖先。
+* 如果遍历到根节点（`current` 为 `null`）仍未找到，则返回 `false`。
+
+**具体实现代码:**
+
+```java
+private boolean hasSIXAncestor(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
+        LockContext current = this.parent;
+        while (current != null) {
+            LockType lockType = current.lockman.getLockType(transaction, current.getResourceName());
+            if (lockType == LockType.SIX) {
+                return true;
+            }
+            current = current.parent;
+        }
+        return false;
+    }
+```
+
+------
+
+
+
+#### 3.3.2 `sisDescendants` 方法：获取所有 S/IS 后代锁
+
+
+目标: 获取当前事务在当前资源所有后代上持有的所有 `S` 或 `IS` 类型的锁的 `ResourceName` 列表。
+
+逻辑解析:
+这个方法同样是辅助 `promote` 方法中 `SIX` 锁特殊处理的。当一个事务将当前资源上的锁升级到 `SIX` 时，它会隐式地获得对所有后代的 `S` 权限，这意味着后代显式持有的 `S` 或 `IS` 锁变得冗余。此方法旨在**识别这些需要被释放的冗余锁**。
+这是一个**递归方法**，它会遍历当前 `LockContext` 的所有子节点，并递归调用自身来收集所有符合条件的后代锁。
+* 初始化一个空的 `List<ResourceName>` 来存储结果。
+* 遍历 `children` 映射表中的每一个**直接子 `LockContext`**。
+* 对于每个子节点，获取当前事务在该子节点上持有的锁类型。
+* 如果该锁类型是 `LockType.S` 或 `LockType.IS`，则将其 `ResourceName` 添加到结果列表中。
+* **递归调用**: 无论子节点是否持有 `S` 或 `IS` 锁，都要递归调用 `child.sisDescendants(transaction)` 来获取该子树中所有 `S/IS` 类型的后代锁，并将它们添加到结果列表中。这是深度优先遍历的体现。
+
+**具体实现代码:**
+
+```java
+private List<ResourceName> sisDescendants(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
+
+        List<ResourceName> result = new ArrayList<>();
+        for (Map.Entry<String, LockContext> entry : children.entrySet()) {
+            LockContext child = entry.getValue();
+            LockType lockType = child.lockman.getLockType(transaction, child.getResourceName());
+            if (lockType == LockType.S || lockType == LockType.IS) {
+                result.add(child.getResourceName());
+            }
+            result.addAll(child.sisDescendants(transaction));
+        }
+        return result;
+    }
+```
+
+------
+
+
+
+#### 3.3.3 `promote` 方法的完整实现
+
+
+
+现在，有了 `hasSIXAncestor` 和 `sisDescendants` 的辅助，我们可以完整地实现 `promote` 方法。
+
+```java
+public void promote(TransactionContext transaction, LockType newLockType)
+            throws DuplicateLockRequestException, NoLockHeldException, InvalidLockException {
+        // TODO(proj4_part2): implement
+        if(this.readonly){
+            throw new UnsupportedOperationException("Read only locks are not supported");
+        }
+        long transNum = transaction.getTransNum();
+        LockType currentLockType = lockman.getLockType(transaction, name);
+        
+        if(currentLockType.equals(LockType.NL)){
+            throw new NoLockHeldException("Transaction " + transNum + " does not hold a lock on " + name);
+        }
+
+        if(currentLockType.equals(newLockType)){
+            throw new DuplicateLockRequestException("Transaction " + transNum + " already holds " + newLockType + " lock");
+        }
+
+        if (!LockType.substitutable(newLockType, currentLockType)) {
+            throw new InvalidLockException("Cannot promote " + currentLockType + " to " + newLockType);
+        }
+
+        if (newLockType == LockType.SIX && hasSIXAncestor(transaction)) {
+            throw new InvalidLockException("Cannot promote to SIX with SIX ancestor");
+        }
+        
+        // 如果升级到 SIX，需要释放所有 S/IS 后代锁
+        if (newLockType == LockType.SIX && (currentLockType == LockType.IS || currentLockType == LockType.IX)) {
+            List<ResourceName> descendants = sisDescendants(transaction);
+            // 创建要释放的锁列表，包括当前锁和所有 S/IS 后代锁
+            List<ResourceName> locksToRelease = new ArrayList<>(descendants);
+            locksToRelease.add(name);
+            
+            lockman.acquireAndRelease(transaction, name, newLockType, locksToRelease);
+
+            int releasedCount = descendants.size();
+            int currentCount = numChildLocks.getOrDefault(transNum, 0);
+            numChildLocks.put(transNum, Math.max(0, currentCount - releasedCount));
+        } else {
+            lockman.promote(transaction, name, newLockType);
+        }
+    }
+```
+
+------
+
+
+
+### 3.4 `escalate` 方法：锁升级至当前级别
+
+
+
+**目标:** 将当前资源及其所有后代上的锁进行“合并”或“提升”，使得当前事务只需要在该资源上持有更高级别的 S 或 X 锁，并释放所有被替代的后代锁。
+
+**逻辑解析:**
+
+这个方法是我在 Project 4 中认为最核心也最困难的部分。它的目的是通过将当前资源下的细粒度锁（如 `IS`, `IX`, `S` 在页级别）替换为当前资源上的粗粒度锁（如 `S`, `X` 在表级别），从而减少锁的数量，降低系统开销。
+
+假设事务在一个数据库中持有以下锁：
+
+```
+IX(database)
+├── IX(table1)
+│   ├── S(table1_page3)
+│   └── X(table1_page5)
+└── S(table2)
+```
+
+如果我们在 `table1` 上执行 `escalate` 操作：
+
+- 事务在 `table1` 上持有 `IX` 锁，且其子页面 `table1_page3` 和 `table1_page5` 上分别持有 `S` 和 `X` 锁。
+- 由于 `table1_page5` 上有 `X` 锁，这意味着事务需要对 `table1` 进行写入操作。因此，`escalate` 操作会将 `table1` 上的锁升级为 **`X(table1)`**。
+- 同时，`table1_page3` 和 `table1_page5` 上的所有后代锁（在这里就是 `S(table1_page3)` 和 `X(table1_page5)`）都将被释放。
+
+升级后的锁状态会变为：
+
+```
+IX(database)
+├── X(table1)
+└── S(table2)
+```
+
+注意，如果事务持有的锁在 `escalate` 后没有实际改变（例如，对一个已经持有 `S` 锁且没有子锁的资源进行 `escalate`），则不应该做任何操作。
+
+具体实现步骤如下：
+
+1. **只读检查**: 只读上下文不允许锁升级操作。
+2. **未持有锁检查**: 如果事务未持有当前资源上的任何锁，则无法升级，抛出 `NoLockHeldException`。
+3. **获取所有后代锁**: 首先，我们需要一个辅助方法 `getAllDescendantLocks(transaction)` 来递归获取当前事务在当前资源所有后代上持有的所有非 `NL` 锁的 `ResourceName` 列表。
+4. **确定新的锁类型**:
+   - **没有后代锁**: 如果 `getAllDescendantLocks` 返回的列表为空，说明当前资源下没有更细粒度的锁。此时，新的锁类型取决于当前资源自身持有的锁：如果是 `IS` 升级为 `S`，如果是 `IX` 升级为 `X`。如果当前锁已经是 `S` 或 `X`，则无需 `escalate`。
+   - **存在后代锁**: 如果存在后代锁，我们需要遍历这些后代锁，判断是否需要升级为 `X` 锁。只要有一个后代锁是 `X`、`IX` 或 `SIX`（这些都代表写入权限或意图），那么当前资源就需要升级到 **`X` 锁** 以覆盖所有潜在的写入操作。否则，如果所有后代锁都是 `S` 或 `IS`（只读权限或意图），则可以升级到 **`S` 锁**。
+5. **重复升级检查**: 如果计算出的 `newLockType` 与 `currentLockType` 相同，说明没有实际的锁升级发生，此时直接返回，避免不必要的操作。
+6. **准备释放列表**: 创建一个 `List<ResourceName>`，包含当前资源本身的 `ResourceName` 以及所有 `getAllDescendantLocks` 返回的后代锁 `ResourceName`。这些都将在原子操作中被释放。
+7. **原子性获取并释放**: 调用 `lockman.acquireAndRelease(transaction, name, newLockType, locksToRelease)`。这个原子操作会先尝试获取 `newLockType` 到当前资源上，然后释放 `locksToRelease` 列表中的所有锁。
+8. **清理子锁计数**: 这是 `escalate` 最复杂的部分之一。在 `acquireAndRelease` 成功执行后，所有被释放的后代锁实际上已经不再由当前事务持有。这意味着它们的父 `LockContext` 的 `numChildLocks` 计数需要被更新。
+   - 遍历 `descendantLocks` 列表中的每一个 `ResourceName`。
+   - 对于每个后代 `ResourceName`，获取其对应的 `LockContext`。
+   - 从该后代的父 `LockContext` 开始，向上遍历其祖先链，直到达到当前被 `escalate` 的资源 (`this.name`)。
+   - 在遍历过程中，将每个祖先 `LockContext` 的 `numChildLocks` 中对应事务的计数减 1。这个循环条件是 `while (descendantParent != null && !descendantParent.name.equals(name))`，确保我们只更新当前 `escalate` 节点以下的计数，而不是当前节点本身的计数。
+   - 最后，将当前 `LockContext` 自身的 `numChildLocks` 中当前事务的计数重置为 0，因为其所有直接子锁（以及更深层次的后代锁）都已被释放。
+
+------
+
+
+
+#### 3.4.1 `getAllDescendantLocks` 方法：获取所有后代锁
+
+
+目标: 获取当前事务在当前资源所有后代上持有的所有**非 `NL` 类型的锁**的 `ResourceName` 列表。
+
+逻辑解析:
+这个方法是 `escalate` 操作的另一个辅助函数，与 `sisDescendants` 类似，它也是一个**递归方法**，但它会收集所有非 `NL` 类型的后代锁（包括 `IS`、`IX`、`S`、`SIX`、`X`），而不仅仅是 `S/IS` 锁。
+* 初始化一个空的 `List<ResourceName>`。
+* 遍历 `children` 映射表中的每一个**直接子 `LockContext`**。
+* 对于每个子节点，获取当前事务在该子节点上持有的锁类型。
+* 如果该锁类型**不是 `LockType.NL`**，则将其 `ResourceName` 添加到结果列表中。
+* **递归调用**: 递归调用 `child.getAllDescendantLocks(transaction)` 来获取该子树中所有非 `NL` 类型的后代锁，并将它们添加到结果列表中。
+
+**具体实现代码:**
+
+```java
+private List<ResourceName> getAllDescendantLocks(TransactionContext transaction) {
+        List<ResourceName> result = new ArrayList<>();
+        for (Map.Entry<String, LockContext> entry : children.entrySet()) {
+            LockContext child = entry.getValue();
+            LockType lockType = child.lockman.getLockType(transaction, child.getResourceName());
+            if (!lockType.equals(LockType.NL)) {
+                result.add(child.getResourceName());
+            }
+            
+            result.addAll(child.getAllDescendantLocks(transaction));
+        }
+        return result;
+    }
+```
+
+------
+
+
+
+#### 3.4.2 `escalate` 方法的完整实现
+
+
+
+```java
+public void escalate(TransactionContext transaction) throws NoLockHeldException {
+        // TODO(proj4_part2): implement
+
+        if (readonly) {
+            throw new UnsupportedOperationException("Read only locks are not supported");
+        }
+        long transNum = transaction.getTransNum();
+        LockType currentLockType = lockman.getLockType(transaction, name);
+        if (currentLockType.equals(LockType.NL)) {
+            throw new NoLockHeldException("Transaction " + transNum + " does not hold a lock on " + name);
+        }
+
+        List<ResourceName> descendantLocks = getAllDescendantLocks(transaction);
+
+        LockType newLockType;
+        
+        if (descendantLocks.isEmpty()) {
+            // 如果没有后代锁，根据当前锁类型决定升级
+            if (currentLockType == LockType.IS) {
+                newLockType = LockType.S;
+            } else if (currentLockType == LockType.IX) {
+                newLockType = LockType.X;
+            } else {
+                return; // 如果当前是 S/X/SIX 且没有后代锁，不需要升级
+            }
+        } else {
+            // 如果有后代锁，检查是否需要 X 锁
+            boolean needX = false;
+            for(ResourceName childLock : descendantLocks){
+                LockType childLockType = lockman.getLockType(transaction, childLock);
+                // 只要有一个后代是 X, IX, SIX (意味着有写入意图或权限), 就需要升级到 X
+                if(childLockType.equals(LockType.X) || childLockType.equals(LockType.IX) || childLockType.equals(LockType.SIX)) {
+                    needX = true;
+                    break;
+                }
+            }
+            newLockType = needX ? LockType.X : LockType.S;
+        }
+
+        // 如果新旧锁类型相同，说明没有实际的升级，直接返回
+        if (currentLockType.equals(newLockType)) {
+            return;
+        }
+
+        // 准备要释放的锁列表：包括当前资源上的旧锁和所有后代锁
+        List<ResourceName> locksToRelease = new ArrayList<>(descendantLocks);
+        locksToRelease.add(name); // 将当前资源本身添加到释放列表
+
+        // 原子性地获取新锁并释放所有指定锁
+        lockman.acquireAndRelease(transaction, name, newLockType, locksToRelease);
+
+        // 清理子锁计数：需要遍历所有被释放的后代锁，并更新它们的父上下文
+        for (ResourceName descendantName : descendantLocks) {
+            LockContext descendantContext = LockContext.fromResourceName(lockman, descendantName);
+            LockContext descendantParent = descendantContext.parentContext();
+            
+            // 从父上下文中减去这个子锁，直到达到当前被 escalate 的节点 (即 this.name)
+            // 这里的逻辑是确保只有在当前escalate的资源以下的层级才更新numChildLocks
+            while (descendantParent != null && !descendantParent.name.equals(name)) {
+                int currentCount = descendantParent.numChildLocks.getOrDefault(transNum, 0);
+                if (currentCount > 0) {
+                    descendantParent.numChildLocks.put(transNum, currentCount - 1);
+                }
+                descendantParent = descendantParent.parentContext();
+            }
+        }
+        
+        // 重置当前上下文的子锁计数（因为所有后代锁都被释放了）
+        numChildLocks.put(transNum, 0);
+
+    }
+```
+
+------
+
+
+
+### 3.5 `getExplicitLockType` 方法：获取显式锁类型
+
+
+目标: 返回事务在当前级别**显式**持有的锁类型。
+
+逻辑解析:
+这个方法相对简单，它只关注事务在当前 `ResourceName` 上**直接**持有的锁。它不会向上查找祖先锁，也不会向下查找子孙锁。
+它体现的是“**事务直接在当前资源上请求并获得的锁**”这一概念。例如，如果事务在数据库上持有 `X` 锁，那么 `dbContext.getExplicitLockType(transaction)` 会返回 `X`。但是，如果 `tableContext.getExplicitLockType(transaction)` 被调用，即使这个表属于这个数据库，该方法也会返回 `NL`，因为事务没有在表上**显式**地请求任何锁。
+直接调用底层 `lockman.getLockType(transaction, name)` 即可。如果事务在该资源上没有显式持有锁，`LockManager` 会返回 `NL`。
+
+**具体实现代码:**
+
+```java
+public LockType getExplicitLockType(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
+        return lockman.getLockType(transaction, name);
+    }
+```
+
+------
+
+
+
+### 3.6 `getEffectiveLockType` 方法：获取有效锁类型
+
+
+目标: 返回事务在当前级别**隐式或显式**持有的“最强”有效锁类型。
+
+逻辑解析:
+这个方法是理解多粒度锁“**隐式授权**”概念的关键。事务可能在祖先节点上持有粗粒度锁，从而间接地获得了对当前节点的某些权限，即使当前节点没有显式锁。这个方法旨在揭示事务对当前资源实际拥有的所有权限。
+
+这里需要考虑的逻辑优先级是：
+* **显式锁优先级最高**:
+    * 首先检查当前事务是否在当前资源上**显式**持有锁。
+    * 如果通过 `lockman.getLockType(transaction, name)` 获取到的显式锁类型不是 `NL`，那么它就是最强的有效锁，直接返回该显式锁类型。
+
+* **祖先锁的隐式权限**:
+    * 如果当前资源没有显式锁（即 `getExplicitLockType` 返回 `NL`），我们就需要沿着父链向上查找祖先锁，看它们是否提供了隐式权限。
+    * **向上遍历**: 从 `this.parent` 开始，向上迭代直到根节点。
+    * **`S` 或 `X` 锁**: 如果任何祖先节点持有 `S` 锁（共享读）或 `X` 锁（独占），这意味着事务已经隐式地获得了对当前资源**至少 `S` 锁的权限**（因为 `X` 锁包含了 `S` 锁的所有权限）。一旦找到这样的祖先，就可以停止查找并返回 `LockType.S`。
+    * **`SIX` 锁**: 如果祖先节点持有 `SIX` 锁（共享加意向排他），它会隐式授予其所有后代 `S` 锁权限。因此，如果找到 `SIX` 祖先，也返回 `LockType.S`。需要注意的是，`SIX` 锁的 `IX` 部分（意向排他）仅在持有 `SIX` 锁的那个资源层级有效，它**不会隐式地向下传递 `IX` 或 `X` 权限**给子孙节点。所以 `SIX` 祖先只能带来 `S` 的有效锁类型。
+    * **`IS` 或 `IX` 锁**: 意向锁 (`IS`, `IX`) 本身**不授予任何实际的读写权限**，它们只表示事务**打算**在更细粒度上进行操作。因此，即使祖先持有 `IS` 或 `IX` 锁，它们也不会隐式地为当前资源提供 `S` 或 `X` 权限。
+* **无有效锁**: 如果遍历完所有祖先都没有找到提供隐式权限的锁，则说明事务在该资源上没有有效锁（无论是显式还是隐式），返回 `LockType.NL`。
+
+**具体实现代码:**
+
+```java
+public LockType getEffectiveLockType(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
+        LockType explicitLock = lockman.getLockType(transaction, name);
+        if (explicitLock != LockType.NL) {
+            return explicitLock;
+        }
+
+        LockContext current = this.parent;
+        while (current != null) {
+            LockType parentLockType = current.lockman.getLockType(transaction, current.getResourceName());
+            if (parentLockType == LockType.S || parentLockType == LockType.X || parentLockType == LockType.SIX) {
+                return LockType.S; // S, X, SIX 都隐式授予了 S 权限
+            }
+            current = current.parent;
+        }
+        return LockType.NL;
+    }
+```
+
+至此，`LockContext` 的所有核心功能都已完成。
+
+------
+
+
+
+# Task 4: LockUtil

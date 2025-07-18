@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-18T02:51:26.587Z
+// 生成时间: 2025-07-18T08:17:21.172Z
 
 window.SITE_DATA = {
     "categories": {
@@ -258,11 +258,11 @@ window.SITE_DATA = {
             "relativePath": "CS186-proj3.md"
         },
         "CS186/CS186-proj4.md": {
-            "title": "CS186 Project 4 深度解析与实现",
-            "preview": "# CS186 Project 4 深度解析与实现 本文是对 UC Berkeley CS186 数据库课程 Project 4: Locking 的个人总结与实现思路分享。 Proj4 是前四个里面我目前认为最烧脑的一个 这个任务的核心是实现对不同锁类型之间关系的判断。 > 任务要求: > 你需要实现 compatible 、 canBeParentLock 和 substitutable 方法...",
+            "title": "Task 1: LockType",
+            "preview": "# Task 1: LockType 这个任务的核心是实现对不同锁类型之间关系的判断。 > 任务要求: > 你需要实现 compatible 、 canBeParentLock 和 substitutable 方法。 具体来说，LockType 类中的三个关键方法需要我们实现： compatible(a, b): 判断在同一个资源上，当事务已持有锁 a 时，另一个事务是否可以请求并获得锁 b。 c...",
             "updateTime": "2025-07-18",
-            "wordCount": 3761,
-            "readingTime": 26,
+            "wordCount": 8847,
+            "readingTime": 59,
             "relativePath": "CS186-proj4.md"
         },
         "CS186/CS186笔记01.md": {

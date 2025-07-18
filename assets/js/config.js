@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-18T08:17:21.172Z
+// 生成时间: 2025-07-18T09:34:48.519Z
 
 window.SITE_DATA = {
     "categories": {
@@ -261,8 +261,8 @@ window.SITE_DATA = {
             "title": "Task 1: LockType",
             "preview": "# Task 1: LockType 这个任务的核心是实现对不同锁类型之间关系的判断。 > 任务要求: > 你需要实现 compatible 、 canBeParentLock 和 substitutable 方法。 具体来说，LockType 类中的三个关键方法需要我们实现： compatible(a, b): 判断在同一个资源上，当事务已持有锁 a 时，另一个事务是否可以请求并获得锁 b。 c...",
             "updateTime": "2025-07-18",
-            "wordCount": 8847,
-            "readingTime": 59,
+            "wordCount": 12397,
+            "readingTime": 83,
             "relativePath": "CS186-proj4.md"
         },
         "CS186/CS186笔记01.md": {

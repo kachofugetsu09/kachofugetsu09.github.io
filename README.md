@@ -45,7 +45,7 @@
 
 ### CS186数据库系统
 
-- [CS186 笔记05: ARIES 恢复算法](CS186/CS186笔记05.md) - 2025-07-19 - 3650字 - 25分钟
+- [CS186 笔记05](CS186/CS186笔记05.md) - 2025-07-19 - 8499字 - 57分钟
 - [Task 1: `LeafNode::fromBytes`](CS186/CS186-proj2.md) - 2025-07-18 - 2477字 - 17分钟
 - [Task1: Blocking Nested Loop join（BNJL）](CS186/CS186-proj3.md) - 2025-07-18 - 8574字 - 58分钟
 - [Task 1: LockType](CS186/CS186-proj4.md) - 2025-07-18 - 12397字 - 83分钟

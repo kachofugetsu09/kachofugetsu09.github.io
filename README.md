@@ -45,7 +45,7 @@
 
 ### CS186数据库系统
 
-- [Task 1: 事务状态管理](CS186/CS186-proj5.md) - 2025-07-20 - 12653字 - 85分钟
+- [Task 1: 事务状态管理](CS186/CS186-proj5.md) - 2025-07-20 - 7180字 - 48分钟
 - [CS186 笔记05](CS186/CS186笔记05.md) - 2025-07-19 - 8499字 - 57分钟
 - [Task 1: `LeafNode::fromBytes`](CS186/CS186-proj2.md) - 2025-07-18 - 2477字 - 17分钟
 - [Task1: Blocking Nested Loop join（BNJL）](CS186/CS186-proj3.md) - 2025-07-18 - 8574字 - 58分钟

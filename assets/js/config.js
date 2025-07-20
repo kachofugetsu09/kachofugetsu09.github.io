@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-19T01:03:00.638Z
+// 生成时间: 2025-07-20T07:59:09.140Z
 
 window.SITE_DATA = {
     "categories": {
@@ -87,6 +87,7 @@ window.SITE_DATA = {
             "AQS和可重入锁.md"
         ],
         "CS186": [
+            "CS186-proj5.md",
             "CS186笔记05.md",
             "CS186-proj2.md",
             "CS186-proj3.md",
@@ -265,6 +266,14 @@ window.SITE_DATA = {
             "wordCount": 12397,
             "readingTime": 83,
             "relativePath": "CS186-proj4.md"
+        },
+        "CS186/CS186-proj5.md": {
+            "title": "Task 1: 事务状态管理",
+            "preview": "# Task 1: 事务状态管理 任务目标: 实现恢复管理器（RecoveryManager）对事务状态的跟踪和记录。当事务提交、中止或结束时，我们需要更新其在事务表transactionTable）中的状态，并向日志中追加相应的记录。 > 任务要求: > 你需要实现 commit、abort 和 end 三个方法。在这些方法中，你需要保持事务表更新，设置正确的事务状态，并写入适当的日志记录。每次...",
+            "updateTime": "2025-07-20",
+            "wordCount": 12653,
+            "readingTime": 85,
+            "relativePath": "CS186-proj5.md"
         },
         "CS186/CS186笔记01.md": {
             "title": "CS186 笔记01",

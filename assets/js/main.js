@@ -314,13 +314,24 @@ function toggleCategory(categoryKey) {
     const isExpanded = articlesContainer.classList.contains('expanded');
     
     if (isExpanded) {
-        // 折叠
+        // 折叠 - 先移除expanded类，让CSS动画处理
         articlesContainer.classList.remove('expanded');
         header.classList.remove('expanded');
         arrow.classList.remove('fa-chevron-down');
         arrow.classList.add('fa-chevron-right');
+        
+        // 延迟隐藏，等待动画完成
+        setTimeout(() => {
+            if (!articlesContainer.classList.contains('expanded')) {
+                articlesContainer.style.display = 'none';
+            }
+        }, 200);
     } else {
-        // 展开
+        // 展开 - 先显示，然后添加expanded类
+        articlesContainer.style.display = 'block';
+        // 强制重绘，确保display:block生效
+        articlesContainer.offsetHeight;
+        
         articlesContainer.classList.add('expanded');
         header.classList.add('expanded');
         arrow.classList.remove('fa-chevron-right');
@@ -342,13 +353,24 @@ function toggleFolder(folderId) {
     const isExpanded = folderContents.classList.contains('expanded');
     
     if (isExpanded) {
-        // 折叠
+        // 折叠 - 先移除expanded类，让CSS动画处理
         folderContents.classList.remove('expanded');
         header.classList.remove('expanded');
         arrow.classList.remove('fa-chevron-down');
         arrow.classList.add('fa-chevron-right');
+        
+        // 延迟隐藏，等待动画完成
+        setTimeout(() => {
+            if (!folderContents.classList.contains('expanded')) {
+                folderContents.style.display = 'none';
+            }
+        }, 200);
     } else {
-        // 展开
+        // 展开 - 先显示，然后添加expanded类
+        folderContents.style.display = 'block';
+        // 强制重绘，确保display:block生效
+        folderContents.offsetHeight;
+        
         folderContents.classList.add('expanded');
         header.classList.add('expanded');
         arrow.classList.remove('fa-chevron-right');

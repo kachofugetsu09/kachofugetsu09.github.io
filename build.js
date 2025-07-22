@@ -9,59 +9,121 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// 站点配置
-const SITE_CONFIG = {    
-    categories: {
-        'tech': {
-            name: '技术分享',
-            description: '技术学习笔记和经验分享',
-            icon: 'fas fa-laptop-code',
-            color: '#667eea'
-        },
-        'redis-mini': {
-            name: 'Redis实现',
-            description: 'Redis源码分析与Java版本实现',
-            icon: 'fas fa-database',
-            color: '#dc382d'
-        },
-        'CS-basics': {
-            name: '计算机基础',
-            description: '计算机网络、数据结构与算法、组成原理等基础课程笔记',
-            icon: 'fas fa-graduation-cap',
-            color: '#38b2ac'
-        },
-        'MIT6.824': {
-            name: 'MIT6.824笔记',
-            description: 'MIT 6.824 分布式系统课程笔记',
-            icon: 'fas fa-network-wired',
-            color: '#4299e1'
-        },
-        'interview': {
-            name: '面试笔记',
-            description: '面试准备和学习记录',
-            icon: 'fas fa-briefcase',
-            color: '#764ba2'
-        },
-        'chatting': {
-            name: '心情随笔',
-            description: '生活感悟与内心独白',
-            icon: 'fas fa-heart',
-            color: '#f093fb'
-        },
-        'jdk': {
-            name: 'JDK源码解析',
-            description: 'Java开发工具包源码深度剖析与学习笔记',
-            icon: 'fab fa-java',
-            color: '#f89820'
-        },
-        'CS186': {
-            name: 'CS186数据库系统',
-            description: 'UC Berkeley CS186 数据库系统课程笔记',
-            icon: 'fas fa-database',
-            color: '#805ad5'
-        }
+/**
+ * 解析README文件中的Front Matter配置
+ */
+function parseFrontMatter(content) {
+    const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/;
+    const match = content.match(frontMatterRegex);
+    
+    if (!match) {
+        return null;
     }
-};
+    
+    const frontMatterText = match[1];
+    const config = {};
+    
+    // 解析YAML格式的配置
+    const lines = frontMatterText.split('\n');
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+        
+        const colonIndex = trimmed.indexOf(':');
+        if (colonIndex === -1) continue;
+        
+        const key = trimmed.substring(0, colonIndex).trim();
+        let value = trimmed.substring(colonIndex + 1).trim();
+        
+        // 移除引号
+        if ((value.startsWith('"') && value.endsWith('"')) || 
+            (value.startsWith("'") && value.endsWith("'"))) {
+            value = value.slice(1, -1);
+        }
+        
+        // 转换数字
+        if (/^\d+$/.test(value)) {
+            value = parseInt(value);
+        }
+        
+        config[key] = value;
+    }
+    
+    return config;
+}
+
+/**
+ * 从README文件读取分类配置
+ */
+function loadCategoryConfig(categoryPath, categoryKey) {
+    const readmePath = path.join(categoryPath, 'README.md');
+    
+    // 默认配置 - 简化版本
+    const defaultConfig = {
+        name: categoryKey,
+        icon: 'fas fa-folder' // 默认文件夹图标
+    };
+    
+    try {
+        if (!fs.existsSync(readmePath)) {
+            console.log(`📁 ${categoryKey}: 未找到 README.md，使用文件夹名作为分类名`);
+            console.log(`   💡 提示: 可以创建 ${categoryKey}/README.md 来自定义分类名和图标`);
+            console.log(`   📝 格式: ---\\nname: "自定义名称"\\nicon: "fas fa-code"\\n---`);
+            return defaultConfig;
+        }
+        
+        const content = fs.readFileSync(readmePath, 'utf-8');
+        const config = parseFrontMatter(content);
+        
+        if (!config) {
+            console.warn(`${categoryKey}/README.md 中未找到有效的Front Matter配置，使用默认配置`);
+            return defaultConfig;
+        }
+        
+        // 合并默认配置和用户配置
+        return { ...defaultConfig, ...config };
+        
+    } catch (error) {
+        console.warn(`读取 ${categoryKey}/README.md 失败:`, error.message);
+        return defaultConfig;
+    }
+}
+
+/**
+ * 扫描所有分类文件夹并加载配置
+ */
+function loadAllCategories() {
+    const categories = {};
+    
+    // 扫描当前目录下的所有文件夹
+    const items = fs.readdirSync(__dirname);
+    
+    for (const item of items) {
+        const itemPath = path.join(__dirname, item);
+        const stat = fs.statSync(itemPath);
+        
+        // 跳过非目录和特殊目录
+        if (!stat.isDirectory() || 
+            item.startsWith('.') || 
+            ['node_modules', 'assets', 'img'].includes(item)) {
+            continue;
+        }
+        
+        // 检查是否包含Markdown文件
+        const markdownFiles = scanMarkdownFiles(itemPath);
+        if (markdownFiles.length === 0) {
+            continue;
+        }
+        
+        // 加载分类配置
+        const config = loadCategoryConfig(itemPath, item);
+        categories[item] = config;
+        
+        console.log(`加载分类: ${item} -> ${config.name}`);
+    }
+    
+    return categories;
+}
 
 /**
  * 计算文章字数
@@ -213,16 +275,29 @@ function generateArticleConfig() {
     
     console.log('开始扫描文章...\n');
     
+    // 动态加载所有分类配置
+    const categories = loadAllCategories();
+    
+    // 按order字段排序分类
+    const sortedCategories = Object.entries(categories).sort(([,a], [,b]) => {
+        return (a.order || 999) - (b.order || 999);
+    });
+    
     // 扫描每个分类
-    for (const [categoryKey, categoryInfo] of Object.entries(SITE_CONFIG.categories)) {
+    for (const [categoryKey, categoryInfo] of sortedCategories) {
         const categoryPath = path.join(__dirname, categoryKey);
         const markdownFiles = scanMarkdownFiles(categoryPath);
         
-        console.log(`分类 "${categoryInfo.name}" (${categoryKey}): 找到 ${markdownFiles.length} 个文件`);
+        // 过滤掉README.md文件
+        const filteredFiles = markdownFiles.filter(file => 
+            path.basename(file).toLowerCase() !== 'readme.md'
+        );
+        
+        console.log(`分类 "${categoryInfo.name}" (${categoryKey}): 找到 ${filteredFiles.length} 个文件`);
         
         articles[categoryKey] = [];
         
-        for (const relativePath of markdownFiles) {
+        for (const relativePath of filteredFiles) {
             const filePath = path.join(categoryPath, relativePath);
             const content = fs.readFileSync(filePath, 'utf-8');
             const title = extractTitleFromMarkdown(filePath);
@@ -278,8 +353,14 @@ function generateArticleConfig() {
     
     allArticles.sort((a, b) => new Date(b.updateTime) - new Date(a.updateTime));
     
+    // 重新构建排序后的分类对象
+    const sortedCategoriesObj = {};
+    for (const [categoryKey, categoryInfo] of sortedCategories) {
+        sortedCategoriesObj[categoryKey] = categoryInfo;
+    }
+    
     return { 
-        categories: SITE_CONFIG.categories,
+        categories: sortedCategoriesObj,
         articleLists: articles,
         articleDetails: articleDetailsMap
     };

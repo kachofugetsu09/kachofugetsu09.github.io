@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-20T08:05:25.447Z
+// 生成时间: 2025-07-22T08:36:31.943Z
 
 window.SITE_DATA = {
     "categories": {
@@ -87,15 +87,15 @@ window.SITE_DATA = {
             "AQS和可重入锁.md"
         ],
         "CS186": [
-            "CS186-proj5.md",
-            "CS186笔记05.md",
-            "CS186-proj2.md",
-            "CS186-proj3.md",
-            "CS186-proj4.md",
-            "CS186笔记01.md",
-            "CS186笔记02.md",
-            "CS186笔记03.md",
-            "CS186笔记04.md"
+            "lab/CS186-proj5.md",
+            "笔记/CS186笔记05.md",
+            "lab/CS186-proj2.md",
+            "lab/CS186-proj3.md",
+            "lab/CS186-proj4.md",
+            "笔记/CS186笔记01.md",
+            "笔记/CS186笔记02.md",
+            "笔记/CS186笔记03.md",
+            "笔记/CS186笔记04.md"
         ]
     },
     "articleDetails": {
@@ -243,77 +243,77 @@ window.SITE_DATA = {
             "readingTime": 41,
             "relativePath": "AQS和可重入锁.md"
         },
-        "CS186/CS186-proj2.md": {
+        "CS186/lab/CS186-proj2.md": {
             "title": "Task 1: `LeafNode::fromBytes`",
             "preview": "这篇文章是对于CS186的proj2的总结和实现思路。 在这个任务中，我们需要实现LeafNode::fromBytes函数，这个函数就是一个反序列化，我们只需要参考LeafNode::toBytes的实现即可。我们需要从字节数组中读取数据，并将其转换为LeafNode对象。 首先我们分析一下LeafNode::toBytes的实现，它将LeafNode对象的各个字段转换为字节数组。 `java ...",
             "updateTime": "2025-07-18",
             "wordCount": 2477,
             "readingTime": 17,
-            "relativePath": "CS186-proj2.md"
+            "relativePath": "lab/CS186-proj2.md"
         },
-        "CS186/CS186-proj3.md": {
+        "CS186/lab/CS186-proj3.md": {
             "title": "Task1: Blocking Nested Loop join（BNJL）",
             "preview": "这篇文章是对于CS186的proj3的总结和实现思路。 这个proj有一个不一样的地方是他建议我们阅读一下对应的代码骨架。 那么我们就大致浏览一下，整理一下各个部分的功能。 里面有一个BacktrackingIterator接口，对比普通迭代器他多了一个功能就是可以用一个指针来储存想要回溯的地方，等到需要回溯的时候可以通过reset()方法回到这个位置。 类QueryOperator实现了这个接口...",
             "updateTime": "2025-07-18",
             "wordCount": 8574,
             "readingTime": 58,
-            "relativePath": "CS186-proj3.md"
+            "relativePath": "lab/CS186-proj3.md"
         },
-        "CS186/CS186-proj4.md": {
+        "CS186/lab/CS186-proj4.md": {
             "title": "Task 1: LockType",
             "preview": "# Task 1: LockType 这个任务的核心是实现对不同锁类型之间关系的判断。 > 任务要求: > 你需要实现 compatible 、 canBeParentLock 和 substitutable 方法。 具体来说，LockType 类中的三个关键方法需要我们实现： compatible(a, b): 判断在同一个资源上，当事务已持有锁 a 时，另一个事务是否可以请求并获得锁 b。 c...",
             "updateTime": "2025-07-18",
             "wordCount": 12397,
             "readingTime": 83,
-            "relativePath": "CS186-proj4.md"
+            "relativePath": "lab/CS186-proj4.md"
         },
-        "CS186/CS186-proj5.md": {
+        "CS186/lab/CS186-proj5.md": {
             "title": "Task 1: 事务状态管理",
             "preview": "# Task 1: 事务状态管理 任务目标: 实现恢复管理器（RecoveryManager）对事务状态的跟踪和记录。当事务提交、中止或结束时，我们需要更新其在事务表transactionTable）中的状态，并向日志中追加相应的记录。 > 任务要求: > 你需要实现 commit、abort 和 end 三个方法。在这些方法中，你需要保持事务表更新，设置正确的事务状态，并写入适当的日志记录。每次...",
             "updateTime": "2025-07-20",
             "wordCount": 7180,
             "readingTime": 48,
-            "relativePath": "CS186-proj5.md"
+            "relativePath": "lab/CS186-proj5.md"
         },
-        "CS186/CS186笔记01.md": {
+        "CS186/笔记/CS186笔记01.md": {
             "title": "CS186 笔记01",
             "preview": "DBMS 架构是一个分层的软件系统，负责将用户的高级数据请求（如 SQL）转化为对物理存储设备的底层操作。它像一个精密的工厂，每一层都有明确的分工。 直接操作磁盘是极其复杂和低效的。一个分层的架构可以将复杂的问题分解，每一层专注于解决特定的问题（如查询解析、并发控制、内存管理、磁盘 I/O），从而实现关注点分离。这使得 DBMS 的设计、实现和维护变得更加模块化和高效。 一个典型的 DBMS 从上...",
             "updateTime": "2025-07-18",
             "wordCount": 9536,
             "readingTime": 64,
-            "relativePath": "CS186笔记01.md"
+            "relativePath": "笔记/CS186笔记01.md"
         },
-        "CS186/CS186笔记02.md": {
+        "CS186/笔记/CS186笔记02.md": {
             "title": "CS186 笔记02",
             "preview": "缓冲区管理器（Buffer Manager） 是数据库管理系统（DBMS）的核心组件之一，它是一个位于内存中的缓冲区，负责在内存（缓冲池，Buffer Pool）和磁盘之间高效地移动和管理数据页面（Page）。它为上层组件提供了一个抽象，让它们感觉数据“总是在内存中”。 磁盘 I/O 相比内存访问要慢几个数量级。缓冲区管理器的主要目的就是为了最小化磁盘 I/O 的次数，通过将最常访问的数据页保留在...",
             "updateTime": "2025-07-18",
             "wordCount": 18474,
             "readingTime": 124,
-            "relativePath": "CS186笔记02.md"
+            "relativePath": "笔记/CS186笔记02.md"
         },
-        "CS186/CS186笔记03.md": {
+        "CS186/笔记/CS186笔记03.md": {
             "title": "CS186 笔记03",
             "preview": "# CS186 笔记03 信息检索 (IR) 是一个传统上与数据库领域分离的研究领域. Hans P. Luhn在1959年提出了“Keyword in Context (KWIC)”. G. Salton在60、70年代开发了SMART系统. 这与关系数据库的革命大约同时发生. 自那时起进行了大量的研究，尤其是在网络时代. IR产品传统上是独立的，最初是文档管理系统. 它们服务于图书馆、政府、法...",
             "updateTime": "2025-07-18",
             "wordCount": 3473,
             "readingTime": 24,
-            "relativePath": "CS186笔记03.md"
+            "relativePath": "笔记/CS186笔记03.md"
         },
-        "CS186/CS186笔记04.md": {
+        "CS186/笔记/CS186笔记04.md": {
             "title": "CS186 笔记04",
             "preview": "事务是DBMS（数据库管理系统）中对应应用程序或者活动的一种抽象视图。 它是一系列对数据库对象进行读写操作的序列。 事务作为一个原子单位，其所有工作批次必须要么全部提交（完成），要么全部终止（回滚）。 从应用程序的角度来看，事务的结构始于 begin transaction，包含一系列SQL语句，并最终以 end transaction 结束。 事务管理器（Xact Manager）控制事务的执行...",
             "updateTime": "2025-07-18",
             "wordCount": 5002,
             "readingTime": 34,
-            "relativePath": "CS186笔记04.md"
+            "relativePath": "笔记/CS186笔记04.md"
         },
-        "CS186/CS186笔记05.md": {
+        "CS186/笔记/CS186笔记05.md": {
             "title": "CS186 笔记05",
             "preview": "在数据库事务的 ACID 四大特性中，原子性 (Atomicity) 和 持久性 (Durability) 是由强大的恢复系统来保证的。想象一下数据库操作的“撤销”和“重做”能力，这就是原子性和持久性的核心体现。 原子性 (Atomicity): 事务要么全部完成，要么全部不发生。 定义： 事务是一个不可分割的工作单元。它内部的所有操作必须作为一个单一的、不可中断的整体来执行。这意味着事务中的所有...",
             "updateTime": "2025-07-19",
             "wordCount": 8499,
             "readingTime": 57,
-            "relativePath": "CS186笔记05.md"
+            "relativePath": "笔记/CS186笔记05.md"
         }
     }
 };

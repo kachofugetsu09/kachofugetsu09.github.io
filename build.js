@@ -100,9 +100,9 @@ function calculateReadingTime(wordCount) {
 }
 
 /**
- * 扫描文件夹获取Markdown文件列表（支持子目录）
+ * 递归扫描文件夹获取Markdown文件列表（支持多级子目录）
  */
-function scanMarkdownFiles(dirPath) {
+function scanMarkdownFiles(dirPath, relativePath = '') {
     try {
         if (!fs.existsSync(dirPath)) {
             console.warn(`目录不存在: ${dirPath}`);
@@ -110,10 +110,24 @@ function scanMarkdownFiles(dirPath) {
         }
         
         const files = fs.readdirSync(dirPath);
-        return files.filter(file => 
-            file.endsWith('.md') && 
-            fs.statSync(path.join(dirPath, file)).isFile()
-        );
+        let markdownFiles = [];
+        
+        for (const file of files) {
+            const fullPath = path.join(dirPath, file);
+            const relativeFilePath = relativePath ? path.join(relativePath, file) : file;
+            const stat = fs.statSync(fullPath);
+            
+            if (stat.isFile() && file.endsWith('.md')) {
+                // 是Markdown文件，添加到列表
+                markdownFiles.push(relativeFilePath);
+            } else if (stat.isDirectory()) {
+                // 是目录，递归扫描
+                const subFiles = scanMarkdownFiles(fullPath, relativeFilePath);
+                markdownFiles = markdownFiles.concat(subFiles);
+            }
+        }
+        
+        return markdownFiles;
     } catch (error) {
         console.error(`扫描目录失败 ${dirPath}:`, error);
         return [];
@@ -239,7 +253,7 @@ function generateArticleConfig() {
                 preview: preview,
                 category: categoryKey,
                 categoryName: categoryInfo.name,
-                url: `article.html?category=${categoryKey}/${path.dirname(relativePath)}&file=${encodeURIComponent(path.basename(relativePath))}`,
+                url: `article.html?category=${categoryKey}&file=${encodeURIComponent(relativePath)}`,
                 updateTime: updateTime,
                 wordCount: wordCount,
                 readingTime: readingTime

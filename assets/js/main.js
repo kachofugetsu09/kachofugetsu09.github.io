@@ -116,7 +116,101 @@ async function renderCategories() {
 }
 
 /**
- * 渲
+ * 构建层级文件结构
+ */
+function buildHierarchicalStructure(articles) {
+    const structure = {};
+    
+    articles.forEach(article => {
+        const parts = article.split('/');
+        
+        if (parts.length === 1) {
+            // 根级文件，不处理
+            return;
+        }
+        
+        let current = structure;
+        
+        // 构建文件夹层级
+        for (let i = 0; i < parts.length - 1; i++) {
+            const folder = parts[i];
+            if (!current[folder]) {
+                current[folder] = { type: 'folder', children: {}, files: [] };
+            }
+            current = current[folder];
+            if (!current.children) current.children = {};
+            if (!current.files) current.files = [];
+        }
+        
+        // 添加文件到最后一级文件夹
+        const filename = parts[parts.length - 1];
+        current.files.push(filename);
+    });
+    
+    return structure;
+}
+
+/**
+ * 渲染层级文件结构
+ */
+function renderHierarchicalArticles(structure, categoryKey, level = 0) {
+    let html = '';
+    
+    // 渲染文件夹
+    Object.entries(structure).forEach(([name, item]) => {
+        if (item.type === 'folder') {
+            const folderId = `folder-${categoryKey}-${name}-${level}`;
+            const indent = '  '.repeat(level);
+            
+            html += `
+                <li class="sidebar-folder" style="margin-left: ${level * 15}px;">
+                    <div class="sidebar-folder-header" onclick="toggleFolder('${folderId}')" id="header-${folderId}">
+                        <i class="fas fa-folder sidebar-folder-icon"></i>
+                        <span class="sidebar-folder-name">${name}</span>
+                        <i class="fas fa-chevron-right sidebar-folder-arrow" id="arrow-${folderId}"></i>
+                    </div>
+                    <ul class="sidebar-folder-contents" id="contents-${folderId}">
+                        ${renderHierarchicalArticles(item.children, categoryKey, level + 1)}
+                        ${item.files ? item.files.map(file => {
+                            const title = file.replace('.md', '');
+                            const fullPath = getFullPath(structure, name, file);
+                            return `
+                                <li class="sidebar-article" style="margin-left: ${(level + 1) * 15}px;">
+                                    <a href="#" onclick="loadArticle('${categoryKey}', '${fullPath}'); return false;">
+                                        <i class="fas fa-file-alt sidebar-file-icon"></i>
+                                        ${title}
+                                    </a>
+                                </li>
+                            `;
+                        }).join('') : ''}
+                    </ul>
+                </li>
+            `;
+        }
+    });
+    
+    return html;
+}
+
+/**
+ * 获取文件的完整路径
+ */
+function getFullPath(structure, folderName, filename) {
+    // 这里需要重新构建完整路径
+    // 简化处理：直接从原始数据中查找
+    const articles = window.SITE_DATA?.articleLists || {};
+    for (const [categoryKey, articleList] of Object.entries(articles)) {
+        for (const article of articleList) {
+            if (article.endsWith(filename) && article.includes(folderName)) {
+                return article;
+            }
+        }
+    }
+    return filename;
+}
+
+/**
+ * 渲染侧边栏分类（支持层级结构）
  */
 function renderSidebarCategories() {
     const sidebarContainer = document.getElementById('sidebarCategories');
@@ -137,17 +231,58 @@ function renderSidebarCategories() {
     
     const categoriesHTML = Object.entries(categories).map(([key, category]) => {
         const articles = articleLists[key] || [];
-        const articleListHTML = articles.map(article => {
+        
+        // 分离根级文件和文件夹中的文件
+        const rootFiles = articles.filter(article => !article.includes('/'));
+        const folderFiles = articles.filter(article => article.includes('/'));
+        
+        // 构建层级结构
+        const hierarchicalStructure = buildHierarchicalStructure(folderFiles);
+        
+        // 渲染根级文件
+        const rootFilesHTML = rootFiles.map(article => {
             const title = article.replace('.md', '');
             return `
                 <li class="sidebar-article">
                     <a href="#" onclick="loadArticle('${key}', '${article}'); return false;">
+                        <i class="fas fa-file-alt sidebar-file-icon"></i>
                         ${title}
                     </a>
                 </li>
             `;
         }).join('');
-          return `
+        
+        // 渲染文件夹结构
+        const foldersHTML = Object.entries(hierarchicalStructure).map(([folderName, folderData]) => {
+            const folderId = `folder-${key}-${folderName}`;
+            const folderFilesHTML = folderData.files.map(file => {
+                const title = file.replace('.md', '');
+                const fullPath = `${folderName}/${file}`;
+                return `
+                    <li class="sidebar-article">
+                        <a href="#" onclick="loadArticle('${key}', '${fullPath}'); return false;">
+                            <i class="fas fa-file-alt sidebar-file-icon"></i>
+                            ${title}
+                        </a>
+                    </li>
+                `;
+            }).join('');
+            
+            return `
+                <li class="sidebar-folder">
+                    <div class="sidebar-folder-header" onclick="toggleFolder('${folderId}')" id="header-${folderId}">
+                        <i class="fas fa-folder sidebar-folder-icon"></i>
+                        <span class="sidebar-folder-name">${folderName}</span>
+                        <i class="fas fa-chevron-right sidebar-folder-arrow" id="arrow-${folderId}"></i>
+                    </div>
+                    <ul class="sidebar-folder-contents" id="contents-${folderId}">
+                        ${folderFilesHTML}
+                    </ul>
+                </li>
+            `;
+        }).join('');
+        
+        return `
             <li class="sidebar-category">
                 <div class="sidebar-category-header" onclick="toggleCategory('${key}')" id="header-${key}">
                     <i class="${category.icon || 'fas fa-folder'} sidebar-category-icon"></i>
@@ -155,7 +290,8 @@ function renderSidebarCategories() {
                     <i class="fas fa-chevron-right sidebar-category-arrow" id="arrow-${key}"></i>
                 </div>
                 <ul class="sidebar-articles" id="articles-${key}">
-                    ${articleListHTML}
+                    ${rootFilesHTML}
+                    ${foldersHTML}
                 </ul>
             </li>
         `;
@@ -186,6 +322,34 @@ function toggleCategory(categoryKey) {
     } else {
         // 展开
         articlesContainer.classList.add('expanded');
+        header.classList.add('expanded');
+        arrow.classList.remove('fa-chevron-right');
+        arrow.classList.add('fa-chevron-down');
+    }
+}
+
+/**
+ * 切换文件夹展开/折叠状态
+ */
+function toggleFolder(folderId) {
+    const folderContents = document.getElementById(`contents-${folderId}`);
+    const arrow = document.getElementById(`arrow-${folderId}`);
+    const header = document.getElementById(`header-${folderId}`);
+    
+    if (!folderContents || !arrow || !header) return;
+    
+    // 切换展开状态
+    const isExpanded = folderContents.classList.contains('expanded');
+    
+    if (isExpanded) {
+        // 折叠
+        folderContents.classList.remove('expanded');
+        header.classList.remove('expanded');
+        arrow.classList.remove('fa-chevron-down');
+        arrow.classList.add('fa-chevron-right');
+    } else {
+        // 展开
+        folderContents.classList.add('expanded');
         header.classList.add('expanded');
         arrow.classList.remove('fa-chevron-right');
         arrow.classList.add('fa-chevron-down');

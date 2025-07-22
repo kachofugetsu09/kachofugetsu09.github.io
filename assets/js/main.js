@@ -666,6 +666,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (category && filename) {
         loadArticle(category, filename);
+    } else {
+        // 如果没有文章参数，确保TOC隐藏（首页状态）
+        hideTOC();
     }
     
     // 添加代码行包装
@@ -673,7 +676,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化移动端交互
     initMobileInteractions();
+    
+    // 初始化首页导航
+    initHomeNavigation();
 });
+
+/**
+ * 初始化首页导航
+ */
+function initHomeNavigation() {
+    // 为logo和标题添加点击事件，返回首页
+    const logo = document.querySelector('.site-logo');
+    const title = document.querySelector('.site-title');
+    
+    if (logo) {
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', function() {
+            showHomePage();
+        });
+    }
+    
+    if (title) {
+        title.style.cursor = 'pointer';
+        title.addEventListener('click', function() {
+            showHomePage();
+        });
+    }
+}
 
 /**
  * 获取文章预览内容（从Markdown文件的前几行提取）
@@ -781,7 +810,7 @@ function generateTOCFromDOM() {
 function showTOC() {
     const tocSidebar = document.querySelector('.toc-container');
     if (tocSidebar) {
-        tocSidebar.style.display = 'block';
+        tocSidebar.classList.add('show');
     }
 }
 
@@ -792,6 +821,11 @@ function hideTOC() {
     const tocSidebar = document.querySelector('.toc-container');
     if (tocSidebar) {
         tocSidebar.style.display = 'none';
+        // 清空TOC内容
+        const tocList = document.getElementById('tocList');
+        if (tocList) {
+            tocList.innerHTML = '';
+        }
     }
 }
 

@@ -548,6 +548,26 @@ async function loadArticle(category, filename) {
         generateTOCFromDOM();
         showTOC();
         
+        // 更新sidebar中的当前文章状态
+        updateSidebarActiveState(category, filename);
+        
+        // 移动端自动收起sidebar
+        if (window.innerWidth <= 768) {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (sidebar) {
+                sidebar.classList.remove('active');
+            }
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+            if (menuToggle) {
+                menuToggle.classList.remove('active');
+            }
+        }
+        
         // 更新浏览器历史
         const url = new URL(window.location);
         url.searchParams.set('category', category);
@@ -680,6 +700,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化首页导航
     initHomeNavigation();
 });
+
+/**
+ * 更新sidebar中的当前文章状态
+ * @param {string} category - 分类名称
+ * @param {string} filename - 文件名
+ */
+function updateSidebarActiveState(category, filename) {
+    // 移除所有文章的活跃状态
+    document.querySelectorAll('.sidebar-article a').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // 确保对应分类展开
+    const categoryKey = category;
+    const articlesContainer = document.getElementById(`articles-${categoryKey}`);
+    const categoryHeader = document.getElementById(`header-${categoryKey}`);
+    const arrow = document.getElementById(`arrow-${categoryKey}`);
+    
+    if (articlesContainer && categoryHeader) {
+        // 展开分类
+        articlesContainer.classList.add('expanded');
+        categoryHeader.classList.add('expanded');
+        if (arrow) {
+            arrow.classList.add('expanded');
+        }
+        
+        // 高亮当前文章
+        const currentArticleLink = document.querySelector(`a[onclick*="${category}"][onclick*="${filename}"]`);
+        if (currentArticleLink) {
+            currentArticleLink.classList.add('active');
+            
+            // 滚动sidebar到当前文章位置
+            setTimeout(() => {
+                currentArticleLink.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }, 300);
+        }
+    }
+}
 
 /**
  * 初始化首页导航
@@ -868,7 +929,41 @@ function updateActiveTOCLink(activeId) {
     const activeLink = document.querySelector(`a[href="#${activeId}"]`);
     if (activeLink) {
         activeLink.classList.add('active');
+        
+        // 自动滚动TOC到当前激活的项目
+        scrollTOCToActiveItem(activeLink);
     }
+}
+
+/**
+ * 滚动TOC到当前激活的项目
+ * @param {Element} activeLink - 当前激活的TOC链接元素
+ */
+function scrollTOCToActiveItem(activeLink) {
+    const tocContainer = document.querySelector('.toc-container');
+    const tocNav = document.querySelector('.toc-nav');
+    
+    if (!tocContainer || !tocNav || !activeLink) {
+        return;
+    }
+    
+    // 获取TOC容器和激活项目的位置信息
+    const containerRect = tocNav.getBoundingClientRect();
+    const activeRect = activeLink.getBoundingClientRect();
+    
+    // 计算激活项目相对于TOC容器的位置
+    const relativeTop = activeRect.top - containerRect.top + tocNav.scrollTop;
+    const containerHeight = tocNav.clientHeight;
+    const itemHeight = activeRect.height;
+    
+    // 计算目标滚动位置（让激活项目显示在TOC容器的中间）
+    const targetScrollTop = relativeTop - (containerHeight / 2) + (itemHeight / 2);
+    
+    // 平滑滚动到目标位置
+    tocNav.scrollTo({
+        top: Math.max(0, targetScrollTop),
+        behavior: 'smooth'
+    });
 }
 
 /**

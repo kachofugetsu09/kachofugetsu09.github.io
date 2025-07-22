@@ -1,3 +1,90 @@
+// 延迟加载配置
+window.lazyLoadConfig = window.lazyLoadConfig || {
+    marked: false,
+    highlight: false,
+    mermaid: false,
+    mathjax: false
+};
+
+// 异步加载函数
+function loadScript(src, callback) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = callback;
+    script.onerror = () => console.warn('Failed to load:', src);
+    document.head.appendChild(script);
+}
+
+// 按需加载Markdown解析器
+function loadMarkdownParser() {
+    if (window.lazyLoadConfig.marked) return Promise.resolve();
+    
+    return new Promise((resolve) => {
+        loadScript('https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js', () => {
+            window.lazyLoadConfig.marked = true;
+            resolve();
+        });
+    });
+}
+
+// 按需加载语法高亮
+function loadHighlighter() {
+    if (window.lazyLoadConfig.highlight) return Promise.resolve();
+    
+    return new Promise((resolve) => {
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', () => {
+            window.lazyLoadConfig.highlight = true;
+            resolve();
+        });
+    });
+}
+
+// 按需加载Mermaid
+function loadMermaid() {
+    if (window.lazyLoadConfig.mermaid) return Promise.resolve();
+    
+    return new Promise((resolve) => {
+        loadScript('https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js', () => {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'default',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true
+                }
+            });
+            window.lazyLoadConfig.mermaid = true;
+            resolve();
+        });
+    });
+}
+
+// 按需加载MathJax
+function loadMathJax() {
+    if (window.lazyLoadConfig.mathjax) return Promise.resolve();
+    
+    return new Promise((resolve) => {
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                typeset: false
+            }
+        };
+        
+        loadScript('https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', () => {
+            window.lazyLoadConfig.mathjax = true;
+            resolve();
+        });
+    });
+}
+
 const SITE_CONFIG = {
     // 分类配置
     categories: {
@@ -403,8 +490,12 @@ async function loadArticle(category, filename) {
     dynamicContent.scrollTop = 0;
     
     try {
-        // 获取文章内容
-        const response = await fetch(`${category}/${filename}`);
+        // 并行加载文章内容和必要的库
+        const [response] = await Promise.all([
+            fetch(`${category}/${filename}`),
+            loadMarkdownParser(),
+            loadHighlighter()
+        ]);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -416,6 +507,19 @@ async function loadArticle(category, filename) {
         if (typeof markdownContent !== 'string') {
             console.warn('markdownContent is not a string:', markdownContent);
             markdownContent = String(markdownContent || '');
+        }
+        
+        // 检查是否需要加载额外的库
+        const needsMermaid = markdownContent.includes('```mermaid');
+        const needsMathJax = /\$\$[\s\S]*?\$\$|\$[^$\n]*\$/.test(markdownContent);
+        
+        // 按需加载额外库
+        const additionalLoads = [];
+        if (needsMermaid) additionalLoads.push(loadMermaid());
+        if (needsMathJax) additionalLoads.push(loadMathJax());
+        
+        if (additionalLoads.length > 0) {
+            await Promise.all(additionalLoads);
         }
         
         // 初始化marked
@@ -443,17 +547,20 @@ async function loadArticle(category, filename) {
                 if (language === 'mermaid') {
                     return `<div class="mermaid">${code}</div>`;
                 }
-                const validLanguage = language && hljs.getLanguage(language) ? language : '';
-                try {
-                    if (validLanguage) {
-                        const highlighted = hljs.highlight(code, { language: validLanguage }).value;
-                        return `<pre><code class="hljs language-${validLanguage}">${highlighted}</code></pre>`;
+                if (typeof hljs !== 'undefined') {
+                    const validLanguage = language && hljs.getLanguage(language) ? language : '';
+                    try {
+                        if (validLanguage) {
+                            const highlighted = hljs.highlight(code, { language: validLanguage }).value;
+                            return `<pre><code class="hljs language-${validLanguage}">${highlighted}</code></pre>`;
+                        }
+                        return `<pre><code class="hljs">${hljs.highlightAuto(code).value}</code></pre>`;
+                    } catch (err) {
+                        console.warn('代码高亮失败:', err);
+                        return `<pre><code class="hljs">${code}</code></pre>`;
                     }
-                    return `<pre><code class="hljs">${hljs.highlightAuto(code).value}</code></pre>`;
-                } catch (err) {
-                    console.warn('代码高亮失败:', err);
-                    return `<pre><code class="hljs">${code}</code></pre>`;
                 }
+                return `<pre><code>${code}</code></pre>`;
             }
         };
         

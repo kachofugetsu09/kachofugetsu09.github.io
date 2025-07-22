@@ -1425,7 +1425,7 @@ body {
     height: 60px; /* 移动端稍微增加header高度 */
     padding: var(--spacing-sm) 0;
   }
-  
+
   .header-content {
     padding: 0 var(--spacing-md);
     height: 100%;
@@ -1443,7 +1443,7 @@ body {
   .site-description {
     display: none; /* 移动端隐藏描述 */
   }
-  
+
   .site-stats {
     font-size: 0.7rem;
     padding: var(--spacing-xs);
@@ -1634,68 +1634,6 @@ body {
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     transition: opacity 0.3s ease;
-  }
-
-  .sidebar-overlay.active {
-    display: block;
-  }
-} var(--color-white);
-    border-radius: var(--radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .menu-toggle:hover {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-  }
-
-  .menu-toggle.active {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-  }
-
-  /* 移动端遮罩层 */
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    transition: opacity 0.3s ease;
-  }
-
-  .sidebar-overlay.active {
-    display: block;
-  }
-} #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .menu-toggle.active {
-    color: #fff;
-    background: #000;
-  }
-
-  /* 移动端遮罩层 */
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
   }
 
   .sidebar-overlay.active {

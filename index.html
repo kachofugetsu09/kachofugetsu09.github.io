@@ -3,45 +3,173 @@
 <head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>花月的技术博客</title>    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/links.css">
-    <link rel="stylesheet" href="assets/css/transitions.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- 内联关键CSS -->
+    <style>
+        /* 关键CSS - 避免渲染阻塞 */
+        :root {
+          --color-primary: #18181b;
+          --color-white: #ffffff;
+          --text-color: #27272a;
+          --bg-color: #ffffff;
+          --font-family-base: "思源黑体 CN", system-ui, -apple-system, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+          font-family: var(--font-family-base); 
+          line-height: 1.6; 
+          color: var(--text-color); 
+          background: var(--bg-color); 
+          min-height: 100vh; 
+        }
+        .loading { 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          padding: 2rem; 
+          font-size: 1.1rem; 
+          color: #666; 
+        }
+        .loading::before { 
+          content: ''; 
+          width: 20px; 
+          height: 20px; 
+          border: 2px solid #f3f3f3; 
+          border-top: 2px solid #666; 
+          border-radius: 50%; 
+          animation: spin 1s linear infinite; 
+          margin-right: 10px; 
+        }
+        @keyframes spin { 
+          0% { transform: rotate(0deg); } 
+          100% { transform: rotate(360deg); } 
+        }
+        .fade-in { opacity: 0; animation: fadeIn 0.3s ease-in-out forwards; }
+        .fade-out { opacity: 1; animation: fadeOut 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+    </style>
     
-    <!-- 添加Markdown解析和语法高亮支持 -->
-    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
-    <!-- 添加Mermaid支持 -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <!-- 延迟加载非关键CSS -->
+    <noscript>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/links.css">
+        <link rel="stylesheet" href="assets/css/transitions.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </noscript>
+    
     <script>
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'default',
-            flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true
-            }
+        // 延迟加载CSS
+        function loadCSS(href) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+        }
+        
+        // 页面加载完成后加载非关键CSS
+        window.addEventListener('load', function() {
+            loadCSS('assets/css/links.css');
+            loadCSS('assets/css/transitions.css');
         });
     </script>
     
-    <!-- 添加数学公式支持 -->
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" as="script">
+    
+    <!-- 延迟加载非关键资源 -->
     <script>
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']],
-            processEscapes: true
-        },
-        svg: {
-            fontCache: 'global'
-        },
-        startup: {
-            typeset: false
+        // 延迟加载配置
+        window.lazyLoadConfig = {
+            marked: false,
+            highlight: false,
+            mermaid: false,
+            mathjax: false
+        };
+        
+        // 异步加载函数
+        function loadScript(src, callback) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = callback;
+            script.onerror = () => console.warn('Failed to load:', src);
+            document.head.appendChild(script);
         }
-    };
+        
+        // 按需加载Markdown解析器
+        function loadMarkdownParser() {
+            if (window.lazyLoadConfig.marked) return Promise.resolve();
+            
+            return new Promise((resolve) => {
+                loadScript('https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js', () => {
+                    window.lazyLoadConfig.marked = true;
+                    resolve();
+                });
+            });
+        }
+        
+        // 按需加载语法高亮
+        function loadHighlighter() {
+            if (window.lazyLoadConfig.highlight) return Promise.resolve();
+            
+            return new Promise((resolve) => {
+                loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', () => {
+                    window.lazyLoadConfig.highlight = true;
+                    resolve();
+                });
+            });
+        }
+        
+        // 按需加载Mermaid
+        function loadMermaid() {
+            if (window.lazyLoadConfig.mermaid) return Promise.resolve();
+            
+            return new Promise((resolve) => {
+                loadScript('https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js', () => {
+                    mermaid.initialize({
+                        startOnLoad: false,
+                        theme: 'default',
+                        flowchart: {
+                            useMaxWidth: true,
+                            htmlLabels: true
+                        }
+                    });
+                    window.lazyLoadConfig.mermaid = true;
+                    resolve();
+                });
+            });
+        }
+        
+        // 按需加载MathJax
+        function loadMathJax() {
+            if (window.lazyLoadConfig.mathjax) return Promise.resolve();
+            
+            return new Promise((resolve) => {
+                window.MathJax = {
+                    tex: {
+                        inlineMath: [['$', '$'], ['\\(', '\\)']],
+                        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                        processEscapes: true
+                    },
+                    svg: {
+                        fontCache: 'global'
+                    },
+                    startup: {
+                        typeset: false
+                    }
+                };
+                
+                loadScript('https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', () => {
+                    window.lazyLoadConfig.mathjax = true;
+                    resolve();
+                });
+            });
+        }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <!-- 不蒜子访问统计 -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

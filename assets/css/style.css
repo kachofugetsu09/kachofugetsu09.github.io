@@ -289,16 +289,15 @@ body {
 
 .sidebar-category {
   margin-bottom: var(--spacing-xs);
-  border-radius: var(--radius-lg);
+  border-radius: 0;
   overflow: hidden;
-  background: rgba(248, 250, 252, 0.3);
-  border: 1px solid rgba(229, 231, 235, 0.4);
+  background: transparent;
+  border: none;
   transition: all 0.3s ease;
 }
 
 .sidebar-category:hover {
-  background: rgba(248, 250, 252, 0.6);
-  border-color: rgba(37, 99, 235, 0.2);
+  background: transparent;
 }
 
 .sidebar-category-header {
@@ -356,8 +355,8 @@ body {
   opacity: 0;
   transform: translateY(-5px);
   transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: transparent;
+  border-radius: 0;
 }
 
 .sidebar-articles.expanded {

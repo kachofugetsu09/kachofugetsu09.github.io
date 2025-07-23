@@ -1,280 +1,404 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>花月的技术博客</title>    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>花月的技术博客</title>
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg" />
     <!-- 内联关键CSS -->
     <style>
-        /* 关键CSS - 避免渲染阻塞 */
-        :root {
-          --color-primary: #18181b;
-          --color-white: #ffffff;
-          --text-color: #27272a;
-          --bg-color: #ffffff;
-          --font-family-base: "思源黑体 CN", system-ui, -apple-system, sans-serif;
+      /* 关键CSS - 避免渲染阻塞 */
+      :root {
+        --color-primary: #18181b;
+        --color-white: #ffffff;
+        --text-color: #27272a;
+        --bg-color: #ffffff;
+        --font-family-base: "思源黑体 CN", system-ui, -apple-system, sans-serif;
+        --link-color: #2563eb;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--font-family-base);
+        line-height: 1.6;
+        color: var(--text-color);
+        background: var(--bg-color);
+        min-height: 100vh;
+      }
+      /* 关键链接样式 - 防止蓝色下划线闪烁 */
+      a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+      a:hover {
+        color: var(--link-color);
+      }
+      .elegant-link {
+        color: var(--text-color) !important;
+        text-decoration: none !important;
+        border-bottom: 1px solid transparent;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        background: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+      }
+      .elegant-link:hover {
+        color: var(--link-color) !important;
+        border-bottom-color: var(--link-color);
+        background: none !important;
+        transform: none !important;
+      }
+      /* 确保 repo-link 也使用相同的简洁样式 */
+      .repo-link {
+        margin-left: 16px;
+      }
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        font-size: 1.1rem;
+        color: #666;
+      }
+      .loading::before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #666;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 10px;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-          font-family: var(--font-family-base); 
-          line-height: 1.6; 
-          color: var(--text-color); 
-          background: var(--bg-color); 
-          min-height: 100vh; 
+        100% {
+          transform: rotate(360deg);
         }
-        .loading { 
-          display: flex; 
-          align-items: center; 
-          justify-content: center; 
-          padding: 2rem; 
-          font-size: 1.1rem; 
-          color: #666; 
+      }
+      .fade-in {
+        opacity: 0;
+        animation: fadeIn 0.3s ease-in-out forwards;
+      }
+      .fade-out {
+        opacity: 1;
+        animation: fadeOut 0.3s ease-in-out forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        .loading::before { 
-          content: ''; 
-          width: 20px; 
-          height: 20px; 
-          border: 2px solid #f3f3f3; 
-          border-top: 2px solid #666; 
-          border-radius: 50%; 
-          animation: spin 1s linear infinite; 
-          margin-right: 10px; 
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        @keyframes spin { 
-          0% { transform: rotate(0deg); } 
-          100% { transform: rotate(360deg); } 
+      }
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
         }
-        .fade-in { opacity: 0; animation: fadeIn 0.3s ease-in-out forwards; }
-        .fade-out { opacity: 1; animation: fadeOut 0.3s ease-in-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+        to {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+      }
     </style>
-    
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
-    <!-- 延迟加载非关键CSS -->
-    <noscript>
-        <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="stylesheet" href="assets/css/links.css">
-        <link rel="stylesheet" href="assets/css/transitions.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    </noscript>
-    
+
+    <!-- 立即加载关键CSS，避免样式闪烁 -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- 预加载非关键CSS，但不立即应用 -->
+    <link rel="preload" href="assets/css/links.css" as="style" />
+    <link rel="preload" href="assets/css/transitions.css" as="style" />
+
     <script>
-        // 延迟加载CSS
-        function loadCSS(href) {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = href;
-            document.head.appendChild(link);
-        }
-        
-        // 页面加载完成后加载非关键CSS
-        window.addEventListener('load', function() {
-            loadCSS('assets/css/links.css');
-            loadCSS('assets/css/transitions.css');
-        });
+      // 延迟加载非关键CSS
+      function loadCSS(href) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        document.head.appendChild(link);
+      }
+
+      // DOM加载完成后立即加载非关键CSS，避免延迟过久
+      document.addEventListener("DOMContentLoaded", function () {
+        loadCSS("assets/css/links.css");
+        loadCSS("assets/css/transitions.css");
+      });
     </script>
-    
+
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js" as="script">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" as="script">
-    
+    <link
+      rel="preload"
+      href="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
+      as="script"
+    />
+
     <!-- 延迟加载非关键资源 -->
     <script>
-        // 延迟加载配置
-        window.lazyLoadConfig = {
-            marked: false,
-            highlight: false,
-            mermaid: false,
-            mathjax: false
-        };
-        
-        // 异步加载函数
-        function loadScript(src, callback) {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = callback;
-            script.onerror = () => console.warn('Failed to load:', src);
-            document.head.appendChild(script);
-        }
-        
-        // 按需加载Markdown解析器
-        function loadMarkdownParser() {
-            if (window.lazyLoadConfig.marked) return Promise.resolve();
-            
-            return new Promise((resolve) => {
-                loadScript('https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js', () => {
-                    window.lazyLoadConfig.marked = true;
-                    resolve();
-                });
-            });
-        }
-        
-        // 按需加载语法高亮
-        function loadHighlighter() {
-            if (window.lazyLoadConfig.highlight) return Promise.resolve();
-            
-            return new Promise((resolve) => {
-                loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', () => {
-                    window.lazyLoadConfig.highlight = true;
-                    resolve();
-                });
-            });
-        }
-        
-        // 按需加载Mermaid
-        function loadMermaid() {
-            if (window.lazyLoadConfig.mermaid) return Promise.resolve();
-            
-            return new Promise((resolve) => {
-                loadScript('https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js', () => {
-                    mermaid.initialize({
-                        startOnLoad: false,
-                        theme: 'default',
-                        flowchart: {
-                            useMaxWidth: true,
-                            htmlLabels: true
-                        }
-                    });
-                    window.lazyLoadConfig.mermaid = true;
-                    resolve();
-                });
-            });
-        }
-        
-        // 按需加载MathJax
-        function loadMathJax() {
-            if (window.lazyLoadConfig.mathjax) return Promise.resolve();
-            
-            return new Promise((resolve) => {
-                window.MathJax = {
-                    tex: {
-                        inlineMath: [['$', '$'], ['\\(', '\\)']],
-                        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                        processEscapes: true
-                    },
-                    svg: {
-                        fontCache: 'global'
-                    },
-                    startup: {
-                        typeset: false
-                    }
-                };
-                
-                loadScript('https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', () => {
-                    window.lazyLoadConfig.mathjax = true;
-                    resolve();
-                });
-            });
-        }
+      // 延迟加载配置
+      window.lazyLoadConfig = {
+        marked: false,
+        highlight: false,
+        mermaid: false,
+        mathjax: false,
+      };
+
+      // 异步加载函数
+      function loadScript(src, callback) {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = callback;
+        script.onerror = () => console.warn("Failed to load:", src);
+        document.head.appendChild(script);
+      }
+
+      // 按需加载Markdown解析器
+      function loadMarkdownParser() {
+        if (window.lazyLoadConfig.marked) return Promise.resolve();
+
+        return new Promise((resolve) => {
+          loadScript(
+            "https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js",
+            () => {
+              window.lazyLoadConfig.marked = true;
+              resolve();
+            }
+          );
+        });
+      }
+
+      // 按需加载语法高亮
+      function loadHighlighter() {
+        if (window.lazyLoadConfig.highlight) return Promise.resolve();
+
+        return new Promise((resolve) => {
+          loadScript(
+            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
+            () => {
+              window.lazyLoadConfig.highlight = true;
+              resolve();
+            }
+          );
+        });
+      }
+
+      // 按需加载Mermaid
+      function loadMermaid() {
+        if (window.lazyLoadConfig.mermaid) return Promise.resolve();
+
+        return new Promise((resolve) => {
+          loadScript(
+            "https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js",
+            () => {
+              mermaid.initialize({
+                startOnLoad: false,
+                theme: "default",
+                flowchart: {
+                  useMaxWidth: true,
+                  htmlLabels: true,
+                },
+              });
+              window.lazyLoadConfig.mermaid = true;
+              resolve();
+            }
+          );
+        });
+      }
+
+      // 按需加载MathJax
+      function loadMathJax() {
+        if (window.lazyLoadConfig.mathjax) return Promise.resolve();
+
+        return new Promise((resolve) => {
+          window.MathJax = {
+            tex: {
+              inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+              ],
+              displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+              ],
+              processEscapes: true,
+            },
+            svg: {
+              fontCache: "global",
+            },
+            startup: {
+              typeset: false,
+            },
+          };
+
+          loadScript(
+            "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
+            () => {
+              window.lazyLoadConfig.mathjax = true;
+              resolve();
+            }
+          );
+        });
+      }
     </script>
-    
+
     <!-- 不蒜子访问统计 -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-      <script src="assets/js/config.js"></script>
+    <script
+      async
+      src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <script src="assets/js/config.js"></script>
     <script src="assets/js/url-utils.js"></script>
     <script src="assets/js/main.js"></script>
-</head>
-<body>    <!-- 统一头部区域 -->
+  </head>
+  <body>
+    <!-- 统一头部区域 -->
     <header class="site-header">
-        <div class="header-content">
-            <div class="header-left">
-                <div class="site-logo">
-                    <img src="img/logo.jpg" alt="网站Logo" class="logo-image">
-                </div>                <div class="site-info">
-                    <h1 class="site-title">花月的技术博客</h1>
-                    <p class="site-description">Folding was never an option.</p>
-                    <div class="site-stats">
-                        <span id="busuanzi_container_site_pv">
-                            <i class="fas fa-chart-line"></i>
-                            总访问 <span id="busuanzi_value_site_pv" class="site-stat-number">0</span> 次
-                        </span>
-                    </div>
-                </div>
+      <div class="header-content">
+        <div class="header-left">
+          <div class="site-logo">
+            <img src="img/logo.jpg" alt="网站Logo" class="logo-image" />
+          </div>
+          <div class="site-info">
+            <h1 class="site-title">花月的技术博客</h1>
+            <p class="site-description">Folding was never an option.</p>
+            <div class="site-stats">
+              <span id="busuanzi_container_site_pv">
+                <i class="fas fa-chart-line"></i>
+                总访问
+                <span id="busuanzi_value_site_pv" class="site-stat-number"
+                  >0</span
+                >
+                次
+              </span>
             </div>
+          </div>
         </div>
+      </div>
     </header>
 
     <!-- 主内容区域 -->
     <div class="main-container">
-        <aside class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="sidebar-categories" id="sidebarCategories">
-                    <!-- 分类将通过JavaScript动态生成 -->
-                </ul>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="sidebar-categories" id="sidebarCategories">
+            <!-- 分类将通过JavaScript动态生成 -->
+          </ul>
+        </nav>
+      </aside>
 
-        <div class="content-wrapper">
-            <div class="content-layout">
-                <div class="article-container">                    <section id="welcomeSection" class="welcome-section">
-                        <article class="article-content blog-intro">                            <div class="blog-title-section">
-                                <h1>欢迎来到花月的博客</h1>
-                                <a href="https://github.com/kachofugetsu09/kachofugetsu09.github.io" target="_blank" class="elegant-link repo-link">博客源码</a>
-                            </div>
-                            <div class="blog-intro-text">
-                                <p>你好！我是花月，一位热衷于探索技术深度的软件开发者。</p>
-                            </div>
-
-                            <div class="blog-content">
-                                <p>在这里，我专注于分享深度技术文章，将复杂的技术问题转化为清晰的知识讲解。每一篇文章都力求准确、深入且易懂。</p>                                <h3>推荐阅读</h3>
-                                <p><a href="#" onclick="handleArticleClick('tech/零拷贝技术解析.md', event)" class="elegant-link internal">零拷贝技术解析</a></p>
-
-
-                            </div><div class="social-links">
-                                <a href="https://github.com/kachofugetsu09" target="_blank" class="social-link github-link" title="访问我的GitHub主页">
-                                    <img src="img/githubImg.jpg" alt="GitHub" class="github-avatar">
-                                    <span>Follow me on GitHub</span>
-                                </a>
-                            </div>
-                        </article>
-                    </section>
-                    <div id="dynamicContent">
-                        <!-- 文章内容将在这里动态加载 -->
-                    </div>
+      <div class="content-wrapper">
+        <div class="content-layout">
+          <div class="article-container">
+            <section id="welcomeSection" class="welcome-section">
+              <article class="article-content blog-intro">
+                <div class="blog-title-section">
+                  <h1>欢迎来到花月的博客</h1>
+                  <a
+                    href="https://github.com/kachofugetsu09/kachofugetsu09.github.io"
+                    target="_blank"
+                    class="elegant-link repo-link"
+                    >博客源码</a
+                  >
                 </div>
-                
-                <div class="toc-container">
-                    <div class="toc-wrapper">
-                        <div class="toc-header">
-                            <h3>文章目录</h3>
-                        </div>
-                        <nav class="toc-nav">
-                            <ul class="toc-list" id="tocList">
-                                <!-- 目录将通过JavaScript动态生成 -->
-                            </ul>
-                        </nav>
-                    </div>
+                <div class="blog-intro-text">
+                  <p>你好！我是花月，一位热衷于探索技术深度的软件开发者。</p>
                 </div>
+
+                <div class="blog-content">
+                  <p>
+                    在这里，我专注于分享深度技术文章，将复杂的技术问题转化为清晰的知识讲解。每一篇文章都力求准确、深入且易懂。
+                  </p>
+                  <h3>推荐阅读</h3>
+                  <p>
+                    <a
+                      href="#"
+                      onclick="handleArticleClick('tech/零拷贝技术解析.md', event)"
+                      class="elegant-link internal"
+                      >零拷贝技术解析</a
+                    >
+                  </p>
+                </div>
+                <div class="social-links">
+                  <a
+                    href="https://github.com/kachofugetsu09"
+                    target="_blank"
+                    class="social-link github-link"
+                    title="访问我的GitHub主页"
+                  >
+                    <img
+                      src="img/githubImg.jpg"
+                      alt="GitHub"
+                      class="github-avatar"
+                    />
+                    <span>Follow me on GitHub</span>
+                  </a>
+                </div>
+              </article>
+            </section>
+            <div id="dynamicContent">
+              <!-- 文章内容将在这里动态加载 -->
             </div>
+          </div>
+
+          <div class="toc-container">
+            <div class="toc-wrapper">
+              <div class="toc-header">
+                <h3>文章目录</h3>
+              </div>
+              <nav class="toc-nav">
+                <ul class="toc-list" id="tocList">
+                  <!-- 目录将通过JavaScript动态生成 -->
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
-        </div>
+      <div class="container">
+        <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+      </div>
     </footer>
 
     <style>
-    /* 隐藏不蒜子计数器，直到加载完成 */
-    #busuanzi_container_site_pv {
+      /* 隐藏不蒜子计数器，直到加载完成 */
+      #busuanzi_container_site_pv {
         display: none;
-    }
-    .busuanzi-loaded #busuanzi_container_site_pv {
+      }
+      .busuanzi-loaded #busuanzi_container_site_pv {
         display: inline;
-    }
+      }
     </style>
     <script>
-    // 检查不蒜子计数器是否加载完成
-    var checkBusuanzi = setInterval(function() {
-        if (typeof BUSUANZI !== 'undefined') {
-            document.body.classList.add('busuanzi-loaded');
-            clearInterval(checkBusuanzi);
+      // 检查不蒜子计数器是否加载完成
+      var checkBusuanzi = setInterval(function () {
+        if (typeof BUSUANZI !== "undefined") {
+          document.body.classList.add("busuanzi-loaded");
+          clearInterval(checkBusuanzi);
         }
-    }, 100);
+      }, 100);
     </script>
-</body>
+  </body>
 </html>

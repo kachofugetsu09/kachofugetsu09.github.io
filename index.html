@@ -120,6 +120,215 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    
+    <style>
+      /* 分类页面样式 - 与主页保持一致 */
+      .category-section {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .category-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .category-title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .category-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .category-title i {
+        color: var(--link-color);
+        font-size: 2rem;
+      }
+
+      .stat-badge {
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--link-color);
+        padding: 0.4rem 0.8rem;
+        border-radius: 16px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .category-description {
+        font-size: 1rem;
+        color: #6b7280;
+        margin: 0;
+        font-weight: 400;
+      }
+
+      .category-articles {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .category-article-card {
+        background: var(--color-white);
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .category-article-card:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .article-card-content {
+        width: 100%;
+      }
+
+      .article-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        gap: 1rem;
+      }
+
+      .category-article-card .article-title {
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: var(--text-color);
+        margin: 0;
+        line-height: 1.4;
+        flex: 1;
+        transition: color 0.2s ease;
+      }
+
+      .category-article-card:hover .article-title {
+        color: var(--link-color);
+      }
+
+      .article-arrow {
+        color: #d1d5db;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        opacity: 0;
+      }
+
+      .category-article-card:hover .article-arrow {
+        color: var(--link-color);
+        opacity: 1;
+        transform: translateX(2px);
+      }
+
+      .category-article-card .article-preview {
+        color: #6b7280;
+        line-height: 1.5;
+        margin: 0 0 0.75rem 0;
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+
+      .category-article-card .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 0.8rem;
+        color: #9ca3af;
+        flex-wrap: wrap;
+      }
+
+      .category-article-card .article-date,
+      .category-article-card .article-stats {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .category-article-card .article-stats {
+        gap: 1rem;
+      }
+
+      .category-article-card .article-stats > span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .category-article-card .article-meta i {
+        font-size: 0.75rem;
+        opacity: 0.8;
+      }
+
+      .category-empty {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #9ca3af;
+      }
+
+      .category-empty i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #d1d5db;
+      }
+
+      .category-empty h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .category-section {
+          padding: 1.5rem 0.75rem;
+        }
+
+        .category-title {
+          font-size: 1.8rem;
+        }
+
+        .category-title-wrapper {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .article-header {
+          align-items: flex-start;
+        }
+
+        .article-arrow {
+          margin-top: 0.2rem;
+        }
+
+        .category-article-card .article-meta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+      }
+    </style>
 
     <!-- 预加载非关键CSS，但不立即应用 -->
     <link rel="preload" href="assets/css/links.css" as="style" />
@@ -336,6 +545,15 @@
                       class="elegant-link internal"
                       >零拷贝技术解析</a
                     >
+                  </p>
+                  
+                  <h3>快速导航</h3>
+                  <p>
+                    <a href="archive.html" class="elegant-link">
+                      <i class="fas fa-archive"></i>
+                      文章归档
+                    </a>
+                    - 按时间顺序浏览所有文章
                   </p>
                 </div>
                 <div class="social-links">

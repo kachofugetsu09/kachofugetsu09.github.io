@@ -35,6 +35,29 @@
     
     <script src="assets/js/config.js"></script>
     <script src="assets/js/main.js"></script>
+    
+    <script>
+        // 文章页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为logo和标题添加点击事件，返回首页
+            const logo = document.querySelector('.site-logo');
+            const title = document.querySelector('.site-title');
+            
+            if (logo) {
+                logo.style.cursor = 'pointer';
+                logo.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            if (title) {
+                title.style.cursor = 'pointer';
+                title.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <!-- 统一头部区域 -->

@@ -1,62 +1,579 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>分类 - 花月的技术博客</title>
-    
-    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
     <!-- 不蒜子访问统计（只统计不显示） -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span id="busuanzi_container_site_pv" style="display: none;"><span id="busuanzi_value_site_pv">0</span></span>
-    
+    <script
+      async
+      src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span id="busuanzi_container_site_pv" style="display: none"
+      ><span id="busuanzi_value_site_pv">0</span></span
+    >
+
     <script src="assets/js/config.js"></script>
     <script src="assets/js/main.js"></script>
-</head>
-<body>
+
+    <style>
+      /* 分类页面专用样式 - 简约现代风格 */
+      .category-section {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .category-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .category-title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .category-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .category-title i {
+        color: var(--link-color);
+        font-size: 2rem;
+      }
+
+      .stat-badge {
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--link-color);
+        padding: 0.4rem 0.8rem;
+        border-radius: 16px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .category-description {
+        font-size: 1rem;
+        color: #6b7280;
+        margin: 0;
+        font-weight: 400;
+      }
+
+      .category-articles {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .category-article-card {
+        background: var(--color-white);
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .category-article-card:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .article-card-content {
+        width: 100%;
+      }
+
+      .article-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        gap: 1rem;
+      }
+
+      .article-title {
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: var(--text-color);
+        margin: 0;
+        line-height: 1.4;
+        flex: 1;
+        transition: color 0.2s ease;
+      }
+
+      .category-article-card:hover .article-title {
+        color: var(--link-color);
+      }
+
+      .article-arrow {
+        color: #d1d5db;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        opacity: 0;
+      }
+
+      .category-article-card:hover .article-arrow {
+        color: var(--link-color);
+        opacity: 1;
+        transform: translateX(2px);
+      }
+
+      .article-preview {
+        color: #6b7280;
+        line-height: 1.5;
+        margin: 0 0 0.75rem 0;
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+
+      .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 0.8rem;
+        color: #9ca3af;
+        flex-wrap: wrap;
+      }
+
+      .article-date,
+      .article-stats {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .article-stats {
+        gap: 1rem;
+      }
+
+      .article-stats > span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .article-meta i {
+        font-size: 0.75rem;
+        opacity: 0.8;
+      }
+
+      .category-empty {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #9ca3af;
+      }
+
+      .category-empty i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #d1d5db;
+      }
+
+      .category-empty h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .category-section {
+          padding: 1.5rem 0.75rem;
+        }
+
+        .category-title {
+          font-size: 1.8rem;
+        }
+
+        .category-title-wrapper {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .article-header {
+          align-items: flex-start;
+        }
+
+        .article-arrow {
+          margin-top: 0.2rem;
+        }
+
+        .article-meta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .category-article-card:hover {
+          transform: translateX(2px);
+        }
+      }
+    </style>
+  </head>
+  <body>
     <!-- 统一头部区域 -->
     <header class="site-header">
-        <div class="header-content">
-            <div class="header-left">
-                <div class="site-logo">
-                    <img src="img/logo.jpg" alt="网站Logo" class="logo-image">
-                </div>
-                <div class="site-info">
-                    <h1 class="site-title">花月的技术博客</h1>
-                    <p class="site-description">Folding was never an option.</p>
-                </div>
-            </div>
+      <div class="header-content">
+        <div class="header-left">
+          <div class="site-logo">
+            <img src="img/logo.jpg" alt="网站Logo" class="logo-image" />
+          </div>
+          <div class="site-info">
+            <h1 class="site-title">花月的技术博客</h1>
+            <p class="site-description">Folding was never an option.</p>
+          </div>
         </div>
+      </div>
     </header>
 
     <!-- 主内容区域 -->
     <div class="main-container">
-        <aside class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="sidebar-categories" id="sidebarCategories">
-                    <!-- 分类将通过JavaScript动态生成 -->
-                </ul>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="sidebar-categories" id="sidebarCategories">
+            <!-- 分类将通过JavaScript动态生成 -->
+          </ul>
+        </nav>
+      </aside>
 
-        <div class="content-wrapper">
-            <div class="content-layout">
-                <div class="category-container">
-                    <div id="categoryContent">
-                        <!-- 分类内容将在这里动态加载 -->
-                    </div>
-                </div>
+      <div class="content-wrapper">
+        <div class="content-layout">
+          <div class="category-container">
+            <div id="categoryContent">
+              <!-- 分类内容将在这里动态加载 -->
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
-        </div>
+      <div class="container">
+        <p>&copy; 2025 花月的技术博客. All rights reserved.</p>
+      </div>
     </footer>
-</body>
+
+    <script>
+      // 分类页面专用的渲染函数
+      function renderCategoryPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryKey = urlParams.get("category");
+        const categoryContent = document.getElementById("categoryContent");
+
+        console.log("开始渲染分类页面:", categoryKey);
+
+        if (!categoryKey || !categoryContent) {
+          console.error("参数错误:", { categoryKey, categoryContent });
+          if (categoryContent) {
+            categoryContent.innerHTML = `
+                        <div class="error-message">
+                            <h3>参数错误</h3>
+                            <p>未指定分类参数</p>
+                            <button onclick="window.location.href='index.html'" class="btn btn-primary">返回首页</button>
+                        </div>
+                    `;
+          }
+          return;
+        }
+
+        // 检查数据是否加载
+        if (!window.SITE_DATA) {
+          console.error("SITE_DATA 未加载");
+          categoryContent.innerHTML = `
+                    <div class="error-message">
+                        <h3>数据加载失败</h3>
+                        <p>配置数据未加载，请刷新页面重试</p>
+                        <button onclick="window.location.reload()" class="btn btn-primary">刷新页面</button>
+                    </div>
+                `;
+          return;
+        }
+
+        try {
+          const categories = window.SITE_DATA?.categories || {};
+          const articleLists = window.SITE_DATA?.articleLists || {};
+          const articleDetails = window.SITE_DATA?.articleDetails || {};
+
+          console.log("数据检查:", {
+            categories: Object.keys(categories),
+            categoryKey,
+            hasCategory: !!categories[categoryKey],
+            articles: articleLists[categoryKey],
+          });
+
+          const categoryInfo = categories[categoryKey];
+          const articles = articleLists[categoryKey] || [];
+
+          if (!categoryInfo) {
+            categoryContent.innerHTML = `
+                        <div class="error-message">
+                            <h3>分类不存在</h3>
+                            <p>未找到分类"${categoryKey}"</p>
+                            <button onclick="window.location.href='index.html'" class="btn btn-primary">返回首页</button>
+                        </div>
+                    `;
+            return;
+          }
+
+          // 更新页面标题
+          document.title = `${categoryInfo.name} - 花月的技术博客`;
+
+          // 生成分类页面HTML
+          let categoryHTML = `
+                    <section class="category-section">
+                        <header class="category-header">
+                            <div class="category-title-wrapper">
+                                <h1 class="category-title">
+                                    <i class="${
+                                      categoryInfo.icon || "fas fa-folder"
+                                    }"></i>
+                                    ${categoryInfo.name}
+                                </h1>
+                                <div class="category-stats">
+                                    <span class="stat-badge">
+                                        <i class="fas fa-file-alt"></i>
+                                        ${articles.length} 篇文章
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="category-description">探索${
+                              categoryInfo.name
+                            }相关的技术文章和学习笔记</p>
+                        </header>
+
+                        <div class="category-articles">
+                `;
+
+          if (articles.length === 0) {
+            categoryHTML += `
+                        <div class="category-empty">
+                            <i class="fas fa-inbox"></i>
+                            <h3>暂无文章</h3>
+                            <p>这个分类下还没有文章</p>
+                        </div>
+                    `;
+          } else {
+            articles.forEach((filename) => {
+              const articleKey = `${categoryKey}/${filename}`;
+              const detail = articleDetails[articleKey];
+
+              // 安全处理文本，避免特殊字符导致的问题
+              const title = (detail?.title || filename.replace(".md", ""))
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+              const preview = (detail?.preview || "")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+              const updateTime = detail?.updateTime || "未知时间";
+              const wordCount = detail?.wordCount || 0;
+              const readingTime = detail?.readingTime || 1;
+              const url = `article.html?category=${encodeURIComponent(
+                categoryKey
+              )}&file=${encodeURIComponent(filename)}`;
+
+              console.log(`处理文章: ${filename}`, {
+                title,
+                preview: preview.substring(0, 50),
+              });
+
+              categoryHTML += `
+                            <article class="category-article-card" onclick="window.location.href='${url}'">
+                                <div class="article-card-content">
+                                    <div class="article-header">
+                                        <h3 class="article-title">
+                                            ${title}
+                                        </h3>
+                                        <div class="article-arrow">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    ${
+                                      preview
+                                        ? `
+                                        <p class="article-preview">
+                                            ${preview.substring(0, 150)}${
+                                            preview.length > 150 ? "..." : ""
+                                          }
+                                        </p>
+                                    `
+                                        : ""
+                                    }
+                                    
+                                    <div class="article-meta">
+                                        <span class="article-date">
+                                            <i class="fas fa-calendar"></i>
+                                            ${updateTime}
+                                        </span>
+                                        <span class="article-stats">
+                                            <i class="fas fa-book-reader"></i>
+                                            ${wordCount}字
+                                            <i class="fas fa-clock"></i>
+                                            ${readingTime}分钟
+                                        </span>
+                                    </div>
+                                </div>
+                            </article>
+                        `;
+            });
+          }
+
+          categoryHTML += `
+                        </div>
+                    </section>
+                `;
+
+          categoryContent.innerHTML = categoryHTML;
+        } catch (error) {
+          console.error("渲染分类页面失败:", error);
+          categoryContent.innerHTML = `
+                    <div class="error-message">
+                        <h3>加载失败</h3>
+                        <p>无法加载分类信息，请稍后重试。</p>
+                        <button onclick="window.location.href='index.html'" class="btn btn-primary">返回首页</button>
+                    </div>
+                `;
+        }
+      }
+
+      // 页面加载完成后初始化
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("分类页面开始初始化...");
+
+        // 渲染侧边栏分类
+        renderSidebarCategories();
+
+        // 渲染分类页面内容
+        renderCategoryPage();
+
+        // 为logo和标题添加点击事件，返回首页
+        const logo = document.querySelector(".site-logo");
+        const title = document.querySelector(".site-title");
+
+        if (logo) {
+          logo.style.cursor = "pointer";
+          logo.addEventListener("click", function () {
+            window.location.href = "index.html";
+          });
+        }
+
+        if (title) {
+          title.style.cursor = "pointer";
+          title.addEventListener("click", function () {
+            window.location.href = "index.html";
+          });
+        }
+
+        console.log("分类页面初始化完成");
+      });
+
+      // 添加侧边栏展开功能
+      function toggleCategory(categoryKey) {
+        const articlesContainer = document.getElementById(
+          `articles-${categoryKey}`
+        );
+        const arrow = document.getElementById(`arrow-${categoryKey}`);
+        const header = document.getElementById(`header-${categoryKey}`);
+
+        if (!articlesContainer || !arrow || !header) return;
+
+        // 切换展开状态
+        const isExpanded = articlesContainer.classList.contains("expanded");
+
+        if (isExpanded) {
+          // 折叠
+          articlesContainer.classList.remove("expanded");
+          header.classList.remove("expanded");
+          arrow.classList.remove("fa-chevron-down");
+          arrow.classList.add("fa-chevron-right");
+
+          setTimeout(() => {
+            if (!articlesContainer.classList.contains("expanded")) {
+              articlesContainer.style.display = "none";
+            }
+          }, 200);
+        } else {
+          // 展开
+          articlesContainer.style.display = "block";
+          articlesContainer.offsetHeight; // 强制重绘
+
+          articlesContainer.classList.add("expanded");
+          header.classList.add("expanded");
+          arrow.classList.remove("fa-chevron-right");
+          arrow.classList.add("fa-chevron-down");
+        }
+      }
+
+      function toggleFolder(folderId) {
+        const folderContents = document.getElementById(`contents-${folderId}`);
+        const arrow = document.getElementById(`arrow-${folderId}`);
+        const header = document.getElementById(`header-${folderId}`);
+
+        if (!folderContents || !arrow || !header) return;
+
+        const isExpanded = folderContents.classList.contains("expanded");
+
+        if (isExpanded) {
+          folderContents.classList.remove("expanded");
+          header.classList.remove("expanded");
+          arrow.classList.remove("fa-chevron-down");
+          arrow.classList.add("fa-chevron-right");
+
+          setTimeout(() => {
+            if (!folderContents.classList.contains("expanded")) {
+              folderContents.style.display = "none";
+            }
+          }, 200);
+        } else {
+          folderContents.style.display = "block";
+          folderContents.offsetHeight;
+
+          folderContents.classList.add("expanded");
+          header.classList.add("expanded");
+          arrow.classList.remove("fa-chevron-right");
+          arrow.classList.add("fa-chevron-down");
+        }
+      }
+
+      function loadArticle(category, filename) {
+        const url = `article.html?category=${encodeURIComponent(
+          category
+        )}&file=${encodeURIComponent(filename)}`;
+        window.location.href = url;
+      }
+    </script>
+  </body>
 </html>

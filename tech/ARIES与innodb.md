@@ -1,7 +1,7 @@
 ﻿
 ## ARIES 与 MySQL InnoDB：事务视角的深度对比
 
-通过对 CS186 课程中 **ARIES 理论**的学习，以及对 MySQL **InnoDB 引擎**实现的了解，我将从**事务**的视角出发，对比分析 ARIES 和 InnoDB 在实现上的异同，深入探讨为什么 InnoDB 需要 **Redo Log** 和 **Undo Log**。
+通过对 CS186 课程中 **ARIES 理论**的学习，以及对 MySQL **InnoDB 引擎**实现的了解，我将从**事务**的视角出发，对比分析 ARIES 和 InnoDB 在实现上的异同，深入探讨为什么 InnoDB 需要 **Redo Log** 和 **Undo Log**。主要目的是做一个理论上和实践上的对比，来看看到底有哪些异同，同时深入理解一下ARIES以及innodb对事务的实践。
 
 -----
 

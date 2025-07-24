@@ -120,7 +120,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    
+
     <style>
       /* 分类页面样式 - 与主页保持一致 */
       .category-section {
@@ -541,15 +541,19 @@
                   <p>
                     <a
                       href="#"
-                      onclick="handleArticleClick('tech/零拷贝技术解析.md', event)"
+                      onclick="loadArticle('tech', '零拷贝技术解析.md'); return false;"
                       class="elegant-link internal"
                       >零拷贝技术解析</a
                     >
                   </p>
-                  
+
                   <h3>快速导航</h3>
                   <p>
-                    <a href="archive.html" class="elegant-link">
+                    <a
+                      href="#"
+                      onclick="showArchivePage(); return false;"
+                      class="elegant-link"
+                    >
                       <i class="fas fa-archive"></i>
                       文章归档
                     </a>

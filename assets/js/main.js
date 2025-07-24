@@ -581,6 +581,23 @@ function showCategoryPage(categoryKey) {
 
     dynamicContent.innerHTML = categoryHTML;
 
+    // 移动端自动收起sidebar
+    if (window.innerWidth <= 768) {
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.querySelector(".sidebar-overlay");
+      const menuToggle = document.querySelector(".menu-toggle");
+
+      if (sidebar) {
+        sidebar.classList.remove("active");
+      }
+      if (overlay) {
+        overlay.classList.remove("active");
+      }
+      if (menuToggle) {
+        menuToggle.classList.remove("active");
+      }
+    }
+
     // 更新浏览器历史
     const url = new URL(window.location);
     url.searchParams.set("category", categoryKey);

@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-23T03:30:01.901Z
+// 生成时间: 2025-07-24T11:08:33.860Z
 
 window.SITE_DATA = {
     "categories": {
@@ -78,6 +78,7 @@ window.SITE_DATA = {
             "渐进式哈希实现思路.md"
         ],
         "tech": [
+            "ARIES与innodb.md",
             "Kafka和RocketMQ的背压机制解析.md",
             "零拷贝技术解析.md"
         ]
@@ -282,6 +283,14 @@ window.SITE_DATA = {
             "wordCount": 4065,
             "readingTime": 28,
             "relativePath": "渐进式哈希实现思路.md"
+        },
+        "tech/ARIES与innodb.md": {
+            "title": "ARIES与innodb",
+            "preview": "通过对 CS186 课程中 ARIES 理论的学习，以及对 MySQL InnoDB 引擎实现的了解，我将从事务的视角出发，对比分析 ARIES 和 InnoDB 在实现上的异同，深入探讨为什么 InnoDB 需要 Redo Log 和 Undo Log。 ----- 事务的四大特性是 ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持久性（...",
+            "updateTime": "2025-07-24",
+            "wordCount": 4994,
+            "readingTime": 34,
+            "relativePath": "ARIES与innodb.md"
         },
         "tech/Kafka和RocketMQ的背压机制解析.md": {
             "title": "消息中间件背压机制深度解析",

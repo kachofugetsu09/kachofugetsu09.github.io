@@ -595,7 +595,11 @@ function showCategoryPage(categoryKey) {
       }
       if (menuToggle) {
         menuToggle.classList.remove("active");
+        // 重要：更新菜单按钮图标为汉堡图标
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       }
+      // 恢复body滚动
+      document.body.style.overflow = "";
     }
 
     // 更新浏览器历史

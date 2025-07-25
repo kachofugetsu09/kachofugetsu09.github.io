@@ -320,6 +320,79 @@ function getFullPath(structure, folderName, filename) {
 }
 
 /**
+ * 渲染最新文章列表
+ */
+function renderRecentArticles() {
+  const recentArticlesList = document.getElementById("recentArticlesList");
+  if (!recentArticlesList) return;
+
+  const articleDetails = window.SITE_DATA?.articleDetails || {};
+  const categories = window.SITE_DATA?.categories || {};
+
+  // 获取所有文章并按更新时间排序
+  const allArticles = Object.entries(articleDetails)
+    .map(([path, detail]) => {
+      const pathParts = path.split('/');
+      const categoryKey = pathParts[0];
+      const filename = pathParts.slice(1).join('/'); // 正确处理子文件夹路径
+      const categoryInfo = categories[categoryKey];
+      
+      return {
+        path,
+        categoryKey,
+        filename,
+        categoryName: categoryInfo?.name || categoryKey,
+        categoryIcon: categoryInfo?.icon || 'fas fa-folder',
+        title: detail.title,
+        updateTime: detail.updateTime,
+        wordCount: detail.wordCount || 0,
+        readingTime: detail.readingTime || 1,
+        _sortTime: detail._sortTime
+      };
+    })
+    .sort((a, b) => new Date(b._sortTime) - new Date(a._sortTime))
+    .slice(0, 5); // 只显示最新的5篇文章
+
+  if (allArticles.length === 0) {
+    recentArticlesList.innerHTML = '<div class="loading">暂无文章</div>';
+    return;
+  }
+
+  let articlesHTML = '';
+  allArticles.forEach(article => {
+    articlesHTML += `
+      <div class="recent-article-item" onclick="loadArticle('${article.categoryKey}', '${article.filename}')">
+        <div class="recent-article-content">
+          <div class="recent-article-header">
+            <h4 class="recent-article-title">${article.title}</h4>
+            <span class="recent-article-category">
+              <i class="${article.categoryIcon}"></i>
+              ${article.categoryName}
+            </span>
+          </div>
+          <div class="recent-article-meta">
+            <span>
+              <i class="fas fa-calendar"></i>
+              ${article.updateTime}
+            </span>
+            <span>
+              <i class="fas fa-book-reader"></i>
+              ${article.wordCount}字
+            </span>
+            <span>
+              <i class="fas fa-clock"></i>
+              ${article.readingTime}分钟
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  recentArticlesList.innerHTML = articlesHTML;
+}
+
+/**
  * 渲染侧边栏分类（支持层级结构）
  */
 function renderSidebarCategories() {
@@ -1126,6 +1199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   renderCategories();
   renderSidebarCategories();
+  renderRecentArticles();
 
   // 检查URL参数，根据参数显示对应内容
   const urlParams = new URLSearchParams(window.location.search);

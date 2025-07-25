@@ -299,6 +299,206 @@
         font-weight: 500;
       }
 
+      /* 最新文章区域样式 - 时间轴设计 */
+      .recent-articles-section {
+        margin-top: 2.5rem;
+        padding-top: 0;
+      }
+
+      .recent-articles-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--title-color);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .recent-articles-title i {
+        color: var(--link-color);
+        font-size: 1rem;
+      }
+
+      .recent-articles-list {
+        position: relative;
+        padding-left: 1.2rem;
+      }
+
+      /* 时间轴主线 - 更清晰的灰色 */
+      .recent-articles-list::before {
+        content: "";
+        position: absolute;
+        left: 0.4rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #d1d5db;
+        border-radius: 1px;
+      }
+
+      .recent-article-item {
+        position: relative;
+        margin-bottom: 1.2rem;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s ease;
+      }
+
+      .recent-article-item:last-child {
+        margin-bottom: 0;
+      }
+
+      /* 时间轴节点 - 默认样式 */
+      .recent-article-item::before {
+        content: "";
+        position: absolute;
+        left: -1rem;
+        top: 0.4rem;
+        width: 8px;
+        height: 8px;
+        background: var(--bg-color);
+        border: 2px solid #9ca3af;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        z-index: 1;
+      }
+
+      /* 最新文章（第一个）的特殊样式 */
+      .recent-article-item:first-child::before {
+        background: var(--link-color);
+        border-color: var(--link-color);
+        width: 10px;
+        height: 10px;
+        left: -1.1rem;
+        top: 0.3rem;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      }
+
+      .recent-article-item:hover::before {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        transform: scale(1.2);
+      }
+
+      /* 最新文章悬停时保持蓝色 */
+      .recent-article-item:first-child:hover::before {
+        background: var(--link-color);
+        border-color: var(--link-color);
+        transform: scale(1.1);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.3);
+      }
+
+      .recent-article-content {
+        background: transparent;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        transition: all 0.2s ease;
+      }
+
+      .recent-article-item:hover .recent-article-content {
+        transform: translateX(2px);
+      }
+
+      .recent-article-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.8rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .recent-article-title {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-color);
+        margin: 0;
+        line-height: 1.4;
+        flex: 1;
+        transition: color 0.2s ease;
+      }
+
+      /* 最新文章标题使用蓝色 */
+      .recent-article-item:first-child .recent-article-title {
+        color: var(--link-color);
+        font-weight: 600;
+      }
+
+      .recent-article-item:hover .recent-article-title {
+        color: var(--color-primary);
+      }
+
+      /* 最新文章悬停时保持蓝色 */
+      .recent-article-item:first-child:hover .recent-article-title {
+        color: var(--link-color);
+      }
+
+      .recent-article-category {
+        background: var(--color-secondary-container);
+        color: var(--color-on-secondary-container);
+        padding: 0.1rem 0.4rem;
+        border-radius: var(--radius);
+        font-size: 0.65rem;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        transition: all 0.2s ease;
+      }
+
+      /* 最新文章分类标签使用蓝色 */
+      .recent-article-item:first-child .recent-article-category {
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--link-color);
+        border: 1px solid rgba(37, 99, 235, 0.2);
+      }
+
+      .recent-article-item:hover .recent-article-category {
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+      }
+
+      /* 最新文章分类标签悬停时保持蓝色风格 */
+      .recent-article-item:first-child:hover .recent-article-category {
+        background: var(--link-color);
+        color: var(--color-on-tertiary);
+        border-color: var(--link-color);
+      }
+
+      .recent-article-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 0.7rem;
+        color: var(--color-secondary);
+        margin-top: 0.2rem;
+      }
+
+      /* 最新文章元信息使用更深的颜色 */
+      .recent-article-item:first-child .recent-article-meta {
+        color: #4b5563;
+      }
+
+      .recent-article-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        transition: color 0.2s ease;
+      }
+
+      .recent-article-meta i {
+        font-size: 0.6rem;
+        opacity: 0.8;
+      }
+
+      .recent-article-item:hover .recent-article-meta {
+        color: var(--text-color);
+      }
+
       /* 响应式设计 */
       @media (max-width: 768px) {
         .category-section {
@@ -325,6 +525,17 @@
         .category-article-card .article-meta {
           flex-direction: column;
           align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .recent-article-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .recent-article-meta {
+          flex-wrap: wrap;
           gap: 0.5rem;
         }
       }
@@ -574,6 +785,17 @@
                     />
                     <span>Follow me on GitHub</span>
                   </a>
+                </div>
+
+                <!-- 最新文章区域 -->
+                <div class="recent-articles-section">
+                  <h3 class="recent-articles-title">
+                    <i class="fas fa-clock"></i>
+                    最近更新
+                  </h3>
+                  <div class="recent-articles-list" id="recentArticlesList">
+                    <!-- 最新文章将通过JavaScript动态生成 -->
+                  </div>
                 </div>
               </article>
             </section>

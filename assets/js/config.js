@@ -1,6 +1,6 @@
 
 // 自动生成的配置文件 - 请勿手动编辑
-// 生成时间: 2025-07-25T04:28:34.997Z
+// 生成时间: 2025-07-26T16:57:50.797Z
 
 window.SITE_DATA = {
     "categories": {
@@ -31,6 +31,10 @@ window.SITE_DATA = {
         "redis-mini": {
             "name": "Redis实现",
             "icon": "fas fa-memory"
+        },
+        "spring": {
+            "name": "Spring相关",
+            "icon": "fas fa-leaf"
         },
         "tech": {
             "name": "技术分享",
@@ -76,6 +80,9 @@ window.SITE_DATA = {
         "redis-mini": [
             "批处理AOF.md",
             "渐进式哈希实现思路.md"
+        ],
+        "spring": [
+            "JWT双Token深度解析：平衡安全与效率的多端登录实践.md"
         ],
         "tech": [
             "ARIES与innodb.md",
@@ -308,6 +315,15 @@ window.SITE_DATA = {
             "readingTime": 28,
             "relativePath": "渐进式哈希实现思路.md",
             "_sortTime": "2025-06-25T16:04:08.000Z"
+        },
+        "spring/JWT双Token深度解析：平衡安全与效率的多端登录实践.md": {
+            "title": "JWT双Token深度解析：平衡安全与效率的多端登录实践",
+            "preview": "施工中...",
+            "updateTime": "2025-07-26",
+            "wordCount": 3,
+            "readingTime": 1,
+            "relativePath": "JWT双Token深度解析：平衡安全与效率的多端登录实践.md",
+            "_sortTime": "2025-07-26T16:57:48.478Z"
         },
         "tech/ARIES与innodb.md": {
             "title": "ARIES与innodb",

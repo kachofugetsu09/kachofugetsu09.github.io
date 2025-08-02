@@ -208,8 +208,37 @@
 }
 
 /* 调整整体布局，实现无缝一体化 */
-.VPContent.has-sidebar {
+/* 移除强制的左边距，让VitePress自动处理布局 */
+/*.VPContent.has-sidebar {
   padding-left: var(--vp-sidebar-width) !important;
+}*/
+
+/* 确保内容区域在有侧边栏时有正确的布局 */
+.VPContent.has-sidebar .content {
+  margin-left: 0;
+  max-width: none;
+}
+
+/* 确保在较小屏幕上侧边栏不会遮挡内容 */
+@media (max-width: 959px) {
+  .VPContent.has-sidebar {
+    padding-left: 0 !important;
+  }
+  
+  .VPSidebar.open {
+    z-index: 60;
+  }
+}
+
+/* 确保内容区域有足够的空间 */
+@media (min-width: 960px) {
+  .VPContent.has-sidebar {
+    margin-left: 0;
+  }
+  
+  .VPDoc .container {
+    max-width: none;
+  }
 }
 
 .VPSidebar {

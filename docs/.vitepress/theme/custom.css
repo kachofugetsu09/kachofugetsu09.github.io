@@ -1,210 +1,213 @@
 /* 全局字体大小调整 - 正文14px为基准 */
 :root {
-  --vp-font-size-base: 14px; /* 正文字体 */
-  --vp-font-size-sm: 8px; /* 小字体，用于侧边栏等 */
-  --vp-font-size-md: 16px; /* 中等字体 */
-  --vp-font-size-lg: 18px; /* 大字体，用于h4 */
-  --vp-font-size-xl: 20px; /* 超大字体，用于h3 */
-  --vp-font-size-2xl: 24px; /* 用于h2 */
-  --vp-font-size-3xl: 28px; /* 用于h1 */
+    --vp-font-size-base: 14px; /* 正文字体 */
+    --vp-font-size-sm: 8px; /* 小字体，用于侧边栏等 */
+    --vp-font-size-md: 16px; /* 中等字体 */
+    --vp-font-size-lg: 18px; /* 大字体，用于h4 */
+    --vp-font-size-xl: 20px; /* 超大字体，用于h3 */
+    --vp-font-size-2xl: 24px; /* 用于h2 */
+    --vp-font-size-3xl: 28px; /* 用于h1 */
 }
 
 /* 确保所有文本元素都应用新的字体大小 */
 .vp-doc {
-  font-size: var(--vp-font-size-base);
+    font-size: var(--vp-font-size-base);
 }
 
 .vp-doc h1 {
-  font-size: var(--vp-font-size-3xl);
+    font-size: var(--vp-font-size-3xl);
 }
 
 .vp-doc h2 {
-  font-size: var(--vp-font-size-2xl);
+    font-size: var(--vp-font-size-2xl);
 }
 
 .vp-doc h3 {
-  font-size: var(--vp-font-size-xl);
+    font-size: var(--vp-font-size-xl);
 }
 
 .vp-doc h4 {
-  font-size: var(--vp-font-size-lg);
+    font-size: var(--vp-font-size-lg);
 }
 
-.vp-doc h5, .vp-doc h6 {
-  font-size: var(--vp-font-size-md);
+.vp-doc h5,
+.vp-doc h6 {
+    font-size: var(--vp-font-size-md);
 }
 
-.vp-doc p, .vp-doc li, .vp-doc blockquote {
-  font-size: var(--vp-font-size-base);
+.vp-doc p,
+.vp-doc li,
+.vp-doc blockquote {
+    font-size: var(--vp-font-size-base);
 }
 
 /* 确保引用块内的文本也使用正文字体大小 */
 .vp-doc blockquote p {
-  font-size: var(--vp-font-size-base) !important;
+    font-size: var(--vp-font-size-base) !important;
 }
 
 .vp-doc code {
-  font-size: calc(var(--vp-font-size-base) * 0.9);
+    font-size: calc(var(--vp-font-size-base) * 0.9);
 }
 
 /* 侧边栏字体大小调整 - 与正文相同 */
 .VPSidebar {
-  font-size: var( --vp-font-size-sm);
+    font-size: var(--vp-font-size-sm);
 }
 
 /* 移除侧边栏分类之间的分隔线，打造一体化现代感 */
 .VPSidebarItem + .VPSidebarItem {
-  border-top: none !important;
-  margin-top: 0 !important;
+    border-top: none !important;
+    margin-top: 0 !important;
 }
 
 .VPSidebarGroup + .VPSidebarGroup {
-  border-top: none !important;
-  margin-top: 8px !important;
+    border-top: none !important;
+    margin-top: 8px !important;
 }
 
 .VPSidebarItem {
-  border-top: none !important;
+    border-top: none !important;
 }
 
 /* 调整分类间距，保持紧凑现代的感觉 */
 .VPSidebarGroup {
-  margin-bottom: 6px !important;
+    margin-bottom: 6px !important;
 }
 
 /* 强力移除所有可能的分割线 */
 .VPSidebar .group + .group {
-  border-top: none !important;
+    border-top: none !important;
 }
 
 .VPSidebar .divider {
-  display: none !important;
+    display: none !important;
 }
 
 .VPSidebar hr {
-  display: none !important;
+    display: none !important;
 }
 
 .VPSidebar .group {
-  border-top: none !important;
-  border-bottom: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
 }
 
 /* 确保分类标题下方没有分割线 */
 .VPSidebar .group .group-header {
-  border-bottom: none !important;
+    border-bottom: none !important;
 }
 
 .VPSidebar .items {
-  border-top: none !important;
+    border-top: none !important;
 }
 
 /* 导航栏字体大小调整 */
 .VPNav {
-  font-size: var(--vp-font-size-sm);
+    font-size: var(--vp-font-size-sm);
 }
 
 /* TOC 字体大小调整 */
 .VPDocAsideOutline {
-  font-size: var(--vp-font-size-sm);
+    font-size: var(--vp-font-size-sm);
 }
 
 /* TOC 激活状态的标题颜色与蓝色指示线保持一致 */
 .VPDocAsideOutline .outline-link.active {
-  color: #3451b2 !important;
-  font-weight: 600;
+    color: #3451b2 !important;
+    font-weight: 600;
 }
 
 .VPDocAsideOutline .outline-link:hover {
-  color: #3451b2 !important;
+    color: #3451b2 !important;
 }
 
 /* 自定义超链接样式 */
 .vp-doc a {
-  color: #60a5fa !important; /* 浅蓝色超链接 */
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  position: relative;
+    color: #60a5fa !important; /* 浅蓝色超链接 */
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
 }
 
 /* 只对外部链接和非锚点链接显示小箭头 */
 .vp-doc a:not(.header-anchor):not([href^="#"])::after {
-  content: "↗";
-  font-size: 0.8em;
-  margin-left: 2px;
-  color: #60a5fa;
-  opacity: 0.7;
-  transition: all 0.2s ease;
+    content: "↗";
+    font-size: 0.8em;
+    margin-left: 2px;
+    color: #60a5fa;
+    opacity: 0.7;
+    transition: all 0.2s ease;
 }
 
 .vp-doc a:hover {
-  color: #3b82f6 !important; /* 悬停时稍深的蓝色 */
-  text-decoration: underline;
+    color: #3b82f6 !important; /* 悬停时稍深的蓝色 */
+    text-decoration: underline;
 }
 
 .vp-doc a:not(.header-anchor):not([href^="#"]):hover::after {
-  color: #3b82f6;
-  opacity: 1;
-  transform: translate(1px, -1px);
+    color: #3b82f6;
+    opacity: 1;
+    transform: translate(1px, -1px);
 }
 
 .vp-doc a:visited {
-  color: #0a50e6 !important; /* 访问过的链接为紫色 */
+    color: #0a50e6 !important; /* 访问过的链接为紫色 */
 }
 
 .vp-doc a:not(.header-anchor):not([href^="#"]):visited::after {
-  color: #0414f2;
+    color: #0414f2;
 }
 
 /* 确保在不同背景下的可读性 */
 .vp-doc blockquote a {
-  color: #60a5fa !important;
+    color: #60a5fa !important;
 }
 
 /* 隐藏暗黑模式切换按钮 */
 .VPSwitchAppearance {
-  display: none !important;
+    display: none !important;
 }
 
 /* 一体化背景设计 - 移除色差 */
 .Layout {
-  background: #ffffff !important;
+    background: #ffffff !important;
 }
 
 .VPSidebar {
-  background: #ffffff !important;
-  border-right: none !important;
-  border: none !important;
+    background: #ffffff !important;
+    border-right: none !important;
+    border: none !important;
 }
 
 .VPContent {
-  background: #ffffff !important;
+    background: #ffffff !important;
 }
 
 .VPDoc {
-  background: #ffffff !important;
+    background: #ffffff !important;
 }
 
 .VPDocAsideOutline {
-  background: #ffffff !important;
+    background: #ffffff !important;
 }
 
 /* 移除侧边栏的阴影和边框 */
 .VPSidebar .curtain {
-  background: #ffffff !important;
+    background: #ffffff !important;
 }
 
 .VPSidebar .nav {
-  background: #ffffff !important;
-  border-right: none !important;
-  border: none !important;
-  box-shadow: none !important;
+    background: #ffffff !important;
+    border-right: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* 移除内容区域的背景色差 */
 .vp-doc {
-  background: #ffffff !important;
+    background: #ffffff !important;
 }
 
 /* 调整整体布局，实现无缝一体化 */
@@ -215,135 +218,246 @@
 
 /* 确保内容区域在有侧边栏时有正确的布局 */
 .VPContent.has-sidebar .content {
-  margin-left: 0;
-  max-width: none;
+    margin-left: 0;
+    max-width: none;
 }
 
 /* 确保在较小屏幕上侧边栏不会遮挡内容 */
 @media (max-width: 959px) {
-  .VPContent.has-sidebar {
-    padding-left: 0 !important;
-  }
-  
-  .VPSidebar.open {
-    z-index: 60;
-  }
+    .VPContent.has-sidebar {
+        padding-left: 0 !important;
+    }
+
+    .VPSidebar.open {
+        z-index: 60;
+    }
 }
 
 /* 确保内容区域有足够的空间 */
 @media (min-width: 960px) {
-  .VPContent.has-sidebar {
-    margin-left: 0;
-  }
-  
-  .VPDoc .container {
-    max-width: none;
-  }
+    .VPContent.has-sidebar {
+        margin-left: 0;
+    }
+
+    .VPDoc .container {
+        max-width: none;
+    }
 }
 
 .VPSidebar {
-  border-right: none !important;
-  border: none !important;
+    border-right: none !important;
+    border: none !important;
 }
 
 /* 确保 TOC 也是一体化背景 */
 .VPDocAside {
-  background: #ffffff !important;
-  border-left: none !important;
+    background: #ffffff !important;
+    border-left: none !important;
 }
 
 /* 优化折叠/展开内容样式 */
 .vp-doc details {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
-  background: #f8fafc;
-  transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    background: #f8fafc;
+    transition: all 0.3s ease;
 }
 
 .vp-doc details:hover {
-  border-color: #3b82f6;
-  background: #f1f5f9;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    background: #f1f5f9;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
 }
 
 .vp-doc details[open] {
-  border-color: #3b82f6;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 .vp-doc details summary {
-  cursor: pointer;
-  font-weight: 600;
-  color: #1e40af;
-  padding: 8px 12px;
-  margin: -16px -16px 0 -16px;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-radius: 8px 8px 0 0;
-  position: relative;
-  transition: all 0.3s ease;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #1e40af;
+    padding: 8px 12px;
+    margin: -16px -16px 0 -16px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    transition: all 0.3s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .vp-doc details summary:hover {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #1d4ed8;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1d4ed8;
 }
 
 .vp-doc details[open] summary {
-  margin-bottom: 16px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
 }
 
 .vp-doc details[open] summary:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: white;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
 }
 
 /* 添加展开/折叠指示器 */
 .vp-doc details summary::before {
-  content: "🔍";
-  font-size: 1.2em;
-  transition: transform 0.3s ease;
+    content: "🔍";
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
 }
 
 .vp-doc details[open] summary::before {
-  content: "📖";
-  transform: rotate(0deg);
+    content: "📖";
+    transform: rotate(0deg);
 }
 
 /* 内容区域样式 */
 .vp-doc details .content {
-  padding-top: 12px;
-  line-height: 1.6;
+    padding-top: 12px;
+    line-height: 1.6;
 }
 
 /* 确保内部内容有合适的间距 */
 .vp-doc details p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
-.vp-doc details ul, .vp-doc details ol {
-  margin: 8px 0;
+.vp-doc details ul,
+.vp-doc details ol {
+    margin: 8px 0;
 }
 
 /* 为不同类型的折叠内容提供不同的图标 */
 .vp-doc details summary:contains("查看") {
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-  color: #059669;
-  border-left: 4px solid #10b981;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    color: #059669;
+    border-left: 4px solid #10b981;
 }
 
 .vp-doc details summary:contains("展开") {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  color: #d97706;
-  border-left: 4px solid #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #d97706;
+    border-left: 4px solid #f59e0b;
 }
 
+/* 创建横跨整个页面的分隔线，连接侧边栏和主内容区域 */
+.VPNav::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+/* 移除VitePress默认的分隔线 */
+.VPNav {
+    border-bottom: none !important;
+    box-shadow: none !important;
+    position: relative;
+}
+
+.VPLocalNav {
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+/* 确保侧边栏没有右边框 */
+.VPSidebar {
+    border-right: none !important;
+}
+
+/* 如果有本地导航栏，也移除其边框 */
+.VPLocalNavOutlineDropdown {
+    border-top: none !important;
+}
+
+/* 搜索框移动到右上角 - 使用更直接的方法 */
+/* 强制搜索框绝对定位到右上角 */
+.VPNavBarSearch {
+    position: absolute !important;
+    top: 50% !important;
+    right: 20px !important;
+    transform: translateY(-50%) !important;
+    z-index: 100 !important;
+}
+
+/* 确保导航栏有相对定位以支持绝对定位 */
+.VPNavBar {
+    position: relative !important;
+}
+
+/* 确保左侧内容不被搜索框遮挡 */
+.VPNavBarTitle {
+    margin-right: 250px !important;
+}
+
+/* 搜索按钮样式 */
+.DocSearch-Button {
+    margin: 0 !important;
+    border-radius: 6px !important;
+    height: 32px !important;
+    min-width: 180px !important;
+}
+
+/* 移动端适配 */
+@media (max-width: 767px) {
+    .VPNavBarSearch {
+        right: 10px !important;
+    }
+
+    .VPNavBarTitle {
+        margin-right: 50px !important;
+    }
+
+    .DocSearch-Button {
+        min-width: 32px !important;
+        width: 32px !important;
+    }
+}
+
+/* 修复侧边栏主页链接样式，使其与其他分类保持一致 */
+.VPSidebarItem:first-child {
+    margin-bottom: 8px !important;
+}
+
+.VPSidebarItem:first-child .VPSidebarLink {
+    padding: 8px 12px !important;
+    font-weight: 500 !important;
+    color: var(--vp-c-text-1) !important;
+    border-radius: 6px !important;
+    transition: all 0.25s !important;
+}
+
+.VPSidebarItem:first-child .VPSidebarLink:hover {
+    background-color: var(--vp-c-default-soft) !important;
+    color: var(--vp-c-brand-1) !important;
+}
+
+.VPSidebarItem:first-child .VPSidebarLink.active {
+    background-color: var(--vp-c-brand-soft) !important;
+    color: var(--vp-c-brand-1) !important;
+    font-weight: 600 !important;
+}
+
+/* 确保主页链接与分组标题有相同的外观 */
+.VPSidebarItem:first-child .link {
+    padding: 6px 0 !important;
+    line-height: 24px !important;
+    font-size: var(--vp-font-size-sm) !important;
+    font-weight: 500 !important;
+    color: var(--vp-c-text-1) !important;
+}

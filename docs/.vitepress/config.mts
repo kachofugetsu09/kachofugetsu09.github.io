@@ -157,6 +157,7 @@ export default withMermaid(
           items: [
             { text: "rust中的变量", link: "/rust/rust当中的变量" },
             { text: "rust当中的struct与trait", link: "/rust/rust当中的结构体" },
+            { text: "rust当中的控制流", link: "/rust/rust当中的控制流" },
           ],
         },
       ],

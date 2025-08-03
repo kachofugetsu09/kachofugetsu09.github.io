@@ -151,6 +151,14 @@ export default withMermaid(
             { text: "初版AOF", link: "/redis-mini/渐进式哈希实现思路" },
           ],
         },
+        {
+          text: "javaer学习rust",
+          collapsed: true,
+          items: [
+            {text: "rust中的变量", link: "/rust/rust当中的变量"}
+          ]
+        },
+      
       ],
     },
     // Mermaid 配置

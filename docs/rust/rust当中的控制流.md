@@ -205,7 +205,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 
 ## 异常处理（错误处理）
 
-在异常处理上，Rust 的哲学与 Java 有很大的不同，它远比 Java 复杂且强制开发者在编译时就处理错误。Rust 没有 Java 那样的 `try`/`catch`/`finally` 语句，而是倾向于使用**结果类型 (`Result<T, E>`)** 来处理可恢复的错误，以及 `panic!` 宏来处理不可恢复的错误。相关内容会在之后的章节进行更详细的讲解。
+在异常处理上，Rust 的哲学与 Java 有很大的不同，它远比 Java 复杂且强制开发者在编译时就处理错误。Rust 没有 Java 那样的 `try`/`catch`/`finally` 语句，而是倾向于使用**结果类型 (`Result<T, E>`)** 来处理可恢复的错误，以及 `panic!` 宏来处理不可恢复的错误。详细可以看这篇文章[rust当中的错误处理](./rust当中的错误处理.md)
 
 这里只做简单讲解，Rust 通过 `match` 表达式来处理 `Result` 类型：
 

@@ -155,10 +155,10 @@ export default withMermaid(
           text: "javaer学习rust",
           collapsed: true,
           items: [
-            {text: "rust中的变量", link: "/rust/rust当中的变量"}
-          ]
+            { text: "rust中的变量", link: "/rust/rust当中的变量" },
+            { text: "rust当中的struct与trait", link: "/rust/rust当中的结构体" },
+          ],
         },
-      
       ],
     },
     // Mermaid 配置

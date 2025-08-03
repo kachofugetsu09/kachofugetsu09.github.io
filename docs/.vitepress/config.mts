@@ -43,7 +43,7 @@ export default withMermaid(
       sidebar: [
         {
           text: "主页",
-          collapsed: false,
+          collapsed: true,
           items: [{ text: "主页", link: "/main" }],
         },
         {
@@ -163,6 +163,7 @@ export default withMermaid(
               link: "/rust/rust当中对于空值的处理",
             },
             { text: "rust当中的错误处理", link: "/rust/rust当中的错误处理" },
+            { text: "rust当中的常用数据结构", link: "/rust/rust当中的集合" },
           ],
         },
       ],

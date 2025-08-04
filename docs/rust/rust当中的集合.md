@@ -1,6 +1,5 @@
 作为一名 javaer，我们非常熟悉 `ArrayList`、`HashSet` 和 `HashMap` 这些常用的集合类，以及数组和队列等基础数据结构。我们以此作为视点，展开我们对 Rust 中集合类型和数据结构的理解。
 
-
 ## 动态数组：`Vec<T>`
 
 在 Rust 中，**动态数组**通常使用 `Vec<T>` 来表示，其中 `T` 是元素的类型。`Vec<T>` 是一个可变长度的数组，可以动态地添加或删除元素。它的数据存储在堆上，是需要动态大小数组时的首选。
@@ -122,8 +121,6 @@ println!("Array: {:?}", arr); // 输出: [1, 2, 3, 4, 5]
 Rust 中会使用 `VecDeque` 来实现**双端队列 (Deque)**。`VecDeque<T>` (Vector Deque，双端队列) 是一个高效的队列实现，允许在两端 (`push_front`/`pop_front` 和 `push_back`/`pop_back`) 快速添加和移除元素。它基于环形缓冲区实现，性能通常优于链表。
 
 ```rust
-use std::collections::VecDeque;
-
 let mut queue = VecDeque::new();
 queue.push_back(10); // 从队尾入队
 queue.push_back(20);

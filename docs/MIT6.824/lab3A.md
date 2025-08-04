@@ -1,4 +1,4 @@
-﻿## Lab 2A: Raft 领导人选举与心跳
+## Lab 3A: Raft 领导人选举与心跳
 
 ### 实验要求 (官方文档翻译)
 
@@ -9,9 +9,9 @@
 
 后续的实验将基于本实验，因此务必给自己留出足够的时间来编写健壮的代码。
 
-**本部分（2A）的目标是实现 Raft 的领导人选举和心跳机制（不包含日志条目的 `AppendEntries` RPC）。** 目标是选出一个领导人，在没有故障的情况下领导人保持不变，以及当旧领导人发生故障或与旧领导人之间的网络包丢失时，新领导人能够接替。运行 `go test -run 2A` 来测试您的 2A 代码。
+**本部分（3A）的目标是实现 Raft 的领导人选举和心跳机制（不包含日志条目的 `AppendEntries` RPC）。** 目标是选出一个领导人，在没有故障的情况下领导人保持不变，以及当旧领导人发生故障或与旧领导人之间的网络包丢失时，新领导人能够接替。运行 `go test -run 3A` 来测试您的 3A 代码。
 
-您不能直接运行您的 Raft 实现；相反，您应该通过测试器来运行它，即 `go test -run 2A`。
+您不能直接运行您的 Raft 实现；相反，您应该通过测试器来运行它，即 `go test -run 3A`。
 
 请遵循 Raft 论文的图 2。目前您需要关注 `RequestVote` RPC 的发送和接收、与选举相关的服务器规则以及与领导人选举相关的状态。
 
@@ -34,7 +34,7 @@
 -   **代码健壮性**：如果您的代码难以通过测试，请再次阅读论文的图 2；领导人选举的完整逻辑分布在该图的多个部分。
 -   **`GetState()`**：不要忘记实现 `GetState()` 方法。
 -   **`Kill()`**：当测试器永久关闭一个 Raft 实例时，会调用您的 Raft 的 `rf.Kill()` 方法。您可以使用 `rf.killed()` 检查 `Kill()` 是否已被调用。您可能希望在所有循环中进行此检查，以避免已死亡的 Raft 实例打印混淆性消息。
--   **调试**：调试代码的DPrintf个好方法是在节点发送或接收消息时插入打印语句，并将输出收集到文件中，例如 `go test -run 2A > out`。然后，通过研究 `out` 文件中的消息跟踪，您可以识别您的实现与预期协议的偏差之处。您可能会发现 `util.go` 中的 `DPrintf` 在调试不同问题时，能够方便地开启和关闭打印功能。
+-   **调试**：调试代码的DPrintf个好方法是在节点发送或接收消息时插入打印语句，并将输出收集到文件中，例如 `go test -run 3A > out`。然后，通过研究 `out` 文件中的消息跟踪，您可以识别您的实现与预期协议的偏差之处。您可能会发现 `util.go` 中的 `DPrintf` 在调试不同问题时，能够方便地开启和关闭打印功能。
 -   **RPC 字段**：Go RPC 只发送名称以大写字母开头的结构体字段。子结构体也必须有大写开头的字段名（例如，数组中日志记录的字段）。`labgob` 包会对此发出警告；请不要忽略这些警告。
 -   **竞态条件**：使用 `go test -race` 检查您的代码，并修复所有它报告的竞态条件。
 
@@ -207,7 +207,7 @@ type RequestVoteReply struct {
 
 ## 3. 实现选举触发和心跳机制
 
-这一步是 Lab 2A 的核心：实现领导人选举的触发（当 Follower 一段时间未收到 Leader 消息时）和 Leader 周期性的心跳。
+这一步是 Lab 3A 的核心：实现领导人选举的触发（当 Follower 一段时间未收到 Leader 消息时）和 Leader 周期性的心跳。
 
 ### 3.1 在 `Raft` 结构体中添加定时器
 
@@ -462,7 +462,7 @@ func (rf *Raft) becomeLeader() {
 
 ### 3.6 Leader 发送心跳 (`sendHeartbeats`)
 
-成为 Leader 后，节点需要周期性地向所有 Follower 发送 `AppendEntries` RPC 作为心跳，以维持其领导地位。在 Lab 2A 中，这个 RPC 的 `Entries` 字段为空。
+成为 Leader 后，节点需要周期性地向所有 Follower 发送 `AppendEntries` RPC 作为心跳，以维持其领导地位。在 Lab 3A 中，这个 RPC 的 `Entries` 字段为空。
 
 > **退位场景**：在 `sendHeartbeats` 的回复处理中，Leader 可能会发现一个任期比自己更高的节点。这通常发生在网络分区后，分区的 Leader（比如 A）重新连接到主网络，但主网络中已经选举出了一个任期更高的 Leader（比如 B）。此时，A 必须承认新的 Leader 并退位成为 Follower。
 
@@ -574,7 +574,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 
 ## 5. 实现 `AppendEntries` RPC (心跳)
 
-最后，我们定义 `AppendEntries` RPC 的结构体和处理函数。在 Lab 2A 中，它主要用作心跳。
+最后，我们定义 `AppendEntries` RPC 的结构体和处理函数。在 Lab 3A 中，它主要用作心跳。
 
 ### `AppendEntries` 结构体
 
@@ -655,7 +655,7 @@ func (rf *Raft) GetState() (int, bool) {
 完成以上所有步骤后，即可运行测试来检验实现。
 
 ```sh
-go test -run 2A -race
+go test -run 3A -race
 ```
 
 如果一切顺利，将会看到类似以下的成功输出：

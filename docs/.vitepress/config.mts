@@ -101,8 +101,9 @@ export default withMermaid(
           collapsed: true,
           items: [
             { text: "Lab1", link: "/MIT6.824/lab1" },
-            { text: "Lab2A", link: "/MIT6.824/lab2A" },
-            { text: "Lab2B", link: "/MIT6.824/lab2B" },
+            { text: "Lab2", link: "/MIT6.824/lab2" },
+            { text: "Lab3A", link: "/MIT6.824/lab3A" },
+            { text: "Lab3B", link: "/MIT6.824/lab3B" },
             { text: "Raft论文研究", link: "/MIT6.824/raft论文研究" },
           ],
         },

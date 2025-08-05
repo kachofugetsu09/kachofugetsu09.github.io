@@ -104,6 +104,7 @@ export default withMermaid(
             { text: "Lab2", link: "/MIT6.824/lab2" },
             { text: "Lab3A", link: "/MIT6.824/lab3A" },
             { text: "Lab3B", link: "/MIT6.824/lab3B" },
+            { text : "Lab3C", link: "/MIT6.824/lab3C" },
             { text: "Raft论文研究", link: "/MIT6.824/raft论文研究" },
           ],
         },

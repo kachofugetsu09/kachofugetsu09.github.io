@@ -6,6 +6,9 @@ hero:
   name: "花月的个人博客"
   text: "huashen's Blog"
   tagline: Folding was never an option.
+  image:
+    src: /img/main.png
+    alt: 主页图片
   actions:
     - theme: brand
       text: 开始

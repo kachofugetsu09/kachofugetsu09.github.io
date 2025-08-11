@@ -165,41 +165,36 @@
     color: #60a5fa !important;
 }
 
-/* 隐藏暗黑模式切换按钮 */
-.VPSwitchAppearance {
-    display: none !important;
-}
-
 /* 一体化背景设计 - 移除色差 */
 .Layout {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
 }
 
 .VPSidebar {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
     border-right: none !important;
     border: none !important;
 }
 
 .VPContent {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
 }
 
 .VPDoc {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
 }
 
 .VPDocAsideOutline {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
 }
 
 /* 移除侧边栏的阴影和边框 */
 .VPSidebar .curtain {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
 }
 
 .VPSidebar .nav {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
     border-right: none !important;
     border: none !important;
     box-shadow: none !important;
@@ -207,7 +202,7 @@
 
 /* 移除内容区域的背景色差 */
 .vp-doc {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
 }
 
 /* 调整整体布局，实现无缝一体化 */
@@ -251,7 +246,7 @@
 
 /* 确保 TOC 也是一体化背景 */
 .VPDocAside {
-    background: #ffffff !important;
+    background: var(--vp-c-bg) !important;
     border-left: none !important;
 }
 
@@ -351,23 +346,36 @@
     border-left: 4px solid #f59e0b;
 }
 
-/* 创建横跨整个页面的分隔线，连接侧边栏和主内容区域 */
+/* 确保导航栏有实线边框 */
+.VPNav {
+    border-bottom: 1px solid var(--vp-c-divider) !important;
+    box-shadow: none !important;
+    position: relative;
+    background: var(--vp-c-bg) !important;
+}
+
+/* 加强导航栏分隔线 */
+.VPNavBar {
+    border-bottom: 1px solid var(--vp-c-divider) !important;
+    background: var(--vp-c-bg) !important;
+}
+
+/* 确保导航栏容器也有边框 */
+.VPNavBar .wrapper {
+    border-bottom: 1px solid var(--vp-c-divider) !important;
+}
+
+/* 强制设置导航栏分隔线，防止被其他样式覆盖 */
 .VPNav::after {
     content: "";
     position: absolute;
-    bottom: -1px;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 1px;
-    background: #e2e8f0;
-    z-index: 1;
-}
-
-/* 移除VitePress默认的分隔线 */
-.VPNav {
-    border-bottom: none !important;
-    box-shadow: none !important;
-    position: relative;
+    background: var(--vp-c-divider) !important;
+    z-index: 999 !important;
+    display: block !important;
 }
 
 .VPLocalNav {
@@ -385,24 +393,19 @@
     border-top: none !important;
 }
 
-/* 搜索框移动到右上角 - 使用更直接的方法 */
-/* 强制搜索框绝对定位到右上角 */
+/* 搜索框正常布局，不使用绝对定位 */
 .VPNavBarSearch {
-    position: absolute !important;
-    top: 50% !important;
-    right: 20px !important;
-    transform: translateY(-50%) !important;
-    z-index: 100 !important;
+    margin-left: auto !important;
 }
 
-/* 确保导航栏有相对定位以支持绝对定位 */
+/* 确保导航栏布局正常 */
 .VPNavBar {
     position: relative !important;
 }
 
-/* 确保左侧内容不被搜索框遮挡 */
+/* 移除标题的过大边距，确保 logo 正常显示 */
 .VPNavBarTitle {
-    margin-right: 250px !important;
+    margin-right: 16px !important;
 }
 
 /* 搜索按钮样式 */
@@ -415,18 +418,33 @@
 
 /* 移动端适配 */
 @media (max-width: 767px) {
-    .VPNavBarSearch {
-        right: 10px !important;
-    }
-
     .VPNavBarTitle {
-        margin-right: 50px !important;
+        margin-right: 8px !important;
     }
 
     .DocSearch-Button {
         min-width: 32px !important;
         width: 32px !important;
     }
+}
+
+/* 确保导航栏 logo 正常显示 */
+.VPNavBarTitle .title {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.VPNavBarTitle .VPImage {
+    display: block !important;
+    margin-right: 8px !important;
+    max-height: 32px !important;
+    width: auto !important;
+}
+
+.VPNavBarTitle .title-text {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 /* 修复侧边栏主页链接样式，使其与其他分类保持一致 */

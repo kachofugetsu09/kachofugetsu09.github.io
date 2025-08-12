@@ -117,6 +117,11 @@ export default withMermaid(
           items: [{ text: "AQS和可重入锁", link: "/jdk/AQS和可重入锁" }],
         },
         {
+          text: "redis源码研究",
+          collapsed: true,
+          items: [{ text: "zset的跳表实现", link: "/redis/zskiplist" }],
+        },
+        {
           text: "Spring框架",
           collapsed: true,
           items: [

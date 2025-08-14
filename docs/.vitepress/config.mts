@@ -176,6 +176,7 @@ export default withMermaid(
             { text: "rust当中的常用数据结构", link: "/rust/rust当中的集合" },
             {text:"rust当中对于迭代器的使用", link: "/rust/rust当中对于迭代器的使用"},
             {text:"rust当中的闭包", link: "/rust/rust当中的闭包"},
+            {text:"rust当中的智能指针", link : "/rust/rust当中的智能指针"},
           ],
         },
       ],

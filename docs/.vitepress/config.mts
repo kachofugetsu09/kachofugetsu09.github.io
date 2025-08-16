@@ -190,7 +190,10 @@ export default withMermaid(
           text: "javaer学习go",
           collapsed: true,
           items: [
+
             { text: "强大的channel", link: "/go/强大的channel" },
+            { text: "go的集合", link: "/go/go的集合" },
+        
           ],
         },
       ],

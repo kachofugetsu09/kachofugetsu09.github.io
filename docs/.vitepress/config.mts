@@ -56,7 +56,10 @@ export default withMermaid(
               link: "/tech/Kafka和RocketMQ的背压机制解析",
             },
             { text: "零拷贝技术解析", link: "/tech/零拷贝技术解析" },
-            {text:"通过例子理解mysql的隔离级别", link:"/tech/通过例子理解mysql的隔离级别"},
+            {
+              text: "通过例子理解mysql的隔离级别",
+              link: "/tech/通过例子理解mysql的隔离级别",
+            },
           ],
         },
         {
@@ -105,10 +108,10 @@ export default withMermaid(
             { text: "Lab2", link: "/MIT6.824/lab2" },
             { text: "Lab3A", link: "/MIT6.824/lab3A" },
             { text: "Lab3B", link: "/MIT6.824/lab3B" },
-            { text : "Lab3C", link: "/MIT6.824/lab3C" },
-            {text:"Lab3D",link:"/MIT6.824/lab3D"},
+            { text: "Lab3C", link: "/MIT6.824/lab3C" },
+            { text: "Lab3D", link: "/MIT6.824/lab3D" },
             { text: "Raft论文研究", link: "/MIT6.824/raft论文研究" },
-            {text: "Raft理论总结",link:"/MIT6.824/raft总结"}
+            { text: "Raft理论总结", link: "/MIT6.824/raft总结" },
           ],
         },
         {
@@ -174,10 +177,20 @@ export default withMermaid(
             },
             { text: "rust当中的错误处理", link: "/rust/rust当中的错误处理" },
             { text: "rust当中的常用数据结构", link: "/rust/rust当中的集合" },
-            {text:"rust当中对于迭代器的使用", link: "/rust/rust当中对于迭代器的使用"},
-            {text:"rust当中的闭包", link: "/rust/rust当中的闭包"},
-            {text:"rust当中的智能指针", link : "/rust/rust当中的智能指针"},
-            {text:"rust当中的多线程", link : "/rust/rust当中的多线程"},
+            {
+              text: "rust当中对于迭代器的使用",
+              link: "/rust/rust当中对于迭代器的使用",
+            },
+            { text: "rust当中的闭包", link: "/rust/rust当中的闭包" },
+            { text: "rust当中的智能指针", link: "/rust/rust当中的智能指针" },
+            { text: "rust当中的多线程", link: "/rust/rust当中的多线程" },
+          ],
+        },
+        {
+          text: "javaer学习go",
+          collapsed: true,
+          items: [
+            { text: "强大的channel", link: "/go/强大的channel" },
           ],
         },
       ],

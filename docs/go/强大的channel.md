@@ -116,3 +116,59 @@ consumer consume number  4
 这里要注意的是，**close** 类似于 Java 当中的**优雅关闭**，比如说发送方调用了，这代表不会有新的发送者消息进入，而消费者仍然会继续消费已经存在的消息，等到消费完成所有已经存在的消息后，也会关闭消费端的 channel，这样就真正关停了 channel，类似于 Java 当中的优雅关闭方法，类似 `shutdown` 而不是 `shutdownnow`。
 
 利用channel这个强大的功能我们就完成了同步和异步的线程间通信，我们仍然用一种同步的方式去编写代码，但是可以得到异步的结果，这也是channel的最迷人的地方。我们再也不用面对繁琐的completablefuture了。
+
+## select多路复用
+在Java中做多路复用很不舒服，你得用 `Selector`。你需要把 `channel` 注册到 `selector` 上，然后 `while(true)` 做监听。
+
+在Go中我们可以使用 `select` 关键字。用你写过的一个Raft代码举一个生动的例子。因为 `channel` 成为了通信的桥梁，所以在Go中写这种多路复用是非常方便的。
+
+```go
+timeout := time.After(time.Duration(200) * time.Millisecond)
+
+for {
+    select {
+    case voteGranted := <-voteCh:
+        responsesReceived++
+        if voteGranted {
+            votesReceived++
+        }
+
+        rf.mu.Lock()
+        if rf.state != Candidate || rf.currentTerm != currentTerm {
+            rf.mu.Unlock()
+            return
+        }
+
+        if votesReceived >= len(rf.peers)/2+1 {
+            rf.becomeLeader()
+            rf.mu.Unlock()
+            return
+        }
+
+        if responsesReceived >= maxResponses {
+            rf.mu.Unlock()
+            return
+        }
+        rf.mu.Unlock()
+
+    case <-timeout:
+        rf.mu.Lock()
+        if rf.state == Candidate && rf.currentTerm == currentTerm {
+            if votesReceived >= len(rf.peers)/2+1 {
+                rf.becomeLeader()
+            }
+        }
+        rf.mu.Unlock()
+        return
+    }
+}
+```
+
+在这部分代码中，我们先使用了 `time.After` 这个API，它会返回一个 `channel`。`voteCh` 也是一个我们投票所用到的 `channel`。
+
+我们用 `for` 写一个死循环。在 `select` 中包裹两个 `case`：
+
+1.  一个是收到了传回来的RPC，然后对投票结果进行处理。
+2.  另一个是超时，如果超时了就判断是不是能当选，然后 `return` 跳出。
+
+这样在同一个协程当中，我们就可以持续不断处理多个 `channel` 了。

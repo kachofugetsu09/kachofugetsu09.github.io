@@ -120,7 +120,7 @@ consumer consume number  4
 ## select多路复用
 在Java中做多路复用很不舒服，你得用 `Selector`。你需要把 `channel` 注册到 `selector` 上，然后 `while(true)` 做监听。
 
-在Go中我们可以使用 `select` 关键字。用你写过的一个Raft代码举一个生动的例子。因为 `channel` 成为了通信的桥梁，所以在Go中写这种多路复用是非常方便的。
+在Go中我们可以使用 `select` 关键字。用我写过的一个Raft代码举一个生动的例子。因为 `channel` 成为了通信的桥梁，所以在Go中写这种多路复用是非常方便的。
 
 ```go
 timeout := time.After(time.Duration(200) * time.Millisecond)

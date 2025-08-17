@@ -193,6 +193,7 @@ export default withMermaid(
 
             { text: "强大的channel", link: "/go/强大的channel" },
             { text: "go的集合", link: "/go/go的集合" },
+            { text:"go当中的值类型", link: "/go/go当中的值类型" }
         
           ],
         },

@@ -50,16 +50,11 @@ export default withMermaid(
           text: "技术分享",
           collapsed: true,
           items: [
-            { text: "ARIES与innodb", link: "/tech/ARIES与innodb" },
             {
               text: "Kafka和RocketMQ的背压机制解析",
               link: "/tech/Kafka和RocketMQ的背压机制解析",
             },
             { text: "零拷贝技术解析", link: "/tech/零拷贝技术解析" },
-            {
-              text: "通过例子理解mysql的隔离级别",
-              link: "/tech/通过例子理解mysql的隔离级别",
-            },
           ],
         },
         {
@@ -97,7 +92,18 @@ export default withMermaid(
             { text: "IO多路复用", link: "/CS-basics/IO多路复用" },
             { text: "Java虚拟机", link: "/CS-basics/Java虚拟机" },
             { text: "Kafka笔记", link: "/CS-basics/kafka笔记" },
-            { text: "MySQL笔记", link: "/CS-basics/MYSQL笔记" },
+          ],
+        },
+        {
+          text: "MySQL数据库",
+          collapsed: true,
+          items: [
+            { text: "MySQL笔记", link: "/mysql/MYSQL笔记" },
+            { text: "ARIES与InnoDB", link: "/mysql/ARIES与innodb" },
+            {
+              text: "通过例子理解MySQL的隔离级别",
+              link: "/mysql/通过例子理解mysql的隔离级别",
+            },
           ],
         },
         {
@@ -190,11 +196,9 @@ export default withMermaid(
           text: "javaer学习go",
           collapsed: true,
           items: [
-
             { text: "强大的channel", link: "/go/强大的channel" },
             { text: "go的集合", link: "/go/go的集合" },
-            { text:"go当中的值类型", link: "/go/go当中的值类型" }
-        
+            { text: "go当中的值类型", link: "/go/go当中的值类型" },
           ],
         },
       ],

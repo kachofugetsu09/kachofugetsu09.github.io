@@ -104,6 +104,10 @@ export default withMermaid(
               text: "通过例子理解MySQL的隔离级别",
               link: "/mysql/通过例子理解mysql的隔离级别",
             },
+            {
+              text: "诡异的主从drop死锁",
+              link: "/mysql/诡异的主从drop死锁",
+            },
           ],
         },
         {

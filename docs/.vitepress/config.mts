@@ -108,6 +108,11 @@ export default withMermaid(
               text: "诡异的主从drop死锁",
               link: "/mysql/诡异的主从drop死锁",
             },
+            {
+              text: "在线表结构修改器gh-ost的工作原理",
+              link: "/mysql/gh-ost工作原理",
+            },
+            
           ],
         },
         {

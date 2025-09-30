@@ -112,6 +112,10 @@ export default withMermaid(
               text: "在线表结构修改器gh-ost的工作原理",
               link: "/mysql/gh-ost工作原理",
             },
+            {
+              text: "Aurora存算分离方案",
+              link: "/mysql/Aurora存算分离方案",
+            },
             
           ],
         },

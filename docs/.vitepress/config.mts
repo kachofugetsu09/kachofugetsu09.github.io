@@ -116,6 +116,10 @@ export default withMermaid(
               text: "Aurora存算分离方案",
               link: "/mysql/Aurora存算分离方案",
             },
+            {
+              text: "binlog结构",
+              link: "/mysql/binlog结构",
+            },
             
           ],
         },

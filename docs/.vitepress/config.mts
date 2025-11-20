@@ -119,6 +119,10 @@ export default withMermaid(
               text: "binlog结构",
               link: "/mysql/binlog结构",
             },
+            {
+              text: "flashback数据回滚设计",
+              link: "/mysql/flashback数据回滚设计.md",
+            },
             
           ],
         },
@@ -151,14 +155,6 @@ export default withMermaid(
           collapsed: true,
           items: [
             {
-              text: "JWT双Token深度解析",
-              link: "/spring/JWT双Token深度解析：平衡安全与效率的多端登录实践",
-            },
-            {
-              text: "Spring事务机制",
-              link: "/spring/spring当中的事务是如何运作的",
-            },
-            {
               text: "Kafka专题",
               collapsed: true,
               items: [
@@ -172,6 +168,14 @@ export default withMermaid(
                   link: "/spring/kafka/以点赞系统为例的kafka streams用法",
                 },
               ],
+            },
+            {
+              text: "JWT双Token深度解析",
+              link: "/spring/JWT双Token深度解析：平衡安全与效率的多端登录实践",
+            },
+            {
+              text: "Spring事务机制",
+              link: "/spring/spring当中的事务是如何运作的",
             },
           ],
         },

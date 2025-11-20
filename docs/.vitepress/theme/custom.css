@@ -1,12 +1,12 @@
 /* 全局字体大小调整 - 正文14px为基准 */
 :root {
-    --vp-font-size-base: 14px; /* 正文字体 */
-    --vp-font-size-sm: 8px; /* 小字体，用于侧边栏等 */
-    --vp-font-size-md: 16px; /* 中等字体 */
-    --vp-font-size-lg: 18px; /* 大字体，用于h4 */
-    --vp-font-size-xl: 20px; /* 超大字体，用于h3 */
-    --vp-font-size-2xl: 24px; /* 用于h2 */
-    --vp-font-size-3xl: 28px; /* 用于h1 */
+    --vp-font-size-base: 16px; /* 正文字体 - 调整为16px更易读 */
+    --vp-font-size-sm: 14px; /* 小字体 - 调整为14px，原8px太小 */
+    --vp-font-size-md: 18px; /* 中等字体 */
+    --vp-font-size-lg: 20px; /* 大字体，用于h4 */
+    --vp-font-size-xl: 24px; /* 超大字体，用于h3 */
+    --vp-font-size-2xl: 30px; /* 用于h2 */
+    --vp-font-size-3xl: 36px; /* 用于h1 */
 }
 
 /* 确保所有文本元素都应用新的字体大小 */
@@ -61,18 +61,17 @@
     margin-top: 0 !important;
 }
 
-.VPSidebarGroup + .VPSidebarGroup {
-    border-top: none !important;
-    margin-top: 8px !important;
-}
-
 .VPSidebarItem {
     border-top: none !important;
 }
 
 /* 调整分类间距，保持紧凑现代的感觉 */
 .VPSidebarGroup {
-    margin-bottom: 6px !important;
+    margin: 0 !important;
+}
+
+.VPSidebarGroup + .VPSidebarGroup {
+    margin-top: 8px !important;
 }
 
 /* 强力移除所有可能的分割线 */
@@ -91,6 +90,167 @@
 .VPSidebar .group {
     border-top: none !important;
     border-bottom: none !important;
+}
+
+.VPSidebar .group .items .item {
+    margin: 0 !important;
+}
+
+.VPSidebar .group .items .item .link {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.VPSidebar {
+    background: #f0f4f9 !important; /* Google Material 3 风格浅灰蓝背景 */
+}
+
+.VPSidebar .group {
+    background: transparent; /* 移除卡片背景 */
+    border-radius: 0;
+    box-shadow: none; /* 移除阴影 */
+    padding: 0; /* 移除内边距，让内容自然排列 */
+    margin-bottom: 0 !important; /* 移除卡片间距 */
+    border: none; /* 移除边框 */
+}
+
+.VPSidebar .group .group-header {
+    border-radius: 24px; /* 统一为胶囊圆角 */
+    padding: 8px 16px;
+    margin: 0 12px 4px 12px; /* 左右留出间距，与 item link 保持一致 */
+    background: transparent;
+    color: #444746;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    font-size: 14px;
+    line-height: 20px;
+    transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1), color 0.2s ease; /* 恢复动画 */
+    cursor: pointer;
+}
+
+/* 移除之前可能冲突的旧规则 */
+.VPSidebar .group .group-header,
+.VPSidebarItem.level-0 > .item {
+    /* Resetting these specific selectors to avoid conflicts */
+    /* padding-left: unset; */
+    display: flex !important;
+}
+
+/* 统一侧边栏所有层级的交互样式 (胶囊、悬停、激活) */
+.VPSidebarItem > .item {
+    border-radius: 24px !important;
+    margin: 2px 12px !important;
+    padding-right: 16px !important;
+    min-height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1), color 0.2s ease !important;
+    color: #444746 !important;
+    cursor: pointer !important;
+}
+
+.VPSidebarItem > .item:hover {
+    background-color: rgba(31, 31, 31, 0.04) !important;
+    color: #1f1f1f !important;
+}
+
+.VPSidebarItem.is-active > .item,
+.VPSidebarItem .item.active {
+    background-color: #d3e3fd !important;
+    color: #041e49 !important;
+    font-weight: 500 !important;
+}
+
+/* 严格的层级缩进控制 */
+/* Level 0: 顶级分组 (如 "CS186学习") */
+.VPSidebarItem.level-0 > .item {
+    padding-left: 16px !important;
+    font-weight: 500 !important;
+    margin-bottom: 4px !important; /* 分组标题下方多留一点空隙 */
+}
+
+/* Level 1: 二级目录/文章 (如 "CS186笔记") */
+.VPSidebarItem.level-1 > .item {
+    padding-left: 32px !important;
+}
+
+/* Level 2: 三级目录/文章 (如 "CS186笔记-1") */
+.VPSidebarItem.level-2 > .item {
+    padding-left: 48px !important;
+    font-size: 13.5px !important;
+}
+
+/* Level 3: 四级目录/文章 */
+.VPSidebarItem.level-3 > .item {
+    padding-left: 64px !important;
+    font-size: 13px !important;
+}
+
+/* Level 4 */
+.VPSidebarItem.level-4 > .item {
+    padding-left: 80px !important;
+}
+
+/* 移除之前可能冲突的旧规则 */
+.VPSidebar .group .items .item .link,
+.VPSidebar .group .group-header,
+.VPSidebar .group .items .item .items .item .link,
+.VPSidebar .group .items .item .items .item .items .item .link {
+    /* Resetting these specific selectors to avoid conflicts */
+    padding-left: unset;
+}
+
+/* 强力移除所有侧边栏项目的左边框和伪元素指示器，解决蓝色竖线问题 */
+.VPSidebarItem,
+.VPSidebarItem > .item,
+.VPSidebarItem > .item > .link {
+    border-left: none !important;
+}
+
+.VPSidebarItem::before,
+.VPSidebarItem::after,
+.VPSidebarItem > .item::before,
+.VPSidebarItem > .item::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+}
+
+/* 终极移除：针对所有层级的容器移除左边框 */
+.VPSidebarItem .items {
+    border-left: none !important;
+    margin-left: 0 !important; /* 有时候边框是配合 margin 实现的 */
+}
+
+/* 针对特定层级的 items 容器也强制移除 */
+.VPSidebarItem.level-0 .items,
+.VPSidebarItem.level-1 .items,
+.VPSidebarItem.level-2 .items,
+.VPSidebarItem.level-3 .items {
+    border-left: none !important;
+}
+
+/* 移除可能存在的伪元素线条 */
+.VPSidebarItem .items::before,
+.VPSidebarItem .items::after {
+    display: none !important;
+    border: none !important;
+}
+
+/* 调整折叠箭头的位置 */
+.VPSidebarItem .caret {
+    margin-right: 4px;
+    opacity: 0.6;
+    color: #475569;
+}
+
+/* 移除侧边栏所有可能的垂直分割线 */
+.VPSidebarItem .items {
+    border-left: none !important;
+}
+
+.VPSidebarItem {
+    border-left: none !important;
 }
 
 /* 确保分类标题下方没有分割线 */
@@ -171,7 +331,7 @@
 }
 
 .VPSidebar {
-    background: var(--vp-c-bg) !important;
+    background: #f5f7fb !important;
     border-right: none !important;
     border: none !important;
 }
@@ -190,11 +350,11 @@
 
 /* 移除侧边栏的阴影和边框 */
 .VPSidebar .curtain {
-    background: var(--vp-c-bg) !important;
+    background: #f5f7fb !important;
 }
 
 .VPSidebar .nav {
-    background: var(--vp-c-bg) !important;
+    background: #f5f7fb !important;
     border-right: none !important;
     border: none !important;
     box-shadow: none !important;
@@ -253,35 +413,35 @@
 /* 优化折叠/展开内容样式 */
 .vp-doc details {
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 12px; /* 统一圆角 */
     padding: 16px;
     margin: 16px 0;
-    background: #f8fafc;
-    transition: all 0.3s ease;
+    background: #ffffff; /* 纯白背景 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 基础阴影 */
 }
 
 .vp-doc details:hover {
-    border-color: #3b82f6;
-    background: #f1f5f9;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* 悬停提升 */
 }
 
 .vp-doc details[open] {
-    border-color: #3b82f6;
+    border-color: #bfdbfe;
     background: #ffffff;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* 展开时更高层级 */
 }
 
 .vp-doc details summary {
     cursor: pointer;
     font-weight: 600;
     color: #1e40af;
-    padding: 8px 12px;
+    padding: 12px 16px; /* 增加内边距 */
     margin: -16px -16px 0 -16px;
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border-radius: 8px 8px 0 0;
+    background: #f8fafc; /* 浅灰背景 */
+    border-radius: 12px 12px 0 0; /* 顶部圆角 */
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     user-select: none;
     display: flex;
     align-items: center;
@@ -289,20 +449,21 @@
 }
 
 .vp-doc details summary:hover {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    background: #f1f5f9;
     color: #1d4ed8;
 }
 
 .vp-doc details[open] summary {
     margin-bottom: 16px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
+    border-radius: 12px 12px 0 0; /* 保持顶部圆角 */
+    background: #eff6ff; /* 展开时浅蓝背景 */
+    color: #1e3a8a;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .vp-doc details[open] summary:hover {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    color: white;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
 /* 添加展开/折叠指示器 */
@@ -401,6 +562,40 @@
 /* 确保导航栏布局正常 */
 .VPNavBar {
     position: relative !important;
+}
+
+.VPNavBarMenu {
+    gap: 8px !important;
+}
+
+.VPNavBarMenu .VPNavBarMenuLink {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 6px 16px !important; /* 增加水平内边距 */
+    min-height: 36px !important;
+    border-radius: 999px !important; /* 胶囊状圆角 */
+    background: transparent !important; /* 默认透明背景 */
+    box-shadow: none !important; /* 默认无阴影 */
+    color: #4b5563 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.2px !important;
+    line-height: 1.2 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid transparent !important;
+}
+
+.VPNavBarMenu .VPNavBarMenuLink:hover {
+    background: rgba(243, 244, 246, 1) !important; /* 浅灰色背景 */
+    color: #111827 !important;
+    box-shadow: none !important;
+}
+
+.VPNavBarMenu .VPNavBarMenuLink.active {
+    background: #eff6ff !important; /* 浅蓝色背景 */
+    color: #2563eb !important;
+    border-color: rgba(37, 99, 235, 0.1) !important;
+    font-weight: 600 !important;
 }
 
 /* 移除标题的过大边距，确保 logo 正常显示 */

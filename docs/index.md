@@ -13,6 +13,9 @@ hero:
     - theme: brand
       text: 开始
       link: /main
+    - theme: alt
+      text: 归档
+      link: /archive
 
 features:
   - title: 🚀 技术分享

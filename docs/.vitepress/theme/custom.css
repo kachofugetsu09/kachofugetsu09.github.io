@@ -354,32 +354,32 @@
     background: var(--vp-c-bg) !important;
 }
 
-/* 加强导航栏分隔线 */
-.VPNavBar {
-    border-bottom: 1px solid var(--vp-c-divider) !important;
-    background: var(--vp-c-bg) !important;
-}
-
-/* 确保导航栏容器也有边框 */
+/* 移除所有内部元素的边框和阴影，防止重叠 */
+.VPNavBar,
+.VPNavBar .container,
+.VPNavBar .title,
+.VPNavBar .content,
+.VPNavBar .curtain,
 .VPNavBar .wrapper {
-    border-bottom: 1px solid var(--vp-c-divider) !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
 }
 
-/* 强制设置导航栏分隔线，防止被其他样式覆盖 */
+/* 移除可能存在的伪元素边框 */
+.VPNavBar::before,
+.VPNavBar::after,
+.VPNavBar .container::before,
+.VPNavBar .container::after {
+    display: none !important;
+}
+
+/* 移除伪元素分隔线 */
 .VPNav::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--vp-c-divider) !important;
-    z-index: 999 !important;
-    display: block !important;
+    display: none !important;
 }
 
 .VPLocalNav {
-    border-bottom: none !important;
+    border-bottom: 1px solid var(--vp-c-divider) !important;
     border-top: none !important;
 }
 

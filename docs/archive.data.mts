@@ -6,13 +6,31 @@ export default createContentLoader('**/*.md', {
   transform(rawData) {
     return rawData
       .filter((page) => {
-        return page.url !== '/' && page.url !== '/index' && !page.url.endsWith('archive') && !page.url.includes('/public/')
+        // Normalize URL by removing .html suffix
+        const url = page.url.replace(/\.html$/, '')
+        // Exclude specific pages
+        const excludedPaths = [
+            '/', 
+            '/index', 
+            '/archive', 
+            '/api-examples', 
+            '/main', 
+            '/markdown-examples'
+        ]
+        return !excludedPaths.includes(url) && !url.includes('/public/')
       })
       .map((page) => {
         // page.url starts with /
         // Decode URL to handle non-ASCII filenames
         const decodedUrl = decodeURIComponent(page.url)
-        const relativePath = decodedUrl.replace(/^\//, '').replace(/\.html$/, '') + '.md'
+        let relativePath = decodedUrl.replace(/^\//, '')
+        
+        if (relativePath.endsWith('/') || relativePath === '') {
+            relativePath += 'index.md'
+        } else {
+            relativePath = relativePath.replace(/\.html$/, '') + '.md'
+        }
+        
         const filePath = path.join('docs', relativePath)
         
         let timestamp = 0
@@ -27,7 +45,10 @@ export default createContentLoader('**/*.md', {
                     // The output may contain multiple timestamps separated by newlines
                     // We take the first one which corresponds to the earliest commit
                     const firstTimestamp = output.split('\n')[0]
-                    timestamp = parseInt(firstTimestamp) * 1000
+                    const ts = parseInt(firstTimestamp)
+                    if (!isNaN(ts)) {
+                        timestamp = ts * 1000
+                    }
                 }
             }
         } catch (e) {

@@ -17,6 +17,9 @@ export default withMermaid(
     themeConfig: {
       // 导航栏 logo
       logo: "/img/logo.jpg",
+      nav: [
+        { text: "归档", link: "/archive" },
+      ],
       // https://vitepress.dev/reference/default-theme-config
       // 启用本地搜索
       search: {

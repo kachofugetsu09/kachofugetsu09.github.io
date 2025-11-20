@@ -18,6 +18,7 @@ export default withMermaid(
       // 导航栏 logo
       logo: "/img/logo.jpg",
       nav: [
+        { text: "主页", link: "/main" },
         { text: "归档", link: "/archive" },
       ],
       // https://vitepress.dev/reference/default-theme-config
@@ -44,11 +45,6 @@ export default withMermaid(
       },
 
       sidebar: [
-        {
-          text: "主页",
-          collapsed: true,
-          items: [{ text: "主页", link: "/main" }],
-        },
         {
           text: "技术分享",
           collapsed: true,

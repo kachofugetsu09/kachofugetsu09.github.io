@@ -108,6 +108,10 @@ export default withMermaid(
               link: "/mysql/诡异的主从drop死锁",
             },
             {
+              text: "再谈MySQL 5.7复制DDL死锁问题深度分析",
+              link: "/mysql/再谈mysql5.7复制ddl死锁",
+            },
+            {
               text: "在线表结构修改器gh-ost的工作原理",
               link: "/mysql/gh-ost工作原理",
             },

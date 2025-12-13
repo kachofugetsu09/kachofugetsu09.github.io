@@ -127,6 +127,10 @@ export default withMermaid(
               text: "flashback数据回滚设计",
               link: "/mysql/flashback数据回滚设计.md",
             },
+            {
+              text:"HA当中使用binlog补slave数据",
+              link:"/mysql/HA当中使用binlog补slave数据"
+            }
             
           ],
         },

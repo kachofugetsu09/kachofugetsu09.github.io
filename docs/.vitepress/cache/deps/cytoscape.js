@@ -28339,6 +28339,9 @@ var ElementDrawingWebGL = function() {
       if (!this._isVisible(ele, opts)) {
         return;
       }
+      if (ele.isEdge() && !this._isValidEdge(ele)) {
+        return;
+      }
       if (this.renderTarget.picking && opts.getTexPickingMode) {
         var mode = opts.getTexPickingMode(ele);
         if (mode === TEX_PICKING_MODE.IGNORE) {
@@ -28720,10 +28723,19 @@ var ElementDrawingWebGL = function() {
       }
     }
   }, {
+    key: "_isValidEdge",
+    value: function _isValidEdge(edge) {
+      var rs = edge._private.rscratch;
+      if (rs.badLine || rs.allpts == null || isNaN(rs.allpts[0])) {
+        return false;
+      }
+      return true;
+    }
+  }, {
     key: "_getEdgePoints",
     value: function _getEdgePoints(edge) {
       var rs = edge._private.rscratch;
-      if (rs.badLine || rs.allpts == null || isNaN(rs.allpts[0])) {
+      if (!this._isValidEdge(edge)) {
         return;
       }
       var controlPoints3 = rs.allpts;
@@ -30220,7 +30232,7 @@ sheetfn.appendToStyle = function(style3) {
   }
   return style3;
 };
-var version = "3.33.0";
+var version = "3.33.1";
 var cytoscape = function cytoscape2(options2) {
   if (options2 === void 0) {
     options2 = {};

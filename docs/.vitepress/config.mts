@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
+import mathjax3 from "markdown-it-mathjax3";
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
@@ -229,12 +230,25 @@ export default withMermaid(
             { text: "go当中的值类型", link: "/go/go当中的值类型" },
           ],
         },
+        {
+          text: "llm学习笔记",
+          collapsed: true,
+          items: [
+            { text: "attention is all you need", link: "/llm/attention is all you need.md" },
+          ],
+        },
       ],
     },
     // Mermaid 配置
     mermaid: {
       // 可选配置
       theme: "default",
+    },
+    // MathJax 配置
+    markdown: {
+      config(md) {
+        md.use(mathjax3);
+      },
     },
   }),
 );

@@ -682,3 +682,34 @@ html:not(.dark) .VPSidebar .nav {
     font-weight: 500 !important;
     color: var(--vp-c-text-1) !important;
 }
+
+/* 表格优化：优先通过换行和紧凑布局减少横向滚动 */
+.vp-doc table {
+    width: 100%;
+    table-layout: fixed;
+    font-size: 13px;
+}
+
+.vp-doc th,
+.vp-doc td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 8px 10px;
+    vertical-align: top;
+}
+
+.vp-doc th {
+    font-weight: 600;
+}
+
+@media (max-width: 767px) {
+    .vp-doc table {
+        font-size: 12px;
+    }
+
+    .vp-doc th,
+    .vp-doc td {
+        padding: 6px 8px;
+    }
+}

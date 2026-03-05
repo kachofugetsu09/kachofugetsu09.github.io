@@ -237,6 +237,13 @@ export default withMermaid(
             { text: "attention is all you need", link: "/llm/attention is all you need.md" },
           ],
         },
+        {
+          text: "agent学习笔记",
+          collapsed: true,
+          items: [
+            { text: "graph-rag-study", link: "/agent/graph-rag-study.md" },
+          ],
+        },
       ],
     },
     // Mermaid 配置

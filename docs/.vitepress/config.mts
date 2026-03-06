@@ -241,7 +241,9 @@ export default withMermaid(
           text: "agent学习笔记",
           collapsed: true,
           items: [
-            { text: "graph-rag-study", link: "/agent/graph-rag-study.md" },
+            { text: "GraphRAG 学习笔记", link: "/agent/graph-rag-study.md" },
+            { text: "Prompt Injection 防御", link: "/agent/prompt-injection.md" },
+            { text: "LLM Tool 设计与滥用防护", link: "/agent/llm-tool-design.md" },
           ],
         },
       ],

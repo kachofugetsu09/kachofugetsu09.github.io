@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
-import mathjax3 from "markdown-it-mathjax3";
+import katex from "markdown-it-katex";
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
@@ -12,6 +12,13 @@ export default withMermaid(
       ["link", { rel: "icon", href: "/img/logo.jpg" }],
       ["link", { rel: "apple-touch-icon", href: "/img/logo.jpg" }],
       ["meta", { name: "theme-color", content: "#3b82f6" }],
+      [
+        "link",
+        {
+          rel: "stylesheet",
+          href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+        },
+      ],
     ],
     // 启用最后更新时间
     lastUpdated: true,
@@ -46,6 +53,13 @@ export default withMermaid(
       },
 
       sidebar: [
+        {
+          text: "memory",
+          collapsed: true,
+          items: [
+            { text: "akasha", link: "/memory/akasha" },
+          ],
+        },
         {
           text: "技术分享",
           collapsed: true,
@@ -253,10 +267,10 @@ export default withMermaid(
       // 可选配置
       theme: "default",
     },
-    // MathJax 配置
+    // KaTeX 配置
     markdown: {
       config(md) {
-        md.use(mathjax3);
+        md.use(katex);
       },
     },
   }),

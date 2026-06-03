@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
-import katex from "markdown-it-katex";
+import { katex } from "@mdit/plugin-katex";
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
@@ -16,7 +16,7 @@ export default withMermaid(
         "link",
         {
           rel: "stylesheet",
-          href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+          href: "/katex.min.css",
         },
       ],
     ],

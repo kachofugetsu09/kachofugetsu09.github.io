@@ -10,6 +10,6 @@
     "vitepress-plugin-mermaid": "^2.0.17"
   },
   "dependencies": {
-    "markdown-it-katex": "^2.0.3"
+    "@mdit/plugin-katex": "^0.25.2"
   }
 }
